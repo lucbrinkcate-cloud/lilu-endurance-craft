@@ -240,7 +240,7 @@ function ProductPage() {
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-paper/10">
-            {pairs.map((p) => (
+            {pairs.map((p: Product & { handle: string }) => (
               <Link
                 key={p.handle}
                 to="/shop/$handle"
