@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import heroImage from "@/assets/lilu-hero.png";
+import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -89,18 +91,7 @@ function Index() {
 
   return (
     <main className="bg-ink text-paper overflow-x-hidden">
-      {/* NAV */}
-      <header className="fixed top-0 left-0 right-0 z-50 mix-blend-difference">
-        <div className="flex items-center justify-between px-6 md:px-10 py-5">
-          <div className="font-display text-lg tracking-tight">LILU</div>
-          <nav className="hidden md:flex items-center gap-8 font-mono text-[11px] uppercase tracking-[0.18em]">
-            <a href="#manifesto" className="hover:text-sage transition-colors">Manifesto</a>
-            <a href="#chapters" className="hover:text-sage transition-colors">Chapters</a>
-            <a href="#sustain" className="hover:text-sage transition-colors">Field Notes</a>
-          </nav>
-          <div className="font-mono text-[11px] uppercase tracking-[0.18em]">Cart [0]</div>
-        </div>
-      </header>
+      <SiteHeader overlay />
 
       {/* HERO */}
       <section ref={heroRef} className="relative h-[100svh] w-full overflow-hidden">
@@ -231,20 +222,7 @@ function Index() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-ink text-mist border-t border-paper/10 px-6 md:px-10 py-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-          <div>
-            <div className="font-display text-4xl text-paper">LILU</div>
-            <div className="font-mono text-[11px] uppercase tracking-[0.25em] mt-3">
-              Engineered for continuous endurance
-            </div>
-          </div>
-          <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-mist/60">
-            © {new Date().getFullYear()} LILU Cycling Co.
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
