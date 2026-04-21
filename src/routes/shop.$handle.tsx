@@ -3,10 +3,18 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { useState } from "react";
 
-const PRODUCTS: Record<
-  string,
-  { name: string; cat: string; price: string; story: string; specs: [string, string][] }
-> = {
+type Product = {
+  name: string;
+  cat: string;
+  price: string;
+  story: string;
+  specs: [string, string][];
+  sport: "Road" | "Gravel" | "All-Road";
+  level: "Endurance" | "Race" | "All-Day";
+  pairs: string[]; // handles of recommended cross-sells
+};
+
+const PRODUCTS: Record<string, Product> = {
   "endurance-jersey": {
     name: "Endurance Jersey",
     cat: "Jerseys",
@@ -19,6 +27,9 @@ const PRODUCTS: Record<
       ["Fit", "Race"],
       ["Made in", "Italy"],
     ],
+    sport: "Road",
+    level: "Endurance",
+    pairs: ["endurance-bib-shorts", "core-merino-base-layer", "long-road-cap"],
   },
   "endurance-bib-shorts": {
     name: "Endurance Bib Shorts",
@@ -31,18 +42,25 @@ const PRODUCTS: Record<
       ["Fit", "Race"],
       ["Made in", "Italy"],
     ],
+    sport: "Road",
+    level: "Endurance",
+    pairs: ["endurance-jersey", "core-merino-base-layer", "shadow-gilet"],
   },
   "field-rain-jacket": {
     name: "Field Rain Jacket",
     cat: "Outerwear",
     price: "€320",
-    story: "Three-layer waterproof shell, PFC-free DWR, reflective trim. Engineered for the worst of it.",
+    story:
+      "Three-layer waterproof shell, PFC-free DWR, reflective trim. Engineered for the worst of it.",
     specs: [
       ["Membrane", "3L · 20K/20K"],
       ["DWR", "PFC-free"],
       ["Fit", "Athletic"],
       ["Made in", "Portugal"],
     ],
+    sport: "All-Road",
+    level: "All-Day",
+    pairs: ["core-merino-base-layer", "shadow-gilet", "long-road-cap"],
   },
   "core-merino-base-layer": {
     name: "Core Merino Base Layer",
@@ -55,6 +73,9 @@ const PRODUCTS: Record<
       ["Fit", "Next-to-skin"],
       ["Made in", "Portugal"],
     ],
+    sport: "All-Road",
+    level: "All-Day",
+    pairs: ["endurance-jersey", "field-rain-jacket", "shadow-gilet"],
   },
   "shadow-gilet": {
     name: "Shadow Gilet",
@@ -67,6 +88,9 @@ const PRODUCTS: Record<
       ["Fit", "Race"],
       ["Made in", "Italy"],
     ],
+    sport: "Road",
+    level: "Race",
+    pairs: ["endurance-jersey", "endurance-bib-shorts", "core-merino-base-layer"],
   },
   "long-road-cap": {
     name: "Long Road Cap",
@@ -79,6 +103,9 @@ const PRODUCTS: Record<
       ["Made in", "Italy"],
       ["Care", "Hand wash"],
     ],
+    sport: "All-Road",
+    level: "All-Day",
+    pairs: ["endurance-jersey", "core-merino-base-layer", "field-rain-jacket"],
   },
 };
 
@@ -88,7 +115,10 @@ export const Route = createFileRoute("/shop/$handle")({
   loader: ({ params }) => {
     const product = PRODUCTS[params.handle];
     if (!product) throw notFound();
-    return { product };
+    const pairs = product.pairs
+      .map((h) => ({ handle: h, ...PRODUCTS[h] }))
+      .filter((p) => Boolean(p.name));
+    return { product, pairs };
   },
   component: ProductPage,
   notFoundComponent: () => (
@@ -124,8 +154,19 @@ export const Route = createFileRoute("/shop/$handle")({
 });
 
 function ProductPage() {
-  const { product } = Route.useLoaderData();
+  const { product, pairs } = Route.useLoaderData();
   const [size, setSize] = useState<(typeof SIZES)[number]>("M");
+
+  const reasonFor = (p: Product) => {
+    if (product.cat === "Outerwear" && p.cat === "Accessories")
+      return "Layer underneath for thermal range";
+    if (product.cat === "Jerseys" && p.cat === "Bibs") return "Matched fit · same fabric family";
+    if (product.cat === "Bibs" && p.cat === "Jerseys") return "Completes the kit";
+    if (p.name.includes("Merino")) return "Base mileage for cold starts";
+    if (p.name.includes("Gilet")) return "Pocket insurance for descents";
+    if (p.level === product.level) return `Built for the same ${product.level.toLowerCase()} effort`;
+    return `Pairs with ${product.sport.toLowerCase()} riding`;
+  };
 
   return (
     <div className="min-h-screen bg-ink text-paper">
@@ -181,6 +222,55 @@ function ProductPage() {
           </dl>
         </div>
       </div>
+
+      {pairs.length > 0 && (
+        <section className="border-t border-paper/10 px-6 md:px-12 py-20">
+          <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+            <div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-sage mb-3">
+                Field Pairing · {product.sport} · {product.level}
+              </div>
+              <h2 className="font-display text-4xl md:text-6xl leading-[0.9] tracking-tighter">
+                Goes with.
+              </h2>
+            </div>
+            <p className="max-w-sm text-mist text-sm leading-relaxed">
+              Curated by our fit team for the same effort window — matched fabrics, complementary
+              thermal range, no redundancy in the pocket.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-paper/10">
+            {pairs.map((p: Product & { handle: string }) => (
+              <Link
+                key={p.handle}
+                to="/shop/$handle"
+                params={{ handle: p.handle }}
+                className="group block bg-ink p-6 hover:bg-forest/20 transition-colors"
+              >
+                <div className="aspect-[4/5] bg-gradient-to-br from-forest/40 to-ink relative overflow-hidden mb-5">
+                  <div className="absolute inset-0 flex items-center justify-center font-display text-9xl text-paper/10 group-hover:scale-110 transition-transform duration-700">
+                    {p.name.charAt(0)}
+                  </div>
+                  <div className="absolute top-3 left-3 font-mono text-[9px] uppercase tracking-[0.25em] bg-ink/80 backdrop-blur px-2 py-1 text-sage">
+                    {p.level}
+                  </div>
+                </div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-sage mb-2">
+                  {p.cat} · {p.sport}
+                </div>
+                <div className="flex items-baseline justify-between mb-3">
+                  <div className="font-display text-xl">{p.name}</div>
+                  <div className="font-mono text-sm text-mist">{p.price}</div>
+                </div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-mist/70 leading-relaxed border-t border-paper/10 pt-3">
+                  → {reasonFor(p)}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
       <SiteFooter />
     </div>
   );
