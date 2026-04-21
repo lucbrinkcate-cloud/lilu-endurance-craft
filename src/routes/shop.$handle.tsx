@@ -172,7 +172,7 @@ function ProductPage() {
           </button>
 
           <dl className="mt-12 border-t border-paper/15 pt-8 space-y-3">
-            {product.specs.map(([k, v]) => (
+            {product.specs.map(([k, v]: [string, string]) => (
               <div key={k} className="flex justify-between font-mono text-xs uppercase tracking-[0.18em]">
                 <dt className="text-mist/60">{k}</dt>
                 <dd className="text-paper">{v}</dd>

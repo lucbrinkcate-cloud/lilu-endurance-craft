@@ -87,7 +87,7 @@ function StoryPage() {
           {story.title}
         </h1>
         <div className="mt-16 space-y-8 text-lg leading-relaxed text-ink/80">
-          {story.body.map((p, i) => (
+          {story.body.map((p: string, i: number) => (
             <p key={i}>{p}</p>
           ))}
         </div>
