@@ -27,6 +27,9 @@ const PRODUCTS: Record<string, Product> = {
       ["Fit", "Race"],
       ["Made in", "Italy"],
     ],
+    sport: "Road",
+    level: "Endurance",
+    pairs: ["endurance-bib-shorts", "core-merino-base-layer", "long-road-cap"],
   },
   "endurance-bib-shorts": {
     name: "Endurance Bib Shorts",
@@ -39,18 +42,25 @@ const PRODUCTS: Record<string, Product> = {
       ["Fit", "Race"],
       ["Made in", "Italy"],
     ],
+    sport: "Road",
+    level: "Endurance",
+    pairs: ["endurance-jersey", "core-merino-base-layer", "shadow-gilet"],
   },
   "field-rain-jacket": {
     name: "Field Rain Jacket",
     cat: "Outerwear",
     price: "€320",
-    story: "Three-layer waterproof shell, PFC-free DWR, reflective trim. Engineered for the worst of it.",
+    story:
+      "Three-layer waterproof shell, PFC-free DWR, reflective trim. Engineered for the worst of it.",
     specs: [
       ["Membrane", "3L · 20K/20K"],
       ["DWR", "PFC-free"],
       ["Fit", "Athletic"],
       ["Made in", "Portugal"],
     ],
+    sport: "All-Road",
+    level: "All-Day",
+    pairs: ["core-merino-base-layer", "shadow-gilet", "long-road-cap"],
   },
   "core-merino-base-layer": {
     name: "Core Merino Base Layer",
@@ -63,6 +73,9 @@ const PRODUCTS: Record<string, Product> = {
       ["Fit", "Next-to-skin"],
       ["Made in", "Portugal"],
     ],
+    sport: "All-Road",
+    level: "All-Day",
+    pairs: ["endurance-jersey", "field-rain-jacket", "shadow-gilet"],
   },
   "shadow-gilet": {
     name: "Shadow Gilet",
@@ -75,6 +88,9 @@ const PRODUCTS: Record<string, Product> = {
       ["Fit", "Race"],
       ["Made in", "Italy"],
     ],
+    sport: "Road",
+    level: "Race",
+    pairs: ["endurance-jersey", "endurance-bib-shorts", "core-merino-base-layer"],
   },
   "long-road-cap": {
     name: "Long Road Cap",
@@ -87,6 +103,9 @@ const PRODUCTS: Record<string, Product> = {
       ["Made in", "Italy"],
       ["Care", "Hand wash"],
     ],
+    sport: "All-Road",
+    level: "All-Day",
+    pairs: ["endurance-jersey", "core-merino-base-layer", "field-rain-jacket"],
   },
 };
 
