@@ -222,6 +222,55 @@ function ProductPage() {
           </dl>
         </div>
       </div>
+
+      {pairs.length > 0 && (
+        <section className="border-t border-paper/10 px-6 md:px-12 py-20">
+          <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+            <div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-sage mb-3">
+                Field Pairing · {product.sport} · {product.level}
+              </div>
+              <h2 className="font-display text-4xl md:text-6xl leading-[0.9] tracking-tighter">
+                Goes with.
+              </h2>
+            </div>
+            <p className="max-w-sm text-mist text-sm leading-relaxed">
+              Curated by our fit team for the same effort window — matched fabrics, complementary
+              thermal range, no redundancy in the pocket.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-paper/10">
+            {pairs.map((p) => (
+              <Link
+                key={p.handle}
+                to="/shop/$handle"
+                params={{ handle: p.handle }}
+                className="group block bg-ink p-6 hover:bg-forest/20 transition-colors"
+              >
+                <div className="aspect-[4/5] bg-gradient-to-br from-forest/40 to-ink relative overflow-hidden mb-5">
+                  <div className="absolute inset-0 flex items-center justify-center font-display text-9xl text-paper/10 group-hover:scale-110 transition-transform duration-700">
+                    {p.name.charAt(0)}
+                  </div>
+                  <div className="absolute top-3 left-3 font-mono text-[9px] uppercase tracking-[0.25em] bg-ink/80 backdrop-blur px-2 py-1 text-sage">
+                    {p.level}
+                  </div>
+                </div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-sage mb-2">
+                  {p.cat} · {p.sport}
+                </div>
+                <div className="flex items-baseline justify-between mb-3">
+                  <div className="font-display text-xl">{p.name}</div>
+                  <div className="font-mono text-sm text-mist">{p.price}</div>
+                </div>
+                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-mist/70 leading-relaxed border-t border-paper/10 pt-3">
+                  → {reasonFor(p)}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
       <SiteFooter />
     </div>
   );
