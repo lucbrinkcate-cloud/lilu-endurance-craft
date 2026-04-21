@@ -115,7 +115,10 @@ export const Route = createFileRoute("/shop/$handle")({
   loader: ({ params }) => {
     const product = PRODUCTS[params.handle];
     if (!product) throw notFound();
-    return { product };
+    const pairs = product.pairs
+      .map((h) => ({ handle: h, ...PRODUCTS[h] }))
+      .filter((p) => Boolean(p.name));
+    return { product, pairs };
   },
   component: ProductPage,
   notFoundComponent: () => (
