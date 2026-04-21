@@ -154,8 +154,19 @@ export const Route = createFileRoute("/shop/$handle")({
 });
 
 function ProductPage() {
-  const { product } = Route.useLoaderData();
+  const { product, pairs } = Route.useLoaderData();
   const [size, setSize] = useState<(typeof SIZES)[number]>("M");
+
+  const reasonFor = (p: Product) => {
+    if (product.cat === "Outerwear" && p.cat === "Accessories")
+      return "Layer underneath for thermal range";
+    if (product.cat === "Jerseys" && p.cat === "Bibs") return "Matched fit · same fabric family";
+    if (product.cat === "Bibs" && p.cat === "Jerseys") return "Completes the kit";
+    if (p.name.includes("Merino")) return "Base mileage for cold starts";
+    if (p.name.includes("Gilet")) return "Pocket insurance for descents";
+    if (p.level === product.level) return `Built for the same ${product.level.toLowerCase()} effort`;
+    return `Pairs with ${product.sport.toLowerCase()} riding`;
+  };
 
   return (
     <div className="min-h-screen bg-ink text-paper">
