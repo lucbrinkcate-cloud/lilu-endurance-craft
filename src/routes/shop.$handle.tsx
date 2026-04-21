@@ -3,10 +3,18 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { useState } from "react";
 
-const PRODUCTS: Record<
-  string,
-  { name: string; cat: string; price: string; story: string; specs: [string, string][] }
-> = {
+type Product = {
+  name: string;
+  cat: string;
+  price: string;
+  story: string;
+  specs: [string, string][];
+  sport: "Road" | "Gravel" | "All-Road";
+  level: "Endurance" | "Race" | "All-Day";
+  pairs: string[]; // handles of recommended cross-sells
+};
+
+const PRODUCTS: Record<string, Product> = {
   "endurance-jersey": {
     name: "Endurance Jersey",
     cat: "Jerseys",
