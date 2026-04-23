@@ -12,11 +12,15 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SustainabilityRouteImport } from './routes/sustainability'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as JournalRouteImport } from './routes/journal'
+import { Route as CustomKitRouteImport } from './routes/custom-kit'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShopHandleRouteImport } from './routes/shop.$handle'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
+import { Route as AdminKitRequestsRouteImport } from './routes/admin.kit-requests'
+import { Route as CustomKitStatusRequestIdRouteImport } from './routes/custom-kit.status.$requestId'
+import { Route as AdminKitRequestsIdRouteImport } from './routes/admin.kit-requests.$id'
 
 const SustainabilityRoute = SustainabilityRouteImport.update({
   id: '/sustainability',
@@ -31,6 +35,11 @@ const ShopRoute = ShopRouteImport.update({
 const JournalRoute = JournalRouteImport.update({
   id: '/journal',
   path: '/journal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomKitRoute = CustomKitRouteImport.update({
+  id: '/custom-kit',
+  path: '/custom-kit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -58,37 +67,65 @@ const JournalSlugRoute = JournalSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => JournalRoute,
 } as any)
+const AdminKitRequestsRoute = AdminKitRequestsRouteImport.update({
+  id: '/admin/kit-requests',
+  path: '/admin/kit-requests',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomKitStatusRequestIdRoute =
+  CustomKitStatusRequestIdRouteImport.update({
+    id: '/status/$requestId',
+    path: '/status/$requestId',
+    getParentRoute: () => CustomKitRoute,
+  } as any)
+const AdminKitRequestsIdRoute = AdminKitRequestsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminKitRequestsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/custom-kit': typeof CustomKitRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/shop': typeof ShopRouteWithChildren
   '/sustainability': typeof SustainabilityRoute
+  '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
   '/journal/$slug': typeof JournalSlugRoute
   '/shop/$handle': typeof ShopHandleRoute
+  '/admin/kit-requests/$id': typeof AdminKitRequestsIdRoute
+  '/custom-kit/status/$requestId': typeof CustomKitStatusRequestIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/custom-kit': typeof CustomKitRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/shop': typeof ShopRouteWithChildren
   '/sustainability': typeof SustainabilityRoute
+  '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
   '/journal/$slug': typeof JournalSlugRoute
   '/shop/$handle': typeof ShopHandleRoute
+  '/admin/kit-requests/$id': typeof AdminKitRequestsIdRoute
+  '/custom-kit/status/$requestId': typeof CustomKitStatusRequestIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/custom-kit': typeof CustomKitRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/shop': typeof ShopRouteWithChildren
   '/sustainability': typeof SustainabilityRoute
+  '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
   '/journal/$slug': typeof JournalSlugRoute
   '/shop/$handle': typeof ShopHandleRoute
+  '/admin/kit-requests/$id': typeof AdminKitRequestsIdRoute
+  '/custom-kit/status/$requestId': typeof CustomKitStatusRequestIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -96,40 +133,54 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/custom-kit'
     | '/journal'
     | '/shop'
     | '/sustainability'
+    | '/admin/kit-requests'
     | '/journal/$slug'
     | '/shop/$handle'
+    | '/admin/kit-requests/$id'
+    | '/custom-kit/status/$requestId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/contact'
+    | '/custom-kit'
     | '/journal'
     | '/shop'
     | '/sustainability'
+    | '/admin/kit-requests'
     | '/journal/$slug'
     | '/shop/$handle'
+    | '/admin/kit-requests/$id'
+    | '/custom-kit/status/$requestId'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contact'
+    | '/custom-kit'
     | '/journal'
     | '/shop'
     | '/sustainability'
+    | '/admin/kit-requests'
     | '/journal/$slug'
     | '/shop/$handle'
+    | '/admin/kit-requests/$id'
+    | '/custom-kit/status/$requestId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  CustomKitRoute: typeof CustomKitRouteWithChildren
   JournalRoute: typeof JournalRouteWithChildren
   ShopRoute: typeof ShopRouteWithChildren
   SustainabilityRoute: typeof SustainabilityRoute
+  AdminKitRequestsRoute: typeof AdminKitRequestsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -153,6 +204,13 @@ declare module '@tanstack/react-router' {
       path: '/journal'
       fullPath: '/journal'
       preLoaderRoute: typeof JournalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/custom-kit': {
+      id: '/custom-kit'
+      path: '/custom-kit'
+      fullPath: '/custom-kit'
+      preLoaderRoute: typeof CustomKitRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -190,8 +248,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JournalSlugRouteImport
       parentRoute: typeof JournalRoute
     }
+    '/admin/kit-requests': {
+      id: '/admin/kit-requests'
+      path: '/admin/kit-requests'
+      fullPath: '/admin/kit-requests'
+      preLoaderRoute: typeof AdminKitRequestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/custom-kit/status/$requestId': {
+      id: '/custom-kit/status/$requestId'
+      path: '/status/$requestId'
+      fullPath: '/custom-kit/status/$requestId'
+      preLoaderRoute: typeof CustomKitStatusRequestIdRouteImport
+      parentRoute: typeof CustomKitRoute
+    }
+    '/admin/kit-requests/$id': {
+      id: '/admin/kit-requests/$id'
+      path: '/$id'
+      fullPath: '/admin/kit-requests/$id'
+      preLoaderRoute: typeof AdminKitRequestsIdRouteImport
+      parentRoute: typeof AdminKitRequestsRoute
+    }
   }
 }
+
+interface CustomKitRouteChildren {
+  CustomKitStatusRequestIdRoute: typeof CustomKitStatusRequestIdRoute
+}
+
+const CustomKitRouteChildren: CustomKitRouteChildren = {
+  CustomKitStatusRequestIdRoute: CustomKitStatusRequestIdRoute,
+}
+
+const CustomKitRouteWithChildren = CustomKitRoute._addFileChildren(
+  CustomKitRouteChildren,
+)
 
 interface JournalRouteChildren {
   JournalSlugRoute: typeof JournalSlugRoute
@@ -214,13 +305,26 @@ const ShopRouteChildren: ShopRouteChildren = {
 
 const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)
 
+interface AdminKitRequestsRouteChildren {
+  AdminKitRequestsIdRoute: typeof AdminKitRequestsIdRoute
+}
+
+const AdminKitRequestsRouteChildren: AdminKitRequestsRouteChildren = {
+  AdminKitRequestsIdRoute: AdminKitRequestsIdRoute,
+}
+
+const AdminKitRequestsRouteWithChildren =
+  AdminKitRequestsRoute._addFileChildren(AdminKitRequestsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  CustomKitRoute: CustomKitRouteWithChildren,
   JournalRoute: JournalRouteWithChildren,
   ShopRoute: ShopRouteWithChildren,
   SustainabilityRoute: SustainabilityRoute,
+  AdminKitRequestsRoute: AdminKitRequestsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
