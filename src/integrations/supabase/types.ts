@@ -14,7 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      kit_requests: {
+        Row: {
+          accent_color: string | null
+          admin_notes: string | null
+          approved_price_cents: number | null
+          base_style: string
+          club_name: string
+          created_at: string
+          customer_email: string
+          customer_name: string
+          estimated_qty: number
+          generated_designs: Json
+          id: string
+          logo_url: string
+          primary_color: string
+          secondary_color: string | null
+          selected_design_index: number | null
+          shopify_product_id: string | null
+          shopify_product_url: string | null
+          status: Database["public"]["Enums"]["kit_request_status"]
+          updated_at: string
+        }
+        Insert: {
+          accent_color?: string | null
+          admin_notes?: string | null
+          approved_price_cents?: number | null
+          base_style: string
+          club_name: string
+          created_at?: string
+          customer_email: string
+          customer_name: string
+          estimated_qty?: number
+          generated_designs?: Json
+          id?: string
+          logo_url: string
+          primary_color: string
+          secondary_color?: string | null
+          selected_design_index?: number | null
+          shopify_product_id?: string | null
+          shopify_product_url?: string | null
+          status?: Database["public"]["Enums"]["kit_request_status"]
+          updated_at?: string
+        }
+        Update: {
+          accent_color?: string | null
+          admin_notes?: string | null
+          approved_price_cents?: number | null
+          base_style?: string
+          club_name?: string
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          estimated_qty?: number
+          generated_designs?: Json
+          id?: string
+          logo_url?: string
+          primary_color?: string
+          secondary_color?: string | null
+          selected_design_index?: number | null
+          shopify_product_id?: string | null
+          shopify_product_url?: string | null
+          status?: Database["public"]["Enums"]["kit_request_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +88,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      kit_request_status:
+        | "draft"
+        | "pending"
+        | "approved"
+        | "rejected"
+        | "ordered"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +220,14 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      kit_request_status: [
+        "draft",
+        "pending",
+        "approved",
+        "rejected",
+        "ordered",
+      ],
+    },
   },
 } as const
