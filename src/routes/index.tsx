@@ -308,3 +308,23 @@ function Chapter({
   );
 }
 
+function PowerGraphPanel() {
+  const [active, setActive] = useState(false);
+  return (
+    <AnimatedPillar
+      className="md:col-span-5"
+      onActivate={() => setActive(true)}
+    >
+      <div className="border border-ink/20 bg-ink p-4 md:p-6 rounded-sm">
+        <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-mist/60 mb-3 flex justify-between">
+          <span>Fig. 05</span>
+          <span>Telemetry / Lab</span>
+        </div>
+        <div className="text-paper">
+          <PowerGraph active={active} />
+        </div>
+      </div>
+    </AnimatedPillar>
+  );
+}
+
