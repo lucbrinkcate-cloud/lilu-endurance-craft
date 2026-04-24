@@ -1,91 +1,101 @@
 
 
-# Custom Club Kit Designer
+# Homepage Visual Animations — Lab/Engineering Theme
 
-A tool where customers upload their cycling club logo, AI generates 3-4 custom kit design mockups (jersey + bibs), they pick a favorite, submit for your approval, and once you approve, they can order through Shopify.
+Bring the homepage manifesto to life with text-synced visual animations. Each pillar (Born on the long road, Fabrics that hold the line, Cut for the position you actually ride, Engineered to be mending, Discomfort is a metric) gets its own custom inline SVG animation that fires when scrolled into view.
 
-## User Flow
+## Approach (Best Option)
 
-```text
-1. Customer visits /custom-kit
-2. Uploads club logo (PNG/JPG/SVG)
-3. Picks base style (Road / Gravel / Classic) + 2-3 brand colors
-4. Clicks "Generate Designs" → AI returns 3-4 mockup images (~30s)
-5. Customer picks favorite + fills club name, contact, qty estimate
-6. Submits → status "Pending Review"
-7. YOU (admin) get notified, review in /admin/kit-requests
-8. Approve → system creates a custom Shopify product (draft or hidden) priced for the order, emails customer a checkout link
-9. Customer pays via standard Shopify cart → order flows into your Shopify orders
-```
+**Inline animated SVGs + scroll-triggered reveals** — not Lottie, not video, not stock images.
 
-## What Gets Built
+Why this approach:
+- **Zero dependencies, zero asset weight** — SVGs are inline, animated with CSS/SMIL, render instantly with no network requests
+- **On-brand** — matches the existing "technical editorial / lab notebook" aesthetic (mono font, ink/paper palette) better than photography or stock illustrations
+- **Crisp at any size** — vector, retina-perfect, scales with the viewport
+- **Synced to text** — each visual is custom-drawn for its specific line, not generic decoration
+- **Fast** — no JS animation library, just IntersectionObserver + CSS keyframes already in `styles.css`
 
-**Public side**
-- `/custom-kit` — landing + designer tool (logo upload, style picker, color picker, generate button, results gallery, submit form)
-- `/custom-kit/status/$requestId` — customer can revisit to see approval status & checkout link
-- Nav entry "Design Your Kit" added to `SiteHeader`
+Alternative considered: Lottie (heavier, requires asset creation pipeline), looping video (heavy, distracting), Framer Motion variants (overkill for this).
 
-**Admin side**
-- `/admin/kit-requests` — list of all submissions with status filters
-- `/admin/kit-requests/$id` — detail view: logo, chosen design, customer info, approve/reject buttons, price input
-- Simple password-gate (single admin password stored as a secret) — no full auth system needed
-
-**Backend**
-- Lovable Cloud (Supabase) for storing requests + uploaded logos + generated mockups
-- Lovable AI (Nano Banana / `google/gemini-2.5-flash-image`) for generating kit mockups using the logo as input image
-- TanStack server functions for: upload, generate, submit, approve, create-shopify-product
-- Shopify integration: on approval, create a one-off product via `shopify--create_product` with the agreed price, return the product URL → customer adds to cart → standard checkout
-
-## Data Model (Lovable Cloud)
+## What Each Pillar Gets
 
 ```text
-kit_requests
-  id, created_at, status (draft|pending|approved|rejected|ordered)
-  customer_email, customer_name, club_name, estimated_qty
-  logo_url, base_style, primary_color, secondary_color, accent_color
-  generated_designs (jsonb: array of {url, prompt})
-  selected_design_index
-  admin_notes, approved_price_cents
-  shopify_product_id, shopify_product_url
+"Born on the long road"
+  → Animated topographic contour lines drawing themselves across a horizon,
+    with a small bike silhouette tracing the longest contour
+    (stroke-dasharray draw-on animation)
 
-storage buckets: 'club-logos' (public read), 'kit-mockups' (public read)
+"Fabrics that hold the line"
+  → Woven fabric grid that builds thread-by-thread (warp lines draw left→right,
+    weft lines draw top→bottom in sequence), then a subtle tension pulse
+
+"Cut for the position you actually ride"
+  → Technical pattern-piece schematic of a jersey with measurement lines,
+    annotation callouts (e.g. "back drop +3cm", "sleeve +12mm") that type in
+    one by one, like a tailor's draft
+
+"Engineered to be mending"
+  → A torn fabric edge that stitches itself back together
+    (dashed stitch line draws across the tear, then the two halves nudge
+    closer)
+
+"Discomfort is a metric"
+  → A live-style data graph (heart rate / power curve) that draws across
+    the panel with a moving readout dot and ticking numeric counter
+    (e.g. watts: 0 → 287)
 ```
 
-## How AI Mockups Work
+## Technical Implementation
 
-For each request, call Lovable AI 3-4 times with the uploaded logo + a prompt like:
-*"Editorial product photo of a [road/gravel] cycling jersey and bib shorts in [colors]. Place this logo cleanly on the chest and one thigh panel. Studio lighting, neutral background, technical fabric texture, photoreal."*
+**New component**: `src/components/AnimatedPillar.tsx`
+- Wraps each pillar's text + SVG visual
+- Uses `IntersectionObserver` to add an `.in-view` class when ≥30% visible
+- Animations only play once (no re-triggering on scroll up)
+- Respects `prefers-reduced-motion` — falls back to static final-state SVG
 
-Each variation tweaks color placement / style (full-color block, minimal accent, retro stripe, modern panel). Returned base64 images get uploaded to the `kit-mockups` storage bucket and URLs saved to the request row.
+**New component**: `src/components/pillar-visuals/` (5 small SVG components)
+- `ContourMap.tsx`, `WovenGrid.tsx`, `JerseySchematic.tsx`, `StitchRepair.tsx`, `PowerGraph.tsx`
+- Each is a self-contained inline SVG with CSS animations targeting `.in-view` parent
+- Drawn in `--paper` / `--mist` strokes on `--ink` background to match existing palette
 
-## Approval → Order Flow
+**CSS additions** in `src/styles.css`:
+- `@keyframes draw-stroke` (stroke-dashoffset 1000 → 0) for line-drawing
+- `@keyframes count-up`, `@keyframes stitch`, `@keyframes weave` for specific effects
+- `.in-view .draw-line { animation: draw-stroke 1.6s ease-out forwards; }` pattern
+- All animations respect `@media (prefers-reduced-motion: reduce)`
 
-1. Admin opens request, sets a price (e.g. $185/kit), clicks **Approve**
-2. Server function calls `shopify--create_product`:
-   - Title: `Custom Kit — {club_name}`
-   - Image: the selected mockup
-   - Variants: sizes XS-XXL
-   - Tag: `custom-kit`, `hidden` (so it doesn't show in main shop grid)
-3. Customer receives email (via Resend connector or Shopify) with a link to `/custom-kit/status/{id}` showing their approved mockup + an "Add to Cart" button wired to the new Shopify product
-4. They check out normally through your existing Shopify cart flow
+**Homepage edit** in `src/routes/index.tsx`:
+- Locate the existing manifesto/pillars section
+- Restructure to a 2-column grid per pillar (text left, SVG visual right; alternating on every other pillar for visual rhythm)
+- Wrap each in `<AnimatedPillar visual={<ContourMap />} />`
 
-## What I Need From You Before Building
+**Performance**:
+- All SVGs inline, total added weight ~6-8 KB
+- IntersectionObserver is native, no library
+- Animations are pure CSS (GPU-accelerated transforms/opacity where possible)
 
-A few decisions:
+## Rollout Plan
 
-1. **Admin access** — single shared password stored as a secret (simplest), or full email/password login for you?
-2. **Customer notification** — should I wire up the Resend connector for transactional emails (approval/rejection), or just show status on the page and you email manually?
-3. **Pricing** — fixed price per kit, or do you set it per request after seeing quantity?
-4. **MOQ** — minimum order quantity (e.g. 10 kits) shown upfront, or no minimum?
+**This turn — Homepage only** (the 5 pillars above).
 
-Once you answer, I'll build it end to end.
+**Next turns — once you approve the homepage feel**, we extend the same pattern to:
+- `/about` — animated timeline of the brand story, lab-notebook style margin sketches
+- `/sustainability` — material-flow diagram, lifecycle loop animation
+- `/shop` — subtle hover micro-interactions on product cards (fabric weave reveal)
+- `/journal` — typewriter-style headline reveal, ink-bleed entry transitions
+- `/custom-kit` — animated logo-to-jersey transformation in the hero
+- `/contact` — paper-airplane send animation on form submit
 
-## Technical Notes
+Each page reuses the same `AnimatedPillar` + IntersectionObserver pattern, so no new infrastructure needed after this turn.
 
-- Logo upload: client-side validation (max 5MB, PNG/JPG/SVG/WEBP), stored in Supabase `club-logos` bucket via signed upload
-- AI generation runs in a server function (`generateKitDesigns`) that loops 3-4 times sequentially with a small delay to avoid rate limits; returns array of public URLs
-- Color picker uses a simple hex input + 3 swatches (no heavy color library)
-- Admin route protected by middleware checking a cookie set after password submit; password compared against `ADMIN_PASSWORD` env secret
-- Shopify product creation is server-side only (uses your existing Shopify connection); product stays hidden from main collection via tag filter in the existing `shop.tsx` query (`-tag:custom-kit`)
-- All AI mockup costs are absorbed per-request — typically 4 image generations (~$0.15-0.30 per request on Nano Banana)
+## Files to Create/Edit
+
+- Create `src/components/AnimatedPillar.tsx`
+- Create `src/components/pillar-visuals/ContourMap.tsx`
+- Create `src/components/pillar-visuals/WovenGrid.tsx`
+- Create `src/components/pillar-visuals/JerseySchematic.tsx`
+- Create `src/components/pillar-visuals/StitchRepair.tsx`
+- Create `src/components/pillar-visuals/PowerGraph.tsx`
+- Edit `src/styles.css` (add keyframes + reduced-motion guard)
+- Edit `src/routes/index.tsx` (wire up the 5 pillars with their visuals)
 
