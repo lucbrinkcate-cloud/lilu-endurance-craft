@@ -205,11 +205,14 @@ function Index() {
           <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-moss mb-6">
             Field Notes / Operational Mandate
           </div>
-          <h2 className="font-display text-4xl md:text-7xl leading-[0.9] tracking-tighter max-w-4xl">
-            Discomfort is a metric.
-            <br />
-            <span className="text-moss">Waste is not.</span>
-          </h2>
+          <div className="grid md:grid-cols-12 gap-12 items-end">
+            <h2 className="md:col-span-7 font-display text-4xl md:text-7xl leading-[0.9] tracking-tighter">
+              Discomfort is a metric.
+              <br />
+              <span className="text-moss">Waste is not.</span>
+            </h2>
+            <PowerGraphPanel />
+          </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 mt-20 border-t border-ink/15 pt-12">
             {STATS.map((s, i) => (
