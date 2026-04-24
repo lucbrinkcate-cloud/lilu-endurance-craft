@@ -1,9 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import heroImage from "@/assets/lilu-hero.png";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { AnimatedPillar } from "@/components/AnimatedPillar";
+import { ContourMap } from "@/components/pillar-visuals/ContourMap";
+import { WovenGrid } from "@/components/pillar-visuals/WovenGrid";
+import { JerseySchematic } from "@/components/pillar-visuals/JerseySchematic";
+import { StitchRepair } from "@/components/pillar-visuals/StitchRepair";
+import { PowerGraph } from "@/components/pillar-visuals/PowerGraph";
 
 export const Route = createFileRoute("/")({
   component: Index,
