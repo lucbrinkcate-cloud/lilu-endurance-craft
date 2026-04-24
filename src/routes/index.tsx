@@ -211,7 +211,7 @@ function Index() {
               <br />
               <span className="text-moss">Waste is not.</span>
             </h2>
-            <PowerGraphPanel />
+            <PowerGraphPanelInline />
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 mt-20 border-t border-ink/15 pt-12">
