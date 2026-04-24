@@ -47,6 +47,7 @@ const CHAPTERS = [
     title: "Born on the long road.",
     body:
       "LILU was forged in the slow grind of pre-dawn climbs and the silence between watts. Every seam is a notebook entry from a ride that hurt.",
+    Visual: ContourMap,
   },
   {
     no: "02",
@@ -54,6 +55,7 @@ const CHAPTERS = [
     title: "Fabrics that hold the line.",
     body:
       "Recycled Italian knits. PFC-free finishes. Merino blends spun for thermal honesty. We test in the rain, not the lab.",
+    Visual: WovenGrid,
   },
   {
     no: "03",
@@ -61,6 +63,7 @@ const CHAPTERS = [
     title: "Cut for the position you actually ride.",
     body:
       "Aero-leaning, race-honest, but human. Patterned around riders in the drops at hour five — not mannequins under studio light.",
+    Visual: JerseySchematic,
   },
   {
     no: "04",
@@ -68,6 +71,7 @@ const CHAPTERS = [
     title: "Engineered to be mended.",
     body:
       "Free crash repair on every garment, for life. The most sustainable jersey is the one you keep wearing.",
+    Visual: StitchRepair,
   },
 ];
 
