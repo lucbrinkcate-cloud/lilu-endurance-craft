@@ -83,6 +83,7 @@ const STATS = [
 ];
 
 function Index() {
+  // power graph activation
   const [powerActive, setPowerActive] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: heroProgress } = useScroll({
