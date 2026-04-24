@@ -193,3 +193,81 @@
 .animate-ken-burns {
   animation: ken-burns 18s ease-out forwards;
 }
+
+/* Pillar visual animations — triggered by .in-view parent */
+.draw-line,
+.draw-vert {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+.in-view .draw-line {
+  animation: draw-stroke 1.6s ease-out forwards;
+}
+.in-view .draw-vert {
+  animation: draw-stroke 1.2s ease-out forwards;
+}
+.fade-in-late {
+  opacity: 0;
+}
+.in-view .fade-in-late {
+  animation: fade-in-soft 0.8s ease-out forwards;
+}
+.tension-pulse {
+  opacity: 0;
+}
+.in-view .tension-pulse {
+  animation: tension-pulse 2.4s ease-out forwards;
+}
+.mend-left {
+  transform: translateX(-30px);
+  opacity: 0.6;
+}
+.mend-right {
+  transform: translateX(30px);
+  opacity: 0.6;
+}
+.in-view .mend-left {
+  animation: mend-from-left 2.4s 1.2s ease-out forwards;
+}
+.in-view .mend-right {
+  animation: mend-from-right 2.4s 1.2s ease-out forwards;
+}
+
+@keyframes draw-stroke {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes fade-in-soft {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes tension-pulse {
+  0% { opacity: 0; stroke-width: 1; }
+  60% { opacity: 0.8; stroke-width: 2; }
+  100% { opacity: 0.4; stroke-width: 1; }
+}
+@keyframes mend-from-left {
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes mend-from-right {
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draw-line,
+  .draw-vert,
+  .fade-in-late,
+  .tension-pulse,
+  .mend-left,
+  .mend-right,
+  .in-view .draw-line,
+  .in-view .draw-vert,
+  .in-view .fade-in-late,
+  .in-view .tension-pulse,
+  .in-view .mend-left,
+  .in-view .mend-right {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

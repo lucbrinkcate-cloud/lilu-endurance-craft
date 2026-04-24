@@ -1,9 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import heroImage from "@/assets/lilu-hero.png";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { AnimatedPillar } from "@/components/AnimatedPillar";
+import { ContourMap } from "@/components/pillar-visuals/ContourMap";
+import { WovenGrid } from "@/components/pillar-visuals/WovenGrid";
+import { JerseySchematic } from "@/components/pillar-visuals/JerseySchematic";
+import { StitchRepair } from "@/components/pillar-visuals/StitchRepair";
+import { PowerGraph } from "@/components/pillar-visuals/PowerGraph";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -41,6 +47,7 @@ const CHAPTERS = [
     title: "Born on the long road.",
     body:
       "LILU was forged in the slow grind of pre-dawn climbs and the silence between watts. Every seam is a notebook entry from a ride that hurt.",
+    Visual: ContourMap,
   },
   {
     no: "02",
@@ -48,6 +55,7 @@ const CHAPTERS = [
     title: "Fabrics that hold the line.",
     body:
       "Recycled Italian knits. PFC-free finishes. Merino blends spun for thermal honesty. We test in the rain, not the lab.",
+    Visual: WovenGrid,
   },
   {
     no: "03",
@@ -55,6 +63,7 @@ const CHAPTERS = [
     title: "Cut for the position you actually ride.",
     body:
       "Aero-leaning, race-honest, but human. Patterned around riders in the drops at hour five — not mannequins under studio light.",
+    Visual: JerseySchematic,
   },
   {
     no: "04",
@@ -62,6 +71,7 @@ const CHAPTERS = [
     title: "Engineered to be mended.",
     body:
       "Free crash repair on every garment, for life. The most sustainable jersey is the one you keep wearing.",
+    Visual: StitchRepair,
   },
 ];
 
@@ -195,11 +205,14 @@ function Index() {
           <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-moss mb-6">
             Field Notes / Operational Mandate
           </div>
-          <h2 className="font-display text-4xl md:text-7xl leading-[0.9] tracking-tighter max-w-4xl">
-            Discomfort is a metric.
-            <br />
-            <span className="text-moss">Waste is not.</span>
-          </h2>
+          <div className="grid md:grid-cols-12 gap-12 items-end">
+            <h2 className="md:col-span-7 font-display text-4xl md:text-7xl leading-[0.9] tracking-tighter">
+              Discomfort is a metric.
+              <br />
+              <span className="text-moss">Waste is not.</span>
+            </h2>
+            <PowerGraphPanel />
+          </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 mt-20 border-t border-ink/15 pt-12">
             {STATS.map((s, i) => (
@@ -236,16 +249,19 @@ function Chapter({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { margin: "-30% 0px -30% 0px" });
+  const [activated, setActivated] = useState(false);
+  const Visual = chapter.Visual;
+  const reverse = index % 2 === 1;
 
   return (
     <div
       ref={ref}
-      className="px-6 md:px-10 py-24 md:py-40 grid md:grid-cols-12 gap-8 items-start"
+      className="px-6 md:px-10 py-24 md:py-32 grid md:grid-cols-12 gap-8 items-start"
     >
       <motion.div
         animate={{ opacity: inView ? 1 : 0.25 }}
         transition={{ duration: 0.6 }}
-        className="md:col-span-3 font-mono text-[11px] uppercase tracking-[0.25em] text-sage flex items-center gap-3"
+        className="md:col-span-2 font-mono text-[11px] uppercase tracking-[0.25em] text-sage flex items-center gap-3"
       >
         <span className="text-paper/40">{chapter.no}</span>
         <span className="h-px w-8 bg-sage/60" />
@@ -258,9 +274,9 @@ function Chapter({
           y: inView ? 0 : 20,
         }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="md:col-span-9"
+        className={`md:col-span-5 ${reverse ? "md:order-3" : ""}`}
       >
-        <h3 className="font-display text-4xl md:text-7xl leading-[0.95] tracking-tighter text-paper">
+        <h3 className="font-display text-4xl md:text-6xl leading-[0.95] tracking-tighter text-paper">
           {chapter.title}
         </h3>
         <p className="mt-8 max-w-xl text-mist text-base md:text-lg leading-relaxed">
@@ -273,16 +289,42 @@ function Chapter({
         />
       </motion.div>
 
-      {index % 2 === 0 && (
-        <motion.div
-          aria-hidden
-          animate={{ opacity: inView ? 0.06 : 0 }}
-          transition={{ duration: 1 }}
-          className="pointer-events-none fixed inset-0 -z-0 font-display text-[40vw] leading-none tracking-tighter text-sage flex items-center justify-center select-none"
-        >
-          {chapter.no}
-        </motion.div>
-      )}
+      <AnimatedPillar
+        className={`md:col-span-5 ${reverse ? "md:order-2" : ""}`}
+        onActivate={() => setActivated(true)}
+      >
+        <div className="relative border border-paper/10 bg-ink/40 p-4 md:p-6 rounded-sm">
+          <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-mist/50 mb-3 flex justify-between">
+            <span>Fig. {chapter.no}</span>
+            <span>{chapter.kicker} / Lab</span>
+          </div>
+          <div className="text-paper">
+            <Visual />
+          </div>
+          {activated && null}
+        </div>
+      </AnimatedPillar>
     </div>
   );
 }
+
+function PowerGraphPanel() {
+  const [active, setActive] = useState(false);
+  return (
+    <AnimatedPillar
+      className="md:col-span-5"
+      onActivate={() => setActive(true)}
+    >
+      <div className="border border-ink/20 bg-ink p-4 md:p-6 rounded-sm">
+        <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-mist/60 mb-3 flex justify-between">
+          <span>Fig. 05</span>
+          <span>Telemetry / Lab</span>
+        </div>
+        <div className="text-paper">
+          <PowerGraph active={active} />
+        </div>
+      </div>
+    </AnimatedPillar>
+  );
+}
+
