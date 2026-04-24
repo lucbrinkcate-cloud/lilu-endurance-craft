@@ -246,16 +246,19 @@ function Chapter({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { margin: "-30% 0px -30% 0px" });
+  const [activated, setActivated] = useState(false);
+  const Visual = chapter.Visual;
+  const reverse = index % 2 === 1;
 
   return (
     <div
       ref={ref}
-      className="px-6 md:px-10 py-24 md:py-40 grid md:grid-cols-12 gap-8 items-start"
+      className="px-6 md:px-10 py-24 md:py-32 grid md:grid-cols-12 gap-8 items-start"
     >
       <motion.div
         animate={{ opacity: inView ? 1 : 0.25 }}
         transition={{ duration: 0.6 }}
-        className="md:col-span-3 font-mono text-[11px] uppercase tracking-[0.25em] text-sage flex items-center gap-3"
+        className="md:col-span-2 font-mono text-[11px] uppercase tracking-[0.25em] text-sage flex items-center gap-3"
       >
         <span className="text-paper/40">{chapter.no}</span>
         <span className="h-px w-8 bg-sage/60" />
@@ -268,9 +271,9 @@ function Chapter({
           y: inView ? 0 : 20,
         }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="md:col-span-9"
+        className={`md:col-span-5 ${reverse ? "md:order-3" : ""}`}
       >
-        <h3 className="font-display text-4xl md:text-7xl leading-[0.95] tracking-tighter text-paper">
+        <h3 className="font-display text-4xl md:text-6xl leading-[0.95] tracking-tighter text-paper">
           {chapter.title}
         </h3>
         <p className="mt-8 max-w-xl text-mist text-base md:text-lg leading-relaxed">
@@ -283,16 +286,22 @@ function Chapter({
         />
       </motion.div>
 
-      {index % 2 === 0 && (
-        <motion.div
-          aria-hidden
-          animate={{ opacity: inView ? 0.06 : 0 }}
-          transition={{ duration: 1 }}
-          className="pointer-events-none fixed inset-0 -z-0 font-display text-[40vw] leading-none tracking-tighter text-sage flex items-center justify-center select-none"
-        >
-          {chapter.no}
-        </motion.div>
-      )}
+      <AnimatedPillar
+        className={`md:col-span-5 ${reverse ? "md:order-2" : ""}`}
+        onActivate={() => setActivated(true)}
+      >
+        <div className="relative border border-paper/10 bg-ink/40 p-4 md:p-6 rounded-sm">
+          <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-mist/50 mb-3 flex justify-between">
+            <span>Fig. {chapter.no}</span>
+            <span>{chapter.kicker} / Lab</span>
+          </div>
+          <div className="text-paper">
+            <Visual />
+          </div>
+          {activated && null}
+        </div>
+      </AnimatedPillar>
     </div>
   );
 }
+
