@@ -83,6 +83,7 @@ const STATS = [
 ];
 
 function Index() {
+  const [powerActive, setPowerActive] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroRef,
@@ -211,7 +212,20 @@ function Index() {
               <br />
               <span className="text-moss">Waste is not.</span>
             </h2>
-            <PowerGraphPanelInline />
+            <AnimatedPillar
+              className="md:col-span-5"
+              onActivate={() => setPowerActive(true)}
+            >
+              <div className="border border-ink/20 bg-ink p-4 md:p-6 rounded-sm">
+                <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-mist/60 mb-3 flex justify-between">
+                  <span>Fig. 05</span>
+                  <span>Telemetry / Lab</span>
+                </div>
+                <div className="text-paper">
+                  <PowerGraph active={powerActive} />
+                </div>
+              </div>
+            </AnimatedPillar>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 mt-20 border-t border-ink/15 pt-12">
@@ -308,23 +322,4 @@ function Chapter({
   );
 }
 
-function PowerGraphPanel() {
-  const [active, setActive] = useState(false);
-  return (
-    <AnimatedPillar
-      className="md:col-span-5"
-      onActivate={() => setActive(true)}
-    >
-      <div className="border border-ink/20 bg-ink p-4 md:p-6 rounded-sm">
-        <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-mist/60 mb-3 flex justify-between">
-          <span>Fig. 05</span>
-          <span>Telemetry / Lab</span>
-        </div>
-        <div className="text-paper">
-          <PowerGraph active={active} />
-        </div>
-      </div>
-    </AnimatedPillar>
-  );
-}
 
