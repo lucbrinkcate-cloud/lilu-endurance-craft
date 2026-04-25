@@ -285,7 +285,7 @@ function Chapter({
         <motion.div
           animate={{ opacity: inView ? 1 : 0.4, y: inView ? 0 : 20 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative overflow-hidden border border-paper/10 bg-ink/40 rounded-sm aspect-[9/16] max-h-[42svh] w-auto mx-auto"
+          className="relative overflow-hidden border border-paper/10 bg-ink/40 rounded-sm aspect-[9/16] max-h-[75svh] w-auto mx-auto"
         >
           {chapter.media.type === "video" ? (
             <video
