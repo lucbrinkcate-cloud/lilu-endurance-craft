@@ -201,7 +201,7 @@ function Index() {
           <h2 className="font-display text-5xl md:text-8xl leading-[0.9] tracking-tighter">
             Four notes from
             <br />
-            <span className="text-sage">the laboratory.</span>
+            <span className="text-sage">our clothes designers.</span>
           </h2>
         </div>
 
