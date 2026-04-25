@@ -5,11 +5,11 @@ import heroImage from "@/assets/lilu-hero.png";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { AnimatedPillar } from "@/components/AnimatedPillar";
-import { ContourMap } from "@/components/pillar-visuals/ContourMap";
-import { WovenGrid } from "@/components/pillar-visuals/WovenGrid";
-import { JerseySchematic } from "@/components/pillar-visuals/JerseySchematic";
-import { StitchRepair } from "@/components/pillar-visuals/StitchRepair";
 import { PowerGraph } from "@/components/pillar-visuals/PowerGraph";
+import bornVideo from "@/assets/chapters/born-for-the-long-road.mp4";
+import mendedVideo from "@/assets/chapters/engineered-to-be-mended.mp4";
+import cutImage from "@/assets/chapters/cut-for-the-drops.png";
+import rainImage from "@/assets/chapters/tested-in-rain.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -40,30 +40,40 @@ const MANIFESTO = [
   "BUILT TO BE REPAIRED, NOT REPLACED",
 ];
 
-const CHAPTERS = [
+type ChapterMedia =
+  | { type: "video"; src: string; poster?: string }
+  | { type: "image"; src: string; alt: string };
+
+const CHAPTERS: Array<{
+  no: string;
+  kicker: string;
+  title: string;
+  body: string;
+  media: ChapterMedia;
+}> = [
   {
     no: "01",
     kicker: "Origin",
     title: "Born on the long road.",
     body:
       "LILU was forged in the slow grind of pre-dawn climbs and the silence between watts. Every seam is a notebook entry from a ride that hurt.",
-    Visual: ContourMap,
+    media: { type: "video", src: bornVideo },
   },
   {
     no: "02",
     kicker: "Material",
-    title: "Fabrics that hold the line.",
+    title: "Tested in rain, not labs.",
     body:
-      "Recycled Italian knits. PFC-free finishes. Merino blends spun for thermal honesty. We test in the rain, not the lab.",
-    Visual: WovenGrid,
+      "Recycled Italian knits. PFC-free finishes. Merino blends spun for thermal honesty. Real-world performance for cyclists who demand technical honesty from their gear.",
+    media: { type: "image", src: rainImage, alt: "LILU merino jersey tested in rain" },
   },
   {
     no: "03",
     kicker: "Fit",
-    title: "Cut for the position you actually ride.",
+    title: "Cut for the drops.",
     body:
-      "Aero-leaning, race-honest, but human. Patterned around riders in the drops at hour five — not mannequins under studio light.",
-    Visual: JerseySchematic,
+      "Technical silhouettes engineered for the geometry of the ride, not the coffee stop. Patterned around riders in the drops at hour five — not mannequins under studio light.",
+    media: { type: "image", src: cutImage, alt: "Rider in LILU jersey in the drops on a mountain road" },
   },
   {
     no: "04",
@@ -71,7 +81,7 @@ const CHAPTERS = [
     title: "Engineered to be mended.",
     body:
       "Free crash repair on every garment, for life. The most sustainable jersey is the one you keep wearing.",
-    Visual: StitchRepair,
+    media: { type: "video", src: mendedVideo },
   },
 ];
 
