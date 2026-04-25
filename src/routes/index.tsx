@@ -6,10 +6,11 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { AnimatedPillar } from "@/components/AnimatedPillar";
 import { PowerGraph } from "@/components/pillar-visuals/PowerGraph";
-import bornVideo from "@/assets/chapters/born-for-the-long-road.mp4";
-import mendedVideo from "@/assets/chapters/engineered-to-be-mended.mp4";
 import cutImage from "@/assets/chapters/cut-for-the-drops.png";
 import rainImage from "@/assets/chapters/tested-in-rain.png";
+
+const bornVideo = "/chapters/born-for-the-long-road.mp4";
+const mendedVideo = "/chapters/engineered-to-be-mended.mp4";
 
 export const Route = createFileRoute("/")({
   component: Index,
