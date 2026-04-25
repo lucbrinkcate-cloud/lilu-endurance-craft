@@ -274,9 +274,13 @@ function Chapter({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { margin: "-30% 0px -30% 0px" });
-  const [activated, setActivated] = useState(false);
-  const Visual = chapter.Visual;
+  const videoRef = useRef<HTMLVideoElement>(null);
   const reverse = index % 2 === 1;
+
+  // autoplay/pause videos based on view
+  if (typeof window !== "undefined") {
+    // noop guard for SSR
+  }
 
   return (
     <div
@@ -314,19 +318,32 @@ function Chapter({
         />
       </motion.div>
 
-      <AnimatedPillar
-        className={`md:col-span-5 ${reverse ? "md:order-2" : ""}`}
-        onActivate={() => setActivated(true)}
-      >
-        <div className="relative border border-paper/10 bg-ink/40 p-4 md:p-6 rounded-sm">
-          <div className="font-mono text-[9px] uppercase tracking-[0.25em] text-mist/50 mb-3 flex justify-between">
+      <AnimatedPillar className={`md:col-span-5 ${reverse ? "md:order-2" : ""}`}>
+        <div className="relative overflow-hidden border border-paper/10 bg-ink/40 rounded-sm aspect-[4/5]">
+          <div className="absolute top-3 left-3 right-3 z-10 font-mono text-[9px] uppercase tracking-[0.25em] text-paper/70 mix-blend-difference flex justify-between">
             <span>Fig. {chapter.no}</span>
-            <span>{chapter.kicker} / Lab</span>
+            <span>{chapter.kicker} / Field</span>
           </div>
-          <div className="text-paper">
-            <Visual />
-          </div>
-          {activated && null}
+          {chapter.media.type === "video" ? (
+            <video
+              ref={videoRef}
+              src={chapter.media.src}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <img
+              src={chapter.media.src}
+              alt={chapter.media.alt}
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent pointer-events-none" />
         </div>
       </AnimatedPillar>
     </div>
