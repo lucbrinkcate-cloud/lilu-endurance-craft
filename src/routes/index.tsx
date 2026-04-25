@@ -280,13 +280,12 @@ function Chapter({
   void reverse;
 
   return (
-    <div ref={ref} className="px-6 md:px-10 py-12 md:py-16">
+    <div ref={ref}>
       <AnimatedPillar>
         <motion.div
           animate={{ opacity: inView ? 1 : 0.4, y: inView ? 0 : 20 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="relative overflow-hidden border border-paper/10 bg-ink/40 rounded-sm mx-auto aspect-[9/16] max-h-[75svh] w-auto"
-          style={{ aspectRatio: "9 / 16" }}
+          className="relative overflow-hidden border border-paper/10 bg-ink/40 rounded-sm aspect-[9/16] w-full"
         >
           {chapter.media.type === "video" ? (
             <video
