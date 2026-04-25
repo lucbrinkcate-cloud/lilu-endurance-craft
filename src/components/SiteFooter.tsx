@@ -37,12 +37,18 @@ export function SiteFooter() {
         </div>
         <div>
           <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-sage mb-4">
-            Outposts
+            Help
           </div>
           <ul className="space-y-2 text-sm">
-            <li>Ghent — BE</li>
-            <li>Girona — ES</li>
-            <li>Boulder — US</li>
+            <li><Link to="/contact" className="hover:text-paper">Shipping & Returns</Link></li>
+            <li><Link to="/contact" className="hover:text-paper">Size Guide</Link></li>
+            <li><Link to="/contact" className="hover:text-paper">Fabric Care</Link></li>
+            <li><Link to="/contact" className="hover:text-paper">Lifetime Repair</Link></li>
+            <li>
+              <a href="mailto:service@lilucycling.com" className="hover:text-paper">
+                service@lilucycling.com
+              </a>
+            </li>
           </ul>
         </div>
       </div>
