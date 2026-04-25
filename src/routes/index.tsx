@@ -277,54 +277,16 @@ function Chapter({
   const inView = useInView(ref, { margin: "-30% 0px -30% 0px" });
   const videoRef = useRef<HTMLVideoElement>(null);
   const reverse = index % 2 === 1;
-
-  // autoplay/pause videos based on view
-  if (typeof window !== "undefined") {
-    // noop guard for SSR
-  }
+  void reverse;
 
   return (
-    <div
-      ref={ref}
-      className="px-6 md:px-10 py-24 md:py-32 grid md:grid-cols-12 gap-8 items-start"
-    >
-      <motion.div
-        animate={{ opacity: inView ? 1 : 0.25 }}
-        transition={{ duration: 0.6 }}
-        className="md:col-span-2 font-mono text-[11px] uppercase tracking-[0.25em] text-sage flex items-center gap-3"
-      >
-        <span className="text-paper/40">{chapter.no}</span>
-        <span className="h-px w-8 bg-sage/60" />
-        {chapter.kicker}
-      </motion.div>
-
-      <motion.div
-        animate={{
-          opacity: inView ? 1 : 0.2,
-          y: inView ? 0 : 20,
-        }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={`md:col-span-5 ${reverse ? "md:order-3" : ""}`}
-      >
-        <h3 className="font-display text-4xl md:text-6xl leading-[0.95] tracking-tighter text-paper">
-          {chapter.title}
-        </h3>
-        <p className="mt-8 max-w-xl text-mist text-base md:text-lg leading-relaxed">
-          {chapter.body}
-        </p>
-        <div
-          className={`mt-10 h-px bg-gradient-to-r from-sage to-transparent transition-all duration-700 ${
-            inView ? "w-full opacity-100" : "w-0 opacity-0"
-          }`}
-        />
-      </motion.div>
-
-      <AnimatedPillar className={`md:col-span-5 ${reverse ? "md:order-2" : ""}`}>
-        <div className="relative overflow-hidden border border-paper/10 bg-ink/40 rounded-sm aspect-[4/5]">
-          <div className="absolute top-3 left-3 right-3 z-10 font-mono text-[9px] uppercase tracking-[0.25em] text-paper/70 mix-blend-difference flex justify-between">
-            <span>Fig. {chapter.no}</span>
-            <span>{chapter.kicker} / Field</span>
-          </div>
+    <div ref={ref} className="px-6 md:px-10 py-12 md:py-16">
+      <AnimatedPillar>
+        <motion.div
+          animate={{ opacity: inView ? 1 : 0.4, y: inView ? 0 : 20 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="relative overflow-hidden border border-paper/10 bg-ink/40 rounded-sm max-w-3xl mx-auto aspect-[9/16]"
+        >
           {chapter.media.type === "video" ? (
             <video
               ref={videoRef}
@@ -344,8 +306,7 @@ function Chapter({
               loading="lazy"
             />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent pointer-events-none" />
-        </div>
+        </motion.div>
       </AnimatedPillar>
     </div>
   );
