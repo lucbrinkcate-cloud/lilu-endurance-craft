@@ -205,7 +205,7 @@ function Index() {
           </h2>
         </div>
 
-        <div className="divide-y divide-paper/10">
+        <div className="grid grid-cols-2 gap-3 md:gap-6 px-3 md:px-10 pb-16">
           {CHAPTERS.map((c, i) => (
             <Chapter key={c.no} chapter={c} index={i} />
           ))}
