@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import heroImage from "@/assets/lilu-hero.png";
@@ -153,6 +153,26 @@ function Index() {
           >
             Cycling apparel engineered for the long road. Patterned in the drops at hour five.
           </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-8 flex flex-wrap items-center gap-4"
+          >
+            <Link
+              to="/shop"
+              className="group inline-flex items-center gap-3 bg-paper text-ink font-mono text-xs uppercase tracking-[0.25em] px-7 py-4 hover:bg-sage transition-colors"
+            >
+              Shop Spring Field Kit
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </Link>
+            <Link
+              to="/journal"
+              className="font-mono text-[11px] uppercase tracking-[0.25em] text-mist hover:text-paper transition-colors border-b border-mist/40 pb-1"
+            >
+              Read the field notes
+            </Link>
+          </motion.div>
         </motion.div>
 
         <motion.div

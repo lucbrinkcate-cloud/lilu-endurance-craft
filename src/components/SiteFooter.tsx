@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 export function SiteFooter() {
   return (
     <footer className="bg-ink text-mist border-t border-paper/10 px-6 md:px-10 py-16">
-      <div className="grid md:grid-cols-4 gap-10 max-w-7xl">
+      <div className="grid md:grid-cols-5 gap-10 max-w-7xl">
         <div className="md:col-span-2">
           <div className="font-display text-5xl text-paper">LILU</div>
           <div className="font-mono text-[11px] uppercase tracking-[0.25em] mt-3">
@@ -37,12 +37,18 @@ export function SiteFooter() {
         </div>
         <div>
           <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-sage mb-4">
-            Outposts
+            Help
           </div>
           <ul className="space-y-2 text-sm">
-            <li>Ghent — BE</li>
-            <li>Girona — ES</li>
-            <li>Boulder — US</li>
+            <li><Link to="/contact" className="hover:text-paper">Shipping & Returns</Link></li>
+            <li><Link to="/contact" className="hover:text-paper">Size Guide</Link></li>
+            <li><Link to="/contact" className="hover:text-paper">Fabric Care</Link></li>
+            <li><Link to="/contact" className="hover:text-paper">Lifetime Repair</Link></li>
+            <li>
+              <a href="mailto:service@lilucycling.com" className="hover:text-paper">
+                service@lilucycling.com
+              </a>
+            </li>
           </ul>
         </div>
       </div>

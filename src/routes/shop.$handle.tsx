@@ -212,6 +212,22 @@ function ProductPage() {
             Add to Cart — {product.price}
           </button>
 
+          {/* TRUST SIGNALS */}
+          <ul className="mt-6 grid grid-cols-1 gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-mist/80">
+            <li className="flex items-center gap-3 border border-paper/10 bg-paper/[0.02] px-3 py-2.5">
+              <span className="text-sage">◇</span>
+              Free EU shipping over €150 · 3–5 day delivery
+            </li>
+            <li className="flex items-center gap-3 border border-paper/10 bg-paper/[0.02] px-3 py-2.5">
+              <span className="text-sage">↺</span>
+              30-day free returns · unworn, tags on
+            </li>
+            <li className="flex items-center gap-3 border border-paper/10 bg-paper/[0.02] px-3 py-2.5">
+              <span className="text-sage">∞</span>
+              Lifetime free crash repair on every garment
+            </li>
+          </ul>
+
           <dl className="mt-12 border-t border-paper/15 pt-8 space-y-3">
             {product.specs.map(([k, v]: [string, string]) => (
               <div key={k} className="flex justify-between font-mono text-xs uppercase tracking-[0.18em]">
@@ -220,8 +236,70 @@ function ProductPage() {
               </div>
             ))}
           </dl>
+
+          {/* INFO ACCORDION: size guide / care / shipping / contact */}
+          <div className="mt-10 border-t border-paper/15">
+            {[
+              {
+                title: "Size Guide",
+                body:
+                  "Race fit. Sized for hour-five geometry, not the café. XS (chest 86–90cm) · S (91–95) · M (96–100) · L (101–106) · XL (107–112). Between sizes? Size up for endurance, down for race. Live chat or email us — we'll match your fit.",
+              },
+              {
+                title: "Fabric Care",
+                body:
+                  "Machine wash cold (30°C) on a gentle cycle, inside-out, with technical-fabric detergent. No softener. No tumble dry. Hang dry in shade. Avoid ironing logos and seams. Crash damage? Send it back — we repair, free, for life.",
+              },
+              {
+                title: "Shipping & Returns",
+                body:
+                  "Free EU shipping over €150 (3–5 business days). Worldwide tracked from €18. 30-day free returns on unworn pieces with tags attached. Refunds processed within 5 business days of arrival at our Ghent atelier.",
+              },
+              {
+                title: "Customer Service",
+                body:
+                  "Real humans in Ghent, BE. Email service@lilucycling.com or live chat Mon–Fri, 09:00–18:00 CET. Average response: under 4 hours. Crash repairs and fit questions go to the same inbox.",
+              },
+            ].map((item) => (
+              <details key={item.title} className="group border-b border-paper/15 py-4">
+                <summary className="flex cursor-pointer items-center justify-between font-mono text-[11px] uppercase tracking-[0.25em] text-paper list-none">
+                  {item.title}
+                  <span className="text-sage transition-transform group-open:rotate-45">+</span>
+                </summary>
+                <p className="mt-3 text-sm leading-relaxed text-mist">{item.body}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* REVIEWS — empty state, no fake content */}
+      <section className="border-t border-paper/10 px-6 md:px-12 py-20">
+        <div className="max-w-3xl">
+          <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-sage mb-3">
+            Field Reports
+          </div>
+          <h2 className="font-display text-4xl md:text-6xl leading-[0.9] tracking-tighter">
+            Ridden by riders.
+          </h2>
+          <div className="mt-10 border border-paper/15 bg-paper/[0.02] p-8 md:p-10">
+            <div className="flex items-center gap-1 text-mist/40">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <svg key={i} viewBox="0 0 24 24" className="w-5 h-5 fill-current">
+                  <path d="M12 2l2.9 7.1H22l-5.6 4.5L18.2 21 12 16.6 5.8 21l1.8-7.4L2 9.1h7.1z" />
+                </svg>
+              ))}
+              <span className="ml-3 font-mono text-[10px] uppercase tracking-[0.25em] text-mist/60">
+                No reviews yet
+              </span>
+            </div>
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-mist">
+              We don't fabricate reviews. Verified field reports from owners appear here once we
+              receive them. Bought this piece? Email service@lilucycling.com to share yours.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {pairs.length > 0 && (
         <section className="border-t border-paper/10 px-6 md:px-12 py-20">
