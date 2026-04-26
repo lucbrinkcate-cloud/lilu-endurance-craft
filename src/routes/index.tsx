@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform, useSpring, useInView } from "framer-mo
 import heroImage from "@/assets/lilu-hero.png";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { NewsletterSection } from "@/components/NewsletterSection";
 import { AnimatedPillar } from "@/components/AnimatedPillar";
 import { PowerGraph } from "@/components/pillar-visuals/PowerGraph";
 import cutImage from "@/assets/chapters/cut-for-the-drops.png";
@@ -280,6 +281,8 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <NewsletterSection source="homepage" />
 
       <SiteFooter />
     </main>
