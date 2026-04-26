@@ -153,9 +153,18 @@ export const Route = createFileRoute("/shop/$handle")({
   },
 });
 
+const GALLERY_FRAMES = [
+  { label: "Front", tone: "from-forest/40 to-ink" },
+  { label: "Back", tone: "from-ink to-forest/30" },
+  { label: "Detail", tone: "from-sage/20 to-ink" },
+  { label: "On-bike", tone: "from-forest/60 to-ink/80" },
+] as const;
+
 function ProductPage() {
   const { product, pairs } = Route.useLoaderData();
   const [size, setSize] = useState<(typeof SIZES)[number]>("M");
+  const [activeFrame, setActiveFrame] = useState(0);
+  const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
   const ctaRef = useRef<HTMLButtonElement | null>(null);
   const [showStickyBar, setShowStickyBar] = useState(false);
 
@@ -185,9 +194,52 @@ function ProductPage() {
     <div className="min-h-screen bg-ink text-paper">
       <SiteHeader />
       <div className="grid lg:grid-cols-2 gap-0">
-        <div className="aspect-square lg:aspect-auto lg:min-h-[80vh] bg-gradient-to-br from-forest/40 to-ink relative overflow-hidden">
-          <div className="absolute inset-0 flex items-center justify-center font-display text-[40vw] lg:text-[20vw] text-paper/10 leading-none">
-            {product.name.charAt(0)}
+        <div className="lg:sticky lg:top-20 lg:h-[80vh] flex flex-col">
+          <div
+            className={`relative flex-1 aspect-square lg:aspect-auto bg-gradient-to-br ${GALLERY_FRAMES[activeFrame].tone} overflow-hidden cursor-zoom-in`}
+            onMouseMove={(e) => {
+              const r = e.currentTarget.getBoundingClientRect();
+              setZoom({
+                x: ((e.clientX - r.left) / r.width) * 100,
+                y: ((e.clientY - r.top) / r.height) * 100,
+              });
+            }}
+            onMouseLeave={() => setZoom(null)}
+          >
+            <div
+              className="absolute inset-0 flex items-center justify-center font-display text-[40vw] lg:text-[20vw] text-paper/10 leading-none transition-transform duration-300 ease-out"
+              style={
+                zoom
+                  ? { transform: `scale(1.6)`, transformOrigin: `${zoom.x}% ${zoom.y}%` }
+                  : undefined
+              }
+            >
+              {product.name.charAt(0)}
+            </div>
+            <div className="absolute top-4 left-4 font-mono text-[10px] uppercase tracking-[0.25em] text-mist/70 bg-ink/60 backdrop-blur px-2 py-1">
+              {GALLERY_FRAMES[activeFrame].label} · {String(activeFrame + 1).padStart(2, "0")} / {String(GALLERY_FRAMES.length).padStart(2, "0")}
+            </div>
+            <div className="absolute bottom-4 right-4 font-mono text-[9px] uppercase tracking-[0.25em] text-mist/50">
+              Hover to zoom
+            </div>
+          </div>
+          <div className="grid grid-cols-4 gap-px bg-paper/10 mt-px">
+            {GALLERY_FRAMES.map((f, i) => (
+              <button
+                key={f.label}
+                onClick={() => setActiveFrame(i)}
+                className={`aspect-square bg-gradient-to-br ${f.tone} relative transition-opacity ${
+                  activeFrame === i ? "opacity-100 ring-1 ring-inset ring-sage" : "opacity-60 hover:opacity-100"
+                }`}
+              >
+                <div className="absolute inset-0 flex items-center justify-center font-display text-3xl text-paper/20">
+                  {product.name.charAt(0)}
+                </div>
+                <div className="absolute bottom-1 left-1.5 font-mono text-[8px] uppercase tracking-[0.2em] text-paper/70">
+                  {f.label}
+                </div>
+              </button>
+            ))}
           </div>
         </div>
         <div className="px-6 md:px-12 py-16 lg:sticky lg:top-20 lg:h-fit">

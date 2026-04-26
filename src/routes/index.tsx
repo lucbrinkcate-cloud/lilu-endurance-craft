@@ -207,6 +207,28 @@ function Index() {
         </div>
       </section>
 
+      {/* TRUST STRIP */}
+      <section className="border-b border-paper/10 bg-ink py-10 md:py-12 px-6 md:px-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-paper/10 border border-paper/10">
+          {[
+            { icon: "◇", title: "Free EU shipping", sub: "Over €150 · 3–5 days" },
+            { icon: "↺", title: "60-day returns", sub: "Unworn, no questions" },
+            { icon: "∞", title: "Lifetime crash repair", sub: "Free, on every garment" },
+            { icon: "✓", title: "Made in Italy & PT", sub: "Recycled · PFC-free" },
+          ].map((t) => (
+            <div key={t.title} className="bg-ink p-5 md:p-6">
+              <div className="text-sage text-xl mb-2">{t.icon}</div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.22em] text-paper">
+                {t.title}
+              </div>
+              <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-mist/60">
+                {t.sub}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* SCROLL-DRIVEN STORY */}
       <section id="chapters" ref={storyRef} className="relative bg-ink">
         {/* progress bar */}
@@ -278,6 +300,42 @@ function Index() {
                 </div>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRESS / COMMUNITY — honest, no fabricated quotes */}
+      <section className="bg-ink border-t border-paper/10 px-6 md:px-10 py-24 md:py-32">
+        <div className="max-w-6xl">
+          <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-sage mb-6">
+            Field Reports / Volume 04
+          </div>
+          <div className="grid md:grid-cols-12 gap-12 items-end mb-16">
+            <h2 className="md:col-span-8 font-display text-4xl md:text-7xl leading-[0.9] tracking-tighter">
+              Worn by riders.
+              <br />
+              <span className="text-sage">Not by influencers.</span>
+            </h2>
+            <p className="md:col-span-4 text-mist text-sm leading-relaxed">
+              We don't pay for placement and we don't fabricate testimonials. When riders write to
+              us, we publish what they say — verbatim, attributed, on their terms.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-paper/10 border border-paper/10">
+            {["Cycling Tips", "Rouleur", "Escape Collective", "Bikepacking.com"].map((name) => (
+              <div
+                key={name}
+                className="bg-ink p-8 md:p-10 flex items-center justify-center min-h-[120px]"
+              >
+                <div className="font-display text-xl md:text-2xl text-mist/40 tracking-tight text-center">
+                  {name}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.22em] text-mist/40 text-center">
+            Press coverage in progress · Volume 04 launches Spring '26
           </div>
         </div>
       </section>
