@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Product = {
   name: string;
@@ -156,6 +156,19 @@ export const Route = createFileRoute("/shop/$handle")({
 function ProductPage() {
   const { product, pairs } = Route.useLoaderData();
   const [size, setSize] = useState<(typeof SIZES)[number]>("M");
+  const ctaRef = useRef<HTMLButtonElement | null>(null);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { rootMargin: "0px 0px -100px 0px" },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const reasonFor = (p: Product) => {
     if (product.cat === "Outerwear" && p.cat === "Accessories")
@@ -208,7 +221,10 @@ function ProductPage() {
             </div>
           </div>
 
-          <button className="mt-8 w-full bg-paper text-ink font-mono text-xs uppercase tracking-[0.25em] py-5 hover:bg-sage transition-colors">
+          <button
+            ref={ctaRef}
+            className="mt-8 w-full bg-paper text-ink font-mono text-xs uppercase tracking-[0.25em] py-5 hover:bg-sage transition-colors"
+          >
             Add to Cart — {product.price}
           </button>
 
@@ -360,6 +376,40 @@ function ProductPage() {
       )}
 
       <SiteFooter />
+
+      {/* STICKY ADD TO CART BAR — appears once primary CTA scrolls out */}
+      <div
+        className={`fixed bottom-0 inset-x-0 z-40 border-t border-paper/15 bg-ink/95 backdrop-blur-md transition-transform duration-300 ${
+          showStickyBar ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <div className="px-4 md:px-8 py-3 flex items-center gap-3 md:gap-6 max-w-6xl mx-auto">
+          <div className="flex-1 min-w-0">
+            <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-sage truncate">
+              {product.cat} · Size {size}
+            </div>
+            <div className="font-display text-base md:text-lg truncate">
+              {product.name} <span className="text-mist/60">— {product.price}</span>
+            </div>
+          </div>
+          <div className="hidden sm:flex gap-1">
+            {SIZES.map((s) => (
+              <button
+                key={s}
+                onClick={() => setSize(s)}
+                className={`font-mono text-[10px] uppercase w-8 h-8 border transition-colors ${
+                  size === s ? "border-sage bg-sage text-ink" : "border-paper/20 text-mist hover:border-paper/60"
+                }`}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+          <button className="bg-paper text-ink font-mono text-[10px] md:text-xs uppercase tracking-[0.25em] px-5 md:px-8 py-3 md:py-4 hover:bg-sage transition-colors shrink-0">
+            Add to Cart
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

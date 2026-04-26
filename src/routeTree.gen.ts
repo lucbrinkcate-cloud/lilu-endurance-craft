@@ -20,6 +20,7 @@ import { Route as ShopHandleRouteImport } from './routes/shop.$handle'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as HelpSizeGuideRouteImport } from './routes/help.size-guide'
 import { Route as HelpShippingReturnsRouteImport } from './routes/help.shipping-returns'
+import { Route as HelpFaqRouteImport } from './routes/help.faq'
 import { Route as HelpFabricCareRouteImport } from './routes/help.fabric-care'
 import { Route as AdminKitRequestsRouteImport } from './routes/admin.kit-requests'
 import { Route as CustomKitStatusRequestIdRouteImport } from './routes/custom-kit.status.$requestId'
@@ -80,6 +81,11 @@ const HelpShippingReturnsRoute = HelpShippingReturnsRouteImport.update({
   path: '/help/shipping-returns',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HelpFaqRoute = HelpFaqRouteImport.update({
+  id: '/help/faq',
+  path: '/help/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HelpFabricCareRoute = HelpFabricCareRouteImport.update({
   id: '/help/fabric-care',
   path: '/help/fabric-care',
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/sustainability': typeof SustainabilityRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
   '/help/fabric-care': typeof HelpFabricCareRoute
+  '/help/faq': typeof HelpFaqRoute
   '/help/shipping-returns': typeof HelpShippingReturnsRoute
   '/help/size-guide': typeof HelpSizeGuideRoute
   '/journal/$slug': typeof JournalSlugRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/sustainability': typeof SustainabilityRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
   '/help/fabric-care': typeof HelpFabricCareRoute
+  '/help/faq': typeof HelpFaqRoute
   '/help/shipping-returns': typeof HelpShippingReturnsRoute
   '/help/size-guide': typeof HelpSizeGuideRoute
   '/journal/$slug': typeof JournalSlugRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/sustainability': typeof SustainabilityRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
   '/help/fabric-care': typeof HelpFabricCareRoute
+  '/help/faq': typeof HelpFaqRoute
   '/help/shipping-returns': typeof HelpShippingReturnsRoute
   '/help/size-guide': typeof HelpSizeGuideRoute
   '/journal/$slug': typeof JournalSlugRoute
@@ -166,6 +175,7 @@ export interface FileRouteTypes {
     | '/sustainability'
     | '/admin/kit-requests'
     | '/help/fabric-care'
+    | '/help/faq'
     | '/help/shipping-returns'
     | '/help/size-guide'
     | '/journal/$slug'
@@ -183,6 +193,7 @@ export interface FileRouteTypes {
     | '/sustainability'
     | '/admin/kit-requests'
     | '/help/fabric-care'
+    | '/help/faq'
     | '/help/shipping-returns'
     | '/help/size-guide'
     | '/journal/$slug'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '/sustainability'
     | '/admin/kit-requests'
     | '/help/fabric-care'
+    | '/help/faq'
     | '/help/shipping-returns'
     | '/help/size-guide'
     | '/journal/$slug'
@@ -218,6 +230,7 @@ export interface RootRouteChildren {
   SustainabilityRoute: typeof SustainabilityRoute
   AdminKitRequestsRoute: typeof AdminKitRequestsRouteWithChildren
   HelpFabricCareRoute: typeof HelpFabricCareRoute
+  HelpFaqRoute: typeof HelpFaqRoute
   HelpShippingReturnsRoute: typeof HelpShippingReturnsRoute
   HelpSizeGuideRoute: typeof HelpSizeGuideRoute
 }
@@ -299,6 +312,13 @@ declare module '@tanstack/react-router' {
       path: '/help/shipping-returns'
       fullPath: '/help/shipping-returns'
       preLoaderRoute: typeof HelpShippingReturnsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/help/faq': {
+      id: '/help/faq'
+      path: '/help/faq'
+      fullPath: '/help/faq'
+      preLoaderRoute: typeof HelpFaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/help/fabric-care': {
@@ -386,6 +406,7 @@ const rootRouteChildren: RootRouteChildren = {
   SustainabilityRoute: SustainabilityRoute,
   AdminKitRequestsRoute: AdminKitRequestsRouteWithChildren,
   HelpFabricCareRoute: HelpFabricCareRoute,
+  HelpFaqRoute: HelpFaqRoute,
   HelpShippingReturnsRoute: HelpShippingReturnsRoute,
   HelpSizeGuideRoute: HelpSizeGuideRoute,
 }
