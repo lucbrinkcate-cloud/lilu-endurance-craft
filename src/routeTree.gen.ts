@@ -18,6 +18,9 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ShopHandleRouteImport } from './routes/shop.$handle'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
+import { Route as HelpSizeGuideRouteImport } from './routes/help.size-guide'
+import { Route as HelpShippingReturnsRouteImport } from './routes/help.shipping-returns'
+import { Route as HelpFabricCareRouteImport } from './routes/help.fabric-care'
 import { Route as AdminKitRequestsRouteImport } from './routes/admin.kit-requests'
 import { Route as CustomKitStatusRequestIdRouteImport } from './routes/custom-kit.status.$requestId'
 import { Route as AdminKitRequestsIdRouteImport } from './routes/admin.kit-requests.$id'
@@ -67,6 +70,21 @@ const JournalSlugRoute = JournalSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => JournalRoute,
 } as any)
+const HelpSizeGuideRoute = HelpSizeGuideRouteImport.update({
+  id: '/help/size-guide',
+  path: '/help/size-guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HelpShippingReturnsRoute = HelpShippingReturnsRouteImport.update({
+  id: '/help/shipping-returns',
+  path: '/help/shipping-returns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HelpFabricCareRoute = HelpFabricCareRouteImport.update({
+  id: '/help/fabric-care',
+  path: '/help/fabric-care',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminKitRequestsRoute = AdminKitRequestsRouteImport.update({
   id: '/admin/kit-requests',
   path: '/admin/kit-requests',
@@ -93,6 +111,9 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRouteWithChildren
   '/sustainability': typeof SustainabilityRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
+  '/help/fabric-care': typeof HelpFabricCareRoute
+  '/help/shipping-returns': typeof HelpShippingReturnsRoute
+  '/help/size-guide': typeof HelpSizeGuideRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/shop/$handle': typeof ShopHandleRoute
   '/admin/kit-requests/$id': typeof AdminKitRequestsIdRoute
@@ -107,6 +128,9 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRouteWithChildren
   '/sustainability': typeof SustainabilityRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
+  '/help/fabric-care': typeof HelpFabricCareRoute
+  '/help/shipping-returns': typeof HelpShippingReturnsRoute
+  '/help/size-guide': typeof HelpSizeGuideRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/shop/$handle': typeof ShopHandleRoute
   '/admin/kit-requests/$id': typeof AdminKitRequestsIdRoute
@@ -122,6 +146,9 @@ export interface FileRoutesById {
   '/shop': typeof ShopRouteWithChildren
   '/sustainability': typeof SustainabilityRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
+  '/help/fabric-care': typeof HelpFabricCareRoute
+  '/help/shipping-returns': typeof HelpShippingReturnsRoute
+  '/help/size-guide': typeof HelpSizeGuideRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/shop/$handle': typeof ShopHandleRoute
   '/admin/kit-requests/$id': typeof AdminKitRequestsIdRoute
@@ -138,6 +165,9 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sustainability'
     | '/admin/kit-requests'
+    | '/help/fabric-care'
+    | '/help/shipping-returns'
+    | '/help/size-guide'
     | '/journal/$slug'
     | '/shop/$handle'
     | '/admin/kit-requests/$id'
@@ -152,6 +182,9 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sustainability'
     | '/admin/kit-requests'
+    | '/help/fabric-care'
+    | '/help/shipping-returns'
+    | '/help/size-guide'
     | '/journal/$slug'
     | '/shop/$handle'
     | '/admin/kit-requests/$id'
@@ -166,6 +199,9 @@ export interface FileRouteTypes {
     | '/shop'
     | '/sustainability'
     | '/admin/kit-requests'
+    | '/help/fabric-care'
+    | '/help/shipping-returns'
+    | '/help/size-guide'
     | '/journal/$slug'
     | '/shop/$handle'
     | '/admin/kit-requests/$id'
@@ -181,6 +217,9 @@ export interface RootRouteChildren {
   ShopRoute: typeof ShopRouteWithChildren
   SustainabilityRoute: typeof SustainabilityRoute
   AdminKitRequestsRoute: typeof AdminKitRequestsRouteWithChildren
+  HelpFabricCareRoute: typeof HelpFabricCareRoute
+  HelpShippingReturnsRoute: typeof HelpShippingReturnsRoute
+  HelpSizeGuideRoute: typeof HelpSizeGuideRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -247,6 +286,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/journal/$slug'
       preLoaderRoute: typeof JournalSlugRouteImport
       parentRoute: typeof JournalRoute
+    }
+    '/help/size-guide': {
+      id: '/help/size-guide'
+      path: '/help/size-guide'
+      fullPath: '/help/size-guide'
+      preLoaderRoute: typeof HelpSizeGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/help/shipping-returns': {
+      id: '/help/shipping-returns'
+      path: '/help/shipping-returns'
+      fullPath: '/help/shipping-returns'
+      preLoaderRoute: typeof HelpShippingReturnsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/help/fabric-care': {
+      id: '/help/fabric-care'
+      path: '/help/fabric-care'
+      fullPath: '/help/fabric-care'
+      preLoaderRoute: typeof HelpFabricCareRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/admin/kit-requests': {
       id: '/admin/kit-requests'
@@ -325,6 +385,9 @@ const rootRouteChildren: RootRouteChildren = {
   ShopRoute: ShopRouteWithChildren,
   SustainabilityRoute: SustainabilityRoute,
   AdminKitRequestsRoute: AdminKitRequestsRouteWithChildren,
+  HelpFabricCareRoute: HelpFabricCareRoute,
+  HelpShippingReturnsRoute: HelpShippingReturnsRoute,
+  HelpSizeGuideRoute: HelpSizeGuideRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
