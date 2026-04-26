@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Product = {
   name: string;
@@ -156,6 +156,19 @@ export const Route = createFileRoute("/shop/$handle")({
 function ProductPage() {
   const { product, pairs } = Route.useLoaderData();
   const [size, setSize] = useState<(typeof SIZES)[number]>("M");
+  const ctaRef = useRef<HTMLButtonElement | null>(null);
+  const [showStickyBar, setShowStickyBar] = useState(false);
+
+  useEffect(() => {
+    const el = ctaRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setShowStickyBar(!entry.isIntersecting),
+      { rootMargin: "0px 0px -100px 0px" },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const reasonFor = (p: Product) => {
     if (product.cat === "Outerwear" && p.cat === "Accessories")
@@ -208,7 +221,10 @@ function ProductPage() {
             </div>
           </div>
 
-          <button className="mt-8 w-full bg-paper text-ink font-mono text-xs uppercase tracking-[0.25em] py-5 hover:bg-sage transition-colors">
+          <button
+            ref={ctaRef}
+            className="mt-8 w-full bg-paper text-ink font-mono text-xs uppercase tracking-[0.25em] py-5 hover:bg-sage transition-colors"
+          >
             Add to Cart — {product.price}
           </button>
 
