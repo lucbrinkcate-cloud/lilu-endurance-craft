@@ -207,6 +207,28 @@ function Index() {
         </div>
       </section>
 
+      {/* TRUST STRIP */}
+      <section className="border-b border-paper/10 bg-ink py-10 md:py-12 px-6 md:px-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-paper/10 border border-paper/10">
+          {[
+            { icon: "◇", title: "Free EU shipping", sub: "Over €150 · 3–5 days" },
+            { icon: "↺", title: "60-day returns", sub: "Unworn, no questions" },
+            { icon: "∞", title: "Lifetime crash repair", sub: "Free, on every garment" },
+            { icon: "✓", title: "Made in Italy & PT", sub: "Recycled · PFC-free" },
+          ].map((t) => (
+            <div key={t.title} className="bg-ink p-5 md:p-6">
+              <div className="text-sage text-xl mb-2">{t.icon}</div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.22em] text-paper">
+                {t.title}
+              </div>
+              <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.18em] text-mist/60">
+                {t.sub}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* SCROLL-DRIVEN STORY */}
       <section id="chapters" ref={storyRef} className="relative bg-ink">
         {/* progress bar */}
