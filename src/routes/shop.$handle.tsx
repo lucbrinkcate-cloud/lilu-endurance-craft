@@ -243,22 +243,26 @@ function ProductPage() {
               {
                 title: "Size Guide",
                 body:
-                  "Race fit. Sized for hour-five geometry, not the café. XS (chest 86–90cm) · S (91–95) · M (96–100) · L (101–106) · XL (107–112). Between sizes? Size up for endurance, down for race. Live chat or email us — we'll match your fit.",
+                  "Race fit. Sized for hour-five geometry, not the café. XS (chest 86–90cm) · S (91–95) · M (96–100) · L (101–106) · XL (107–112). Between sizes? Size up for endurance, down for race.",
+                href: "/help/size-guide",
               },
               {
                 title: "Fabric Care",
                 body:
-                  "Machine wash cold (30°C) on a gentle cycle, inside-out, with technical-fabric detergent. No softener. No tumble dry. Hang dry in shade. Avoid ironing logos and seams. Crash damage? Send it back — we repair, free, for life.",
+                  "Machine wash cold (30°C) on a gentle cycle, inside-out, with technical-fabric detergent. No softener. No tumble dry. Hang dry in shade. Crash damage? Send it back — we repair, free, for life.",
+                href: "/help/fabric-care",
               },
               {
                 title: "Shipping & Returns",
                 body:
-                  "Free EU shipping over €150 (3–5 business days). Worldwide tracked from €18. 30-day free returns on unworn pieces with tags attached. Refunds processed within 5 business days of arrival at our Ghent atelier.",
+                  "Free EU shipping over €150 (2–4 business days). Worldwide tracked from €18. 60-day free returns on unworn pieces. Refunds within 5 business days of arrival at our Ghent atelier.",
+                href: "/help/shipping-returns",
               },
               {
                 title: "Customer Service",
                 body:
-                  "Real humans in Ghent, BE. Email service@lilucycling.com or live chat Mon–Fri, 09:00–18:00 CET. Average response: under 4 hours. Crash repairs and fit questions go to the same inbox.",
+                  "Real humans in Ghent, BE. Email service@lilucycling.com Mon–Fri, 09:00–18:00 CET. Average response: under 4 hours. Crash repairs and fit questions go to the same inbox.",
+                href: "/contact" as const,
               },
             ].map((item) => (
               <details key={item.title} className="group border-b border-paper/15 py-4">
@@ -267,6 +271,12 @@ function ProductPage() {
                   <span className="text-sage transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <p className="mt-3 text-sm leading-relaxed text-mist">{item.body}</p>
+                <Link
+                  to={item.href}
+                  className="mt-3 inline-block font-mono text-[10px] uppercase tracking-[0.25em] text-sage hover:text-paper"
+                >
+                  Read full guide →
+                </Link>
               </details>
             ))}
           </div>
