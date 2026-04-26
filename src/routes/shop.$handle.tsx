@@ -153,9 +153,18 @@ export const Route = createFileRoute("/shop/$handle")({
   },
 });
 
+const GALLERY_FRAMES = [
+  { label: "Front", tone: "from-forest/40 to-ink" },
+  { label: "Back", tone: "from-ink to-forest/30" },
+  { label: "Detail", tone: "from-sage/20 to-ink" },
+  { label: "On-bike", tone: "from-forest/60 to-ink/80" },
+] as const;
+
 function ProductPage() {
   const { product, pairs } = Route.useLoaderData();
   const [size, setSize] = useState<(typeof SIZES)[number]>("M");
+  const [activeFrame, setActiveFrame] = useState(0);
+  const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
   const ctaRef = useRef<HTMLButtonElement | null>(null);
   const [showStickyBar, setShowStickyBar] = useState(false);
 
