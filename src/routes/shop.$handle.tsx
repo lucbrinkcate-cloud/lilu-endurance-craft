@@ -185,7 +185,7 @@ const GALLERY_FRAMES = [
 ] as const;
 
 function ProductPage() {
-  const { product, pairs } = Route.useLoaderData();
+  const { product, pairs, journal } = Route.useLoaderData();
   const [size, setSize] = useState<(typeof SIZES)[number]>("M");
   const [activeFrame, setActiveFrame] = useState(0);
   const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
