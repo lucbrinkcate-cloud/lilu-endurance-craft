@@ -7,11 +7,10 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { NewsletterSection } from "@/components/NewsletterSection";
 import { AnimatedPillar } from "@/components/AnimatedPillar";
 import { PowerGraph } from "@/components/pillar-visuals/PowerGraph";
-import cutImage from "@/assets/chapters/cut-for-the-drops.png";
-import rainImage from "@/assets/chapters/tested-in-rain.png";
-
 const bornVideo = { mp4: "/chapters/born-for-the-long-road.mp4", webm: "/chapters/born-for-the-long-road.webm" };
 const mendedVideo = { mp4: "/chapters/engineered-to-be-mended.mp4", webm: "/chapters/engineered-to-be-mended.webm" };
+const rainVideo = { mp4: "/chapters/tested-in-rain.mp4", webm: "/chapters/tested-in-rain.webm" };
+const cutVideo = { mp4: "/chapters/cut-for-the-drops.mp4", webm: "/chapters/cut-for-the-drops.webm" };
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -67,7 +66,7 @@ const CHAPTERS: Array<{
     title: "Tested in rain, not labs.",
     body:
       "Recycled Italian knits. PFC-free finishes. Merino blends spun for thermal honesty. Real-world performance for cyclists who demand technical honesty from their gear.",
-    media: { type: "image", src: rainImage, alt: "LILU merino jersey tested in rain" },
+    media: { type: "video", src: rainVideo },
   },
   {
     no: "03",
@@ -75,7 +74,7 @@ const CHAPTERS: Array<{
     title: "Cut for the drops.",
     body:
       "Technical silhouettes engineered for the geometry of the ride, not the coffee stop. Patterned around riders in the drops at hour five — not mannequins under studio light.",
-    media: { type: "image", src: cutImage, alt: "Rider in LILU jersey in the drops on a mountain road" },
+    media: { type: "video", src: cutVideo },
   },
   {
     no: "04",
