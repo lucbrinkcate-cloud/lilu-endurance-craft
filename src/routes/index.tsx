@@ -43,7 +43,7 @@ const MANIFESTO = [
 ];
 
 type ChapterMedia =
-  | { type: "video"; src: string; poster?: string }
+  | { type: "video"; src: { mp4: string; webm: string } }
   | { type: "image"; src: string; alt: string };
 
 const CHAPTERS: Array<{
