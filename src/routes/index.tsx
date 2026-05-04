@@ -10,8 +10,8 @@ import { PowerGraph } from "@/components/pillar-visuals/PowerGraph";
 import cutImage from "@/assets/chapters/cut-for-the-drops.png";
 import rainImage from "@/assets/chapters/tested-in-rain.png";
 
-const bornVideo = "/chapters/born-for-the-long-road.mp4";
-const mendedVideo = "/chapters/engineered-to-be-mended.mp4";
+const bornVideo = { mp4: "/chapters/born-for-the-long-road.mp4", webm: "/chapters/born-for-the-long-road.webm" };
+const mendedVideo = { mp4: "/chapters/engineered-to-be-mended.mp4", webm: "/chapters/engineered-to-be-mended.webm" };
 
 export const Route = createFileRoute("/")({
   component: Index,
