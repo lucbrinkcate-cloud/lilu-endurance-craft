@@ -109,6 +109,29 @@ const PRODUCTS: Record<string, Product> = {
   },
 };
 
+// Story-driven content: each product points to relevant journal entries
+const PRODUCT_JOURNAL: Record<string, Array<{ slug: string; chapter: string; title: string; excerpt: string; minutes: number }>> = {
+  "endurance-jersey": [
+    { slug: "the-recycled-knit", chapter: "03 / Material", title: "The recycled knit.", excerpt: "How a Brescia mill turned plastic bottles into the fastest jersey we've ever made.", minutes: 6 },
+    { slug: "the-pre-dawn-protocol", chapter: "01 / Ride", title: "The pre-dawn protocol.", excerpt: "Six hours into the dark before the world starts. Why we ride before we are awake.", minutes: 8 },
+  ],
+  "endurance-bib-shorts": [
+    { slug: "marta-riding-the-line", chapter: "02 / Athlete", title: "Marta, riding the line.", excerpt: "A portrait of a domestique who refuses to be invisible.", minutes: 12 },
+  ],
+  "field-rain-jacket": [
+    { slug: "the-pre-dawn-protocol", chapter: "01 / Ride", title: "The pre-dawn protocol.", excerpt: "Six hours into the dark before the world starts.", minutes: 8 },
+  ],
+  "core-merino-base-layer": [
+    { slug: "the-recycled-knit", chapter: "03 / Material", title: "The recycled knit.", excerpt: "How a Brescia mill turned plastic bottles into the fastest jersey we've ever made.", minutes: 6 },
+  ],
+  "shadow-gilet": [
+    { slug: "the-pre-dawn-protocol", chapter: "01 / Ride", title: "The pre-dawn protocol.", excerpt: "Six hours into the dark before the world starts.", minutes: 8 },
+  ],
+  "long-road-cap": [
+    { slug: "marta-riding-the-line", chapter: "02 / Athlete", title: "Marta, riding the line.", excerpt: "A portrait of a domestique who refuses to be invisible.", minutes: 12 },
+  ],
+};
+
 const SIZES = ["XS", "S", "M", "L", "XL"] as const;
 
 export const Route = createFileRoute("/shop/$handle")({
@@ -118,7 +141,8 @@ export const Route = createFileRoute("/shop/$handle")({
     const pairs = product.pairs
       .map((h) => ({ handle: h, ...PRODUCTS[h] }))
       .filter((p) => Boolean(p.name));
-    return { product, pairs };
+    const journal = PRODUCT_JOURNAL[params.handle] ?? [];
+    return { product, pairs, journal };
   },
   component: ProductPage,
   notFoundComponent: () => (
@@ -161,7 +185,7 @@ const GALLERY_FRAMES = [
 ] as const;
 
 function ProductPage() {
-  const { product, pairs } = Route.useLoaderData();
+  const { product, pairs, journal } = Route.useLoaderData();
   const [size, setSize] = useState<(typeof SIZES)[number]>("M");
   const [activeFrame, setActiveFrame] = useState(0);
   const [zoom, setZoom] = useState<{ x: number; y: number } | null>(null);
@@ -378,6 +402,51 @@ function ProductPage() {
           </div>
         </div>
       </section>
+
+      {/* FROM THE JOURNAL — story-driven context for this piece */}
+      {journal.length > 0 && (
+        <section className="border-t border-paper/10 px-6 md:px-12 py-20 bg-paper/[0.015]">
+          <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+            <div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-sage mb-3">
+                From the Journal
+              </div>
+              <h2 className="font-display text-4xl md:text-6xl leading-[0.9] tracking-tighter">
+                Read how we
+                <br />
+                built this.
+              </h2>
+            </div>
+            <Link
+              to="/journal"
+              className="font-mono text-[11px] uppercase tracking-[0.25em] text-mist hover:text-paper border-b border-mist/40 pb-1"
+            >
+              All field notes →
+            </Link>
+          </div>
+          <div className="grid md:grid-cols-2 gap-px bg-paper/10 border border-paper/10">
+            {journal.map((s) => (
+              <Link
+                key={s.slug}
+                to="/journal/$slug"
+                params={{ slug: s.slug }}
+                className="group block bg-ink p-8 md:p-10 hover:bg-forest/15 transition-colors"
+              >
+                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-sage mb-4">
+                  {s.chapter} · {s.minutes} min read
+                </div>
+                <h3 className="font-display text-2xl md:text-3xl leading-tight tracking-tight mb-3 group-hover:text-sage transition-colors">
+                  {s.title}
+                </h3>
+                <p className="text-sm text-mist leading-relaxed mb-5">{s.excerpt}</p>
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-paper border-b border-paper/30 pb-1 group-hover:border-sage group-hover:text-sage transition-colors">
+                  Read the story →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {pairs.length > 0 && (
         <section className="border-t border-paper/10 px-6 md:px-12 py-20">

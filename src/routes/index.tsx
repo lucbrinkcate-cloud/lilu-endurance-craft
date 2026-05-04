@@ -10,8 +10,8 @@ import { PowerGraph } from "@/components/pillar-visuals/PowerGraph";
 import cutImage from "@/assets/chapters/cut-for-the-drops.png";
 import rainImage from "@/assets/chapters/tested-in-rain.png";
 
-const bornVideo = "/chapters/born-for-the-long-road.mp4";
-const mendedVideo = "/chapters/engineered-to-be-mended.mp4";
+const bornVideo = { mp4: "/chapters/born-for-the-long-road.mp4", webm: "/chapters/born-for-the-long-road.webm" };
+const mendedVideo = { mp4: "/chapters/engineered-to-be-mended.mp4", webm: "/chapters/engineered-to-be-mended.webm" };
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -43,7 +43,7 @@ const MANIFESTO = [
 ];
 
 type ChapterMedia =
-  | { type: "video"; src: string; poster?: string }
+  | { type: "video"; src: { mp4: string; webm: string } }
   | { type: "image"; src: string; alt: string };
 
 const CHAPTERS: Array<{
@@ -304,6 +304,72 @@ function Index() {
         </div>
       </section>
 
+      {/* CUSTOM KIT — high-margin, high-intent funnel */}
+      <section className="relative bg-ink border-t border-paper/10 px-6 md:px-10 py-24 md:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--color-sage)/0.08,_transparent_60%)] pointer-events-none" />
+        <div className="relative max-w-6xl">
+          <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-sage mb-6">
+            Bespoke / For Clubs & Teams
+          </div>
+          <div className="grid md:grid-cols-12 gap-12 items-end mb-12">
+            <h2 className="md:col-span-8 font-display text-4xl md:text-7xl leading-[0.9] tracking-tighter">
+              Your colours.
+              <br />
+              <span className="text-sage">Our cut.</span>
+            </h2>
+            <p className="md:col-span-4 text-mist text-sm leading-relaxed">
+              Upload your logo, pick your palette, and our design team returns three race-cut
+              concepts in 48 hours. Minimum 8 pieces. Made in Italy.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-px bg-paper/10 border border-paper/10 mb-10">
+            {[
+              { step: "01", title: "Upload & specify", body: "Logo, three colours, base style. Five minutes." },
+              { step: "02", title: "Three concepts", body: "Our designers return mockups in 48 hours. Iterate freely." },
+              { step: "03", title: "Production & ship", body: "Italian manufacturing. 4–6 weeks to your door." },
+            ].map((s) => (
+              <div key={s.step} className="bg-ink p-6 md:p-8">
+                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-sage mb-3">
+                  Step {s.step}
+                </div>
+                <div className="font-display text-2xl mb-2">{s.title}</div>
+                <p className="text-sm text-mist leading-relaxed">{s.body}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4 mb-12">
+            <Link
+              to="/custom-kit"
+              className="group inline-flex items-center gap-3 bg-sage text-ink font-mono text-xs uppercase tracking-[0.25em] px-7 py-4 hover:bg-paper transition-colors"
+            >
+              Start your kit
+              <span className="transition-transform group-hover:translate-x-1">→</span>
+            </Link>
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-mist/60">
+              Free design · No commitment until you approve
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-paper/10 border border-paper/10">
+            {[
+              { k: "8", v: "Minimum order" },
+              { k: "48h", v: "Design turnaround" },
+              { k: "4–6w", v: "Production" },
+              { k: "100%", v: "Italian-made" },
+            ].map((m) => (
+              <div key={m.v} className="bg-ink p-5">
+                <div className="font-display text-3xl md:text-4xl text-paper">{m.k}</div>
+                <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-mist/60">
+                  {m.v}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* PRESS / COMMUNITY — honest, no fabricated quotes */}
       <section className="bg-ink border-t border-paper/10 px-6 md:px-10 py-24 md:py-32">
         <div className="max-w-6xl">
@@ -371,14 +437,16 @@ function Chapter({
           {chapter.media.type === "video" ? (
             <video
               ref={videoRef}
-              src={chapter.media.src}
               autoPlay
               muted
               loop
               playsInline
-              preload="metadata"
+              preload={index === 0 ? "metadata" : "none"}
               className="h-full w-full object-cover"
-            />
+            >
+              <source src={chapter.media.src.webm} type="video/webm" />
+              <source src={chapter.media.src.mp4} type="video/mp4" />
+            </video>
           ) : (
             <img
               src={chapter.media.src}
