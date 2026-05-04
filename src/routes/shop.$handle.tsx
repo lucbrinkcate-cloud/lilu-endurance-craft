@@ -109,6 +109,29 @@ const PRODUCTS: Record<string, Product> = {
   },
 };
 
+// Story-driven content: each product points to relevant journal entries
+const PRODUCT_JOURNAL: Record<string, Array<{ slug: string; chapter: string; title: string; excerpt: string; minutes: number }>> = {
+  "endurance-jersey": [
+    { slug: "the-recycled-knit", chapter: "03 / Material", title: "The recycled knit.", excerpt: "How a Brescia mill turned plastic bottles into the fastest jersey we've ever made.", minutes: 6 },
+    { slug: "the-pre-dawn-protocol", chapter: "01 / Ride", title: "The pre-dawn protocol.", excerpt: "Six hours into the dark before the world starts. Why we ride before we are awake.", minutes: 8 },
+  ],
+  "endurance-bib-shorts": [
+    { slug: "marta-riding-the-line", chapter: "02 / Athlete", title: "Marta, riding the line.", excerpt: "A portrait of a domestique who refuses to be invisible.", minutes: 12 },
+  ],
+  "field-rain-jacket": [
+    { slug: "the-pre-dawn-protocol", chapter: "01 / Ride", title: "The pre-dawn protocol.", excerpt: "Six hours into the dark before the world starts.", minutes: 8 },
+  ],
+  "core-merino-base-layer": [
+    { slug: "the-recycled-knit", chapter: "03 / Material", title: "The recycled knit.", excerpt: "How a Brescia mill turned plastic bottles into the fastest jersey we've ever made.", minutes: 6 },
+  ],
+  "shadow-gilet": [
+    { slug: "the-pre-dawn-protocol", chapter: "01 / Ride", title: "The pre-dawn protocol.", excerpt: "Six hours into the dark before the world starts.", minutes: 8 },
+  ],
+  "long-road-cap": [
+    { slug: "marta-riding-the-line", chapter: "02 / Athlete", title: "Marta, riding the line.", excerpt: "A portrait of a domestique who refuses to be invisible.", minutes: 12 },
+  ],
+};
+
 const SIZES = ["XS", "S", "M", "L", "XL"] as const;
 
 export const Route = createFileRoute("/shop/$handle")({
