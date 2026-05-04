@@ -403,6 +403,51 @@ function ProductPage() {
         </div>
       </section>
 
+      {/* FROM THE JOURNAL — story-driven context for this piece */}
+      {journal.length > 0 && (
+        <section className="border-t border-paper/10 px-6 md:px-12 py-20 bg-paper/[0.015]">
+          <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
+            <div>
+              <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-sage mb-3">
+                From the Journal
+              </div>
+              <h2 className="font-display text-4xl md:text-6xl leading-[0.9] tracking-tighter">
+                Read how we
+                <br />
+                built this.
+              </h2>
+            </div>
+            <Link
+              to="/journal"
+              className="font-mono text-[11px] uppercase tracking-[0.25em] text-mist hover:text-paper border-b border-mist/40 pb-1"
+            >
+              All field notes →
+            </Link>
+          </div>
+          <div className="grid md:grid-cols-2 gap-px bg-paper/10 border border-paper/10">
+            {journal.map((s) => (
+              <Link
+                key={s.slug}
+                to="/journal/$slug"
+                params={{ slug: s.slug }}
+                className="group block bg-ink p-8 md:p-10 hover:bg-forest/15 transition-colors"
+              >
+                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-sage mb-4">
+                  {s.chapter} · {s.minutes} min read
+                </div>
+                <h3 className="font-display text-2xl md:text-3xl leading-tight tracking-tight mb-3 group-hover:text-sage transition-colors">
+                  {s.title}
+                </h3>
+                <p className="text-sm text-mist leading-relaxed mb-5">{s.excerpt}</p>
+                <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-paper border-b border-paper/30 pb-1 group-hover:border-sage group-hover:text-sage transition-colors">
+                  Read the story →
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
       {pairs.length > 0 && (
         <section className="border-t border-paper/10 px-6 md:px-12 py-20">
           <div className="flex items-end justify-between mb-12 flex-wrap gap-4">
