@@ -371,14 +371,16 @@ function Chapter({
           {chapter.media.type === "video" ? (
             <video
               ref={videoRef}
-              src={chapter.media.src}
               autoPlay
               muted
               loop
               playsInline
-              preload="metadata"
+              preload={index === 0 ? "metadata" : "none"}
               className="h-full w-full object-cover"
-            />
+            >
+              <source src={chapter.media.src.webm} type="video/webm" />
+              <source src={chapter.media.src.mp4} type="video/mp4" />
+            </video>
           ) : (
             <img
               src={chapter.media.src}
