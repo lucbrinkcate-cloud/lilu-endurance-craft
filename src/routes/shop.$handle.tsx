@@ -141,7 +141,8 @@ export const Route = createFileRoute("/shop/$handle")({
     const pairs = product.pairs
       .map((h) => ({ handle: h, ...PRODUCTS[h] }))
       .filter((p) => Boolean(p.name));
-    return { product, pairs };
+    const journal = PRODUCT_JOURNAL[params.handle] ?? [];
+    return { product, pairs, journal };
   },
   component: ProductPage,
   notFoundComponent: () => (
