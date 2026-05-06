@@ -112,7 +112,7 @@ function ProductTile({ product, index }: { product: ShopifyProduct; index: numbe
   const [hover, setHover] = useState(false);
   const price = parseFloat(product.priceRange.minVariantPrice.amount).toFixed(0);
   const currency = product.priceRange.minVariantPrice.currencyCode === "EUR" ? "€" : product.priceRange.minVariantPrice.currencyCode + " ";
-  const url = `/shop/${product.handle}`;
+  
 
   return (
     <motion.div
