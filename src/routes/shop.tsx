@@ -112,21 +112,19 @@ function ProductTile({ product, index }: { product: ShopifyProduct; index: numbe
   const [hover, setHover] = useState(false);
   const price = parseFloat(product.priceRange.minVariantPrice.amount).toFixed(0);
   const currency = product.priceRange.minVariantPrice.currencyCode === "EUR" ? "€" : product.priceRange.minVariantPrice.currencyCode + " ";
-  const url = `https://${SHOPIFY_DOMAIN}/products/${product.handle}`;
+  const url = `/shop/${product.handle}`;
 
   return (
-    <motion.a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
+    <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: (index % 3) * 0.08 }}
-      className="group border-b border-r border-paper/10 relative block"
+      className="group border-b border-r border-paper/10 relative"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
     >
+      <Link to="/shop/$handle" params={{ handle: product.handle }} className="block">
       <div className="aspect-[4/5] relative overflow-hidden bg-gradient-to-br from-forest/30 to-ink">
         {images[0] && (
           <img
