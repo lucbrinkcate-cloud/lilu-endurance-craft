@@ -164,6 +164,11 @@ function ProductTile({ product, index }: { product: ShopifyProduct; index: numbe
           View →
         </div>
       </div>
-    </motion.a>
+      </Link>
+    </motion.div>
   );
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const _unused_url = (h: string) => `/shop/${h}`;
+void _unused_url;
+
