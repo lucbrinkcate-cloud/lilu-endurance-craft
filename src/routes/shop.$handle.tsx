@@ -132,8 +132,8 @@ export const Route = createFileRoute("/shop/$handle")({
 });
 
 function ProductPage() {
-  const { product } = Route.useLoaderData();
-  const variants = product.variants.edges.map((e) => e.node);
+  const { product } = Route.useLoaderData() as { product: ShopifyProduct };
+  const variants: Variant[] = product.variants.edges.map((e) => e.node);
   const images = product.images.edges.map((e) => e.node);
 
   // Find first option (usually Size) for selection
