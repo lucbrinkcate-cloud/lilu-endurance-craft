@@ -425,7 +425,7 @@ function ProductPage() {
             </Link>
           </div>
           <div className="grid md:grid-cols-2 gap-px bg-paper/10 border border-paper/10">
-            {journal.map((s) => (
+            {journal.map((s: { slug: string; chapter: string; title: string; excerpt: string; minutes: number }) => (
               <Link
                 key={s.slug}
                 to="/journal/$slug"
