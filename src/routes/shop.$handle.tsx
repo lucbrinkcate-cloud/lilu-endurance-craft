@@ -119,7 +119,7 @@ export const Route = createFileRoute("/shop/$handle")({
   ),
   head: ({ loaderData }) => {
     const p = loaderData?.product;
-    const title = p ? `${p.name ?? p.title} — LILU` : "LILU Shop";
+    const title = p ? `${p.title} — LILU` : "LILU Shop";
     return {
       meta: [
         { title },
