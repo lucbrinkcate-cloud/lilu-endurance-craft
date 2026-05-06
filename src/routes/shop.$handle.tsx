@@ -89,7 +89,7 @@ function formatCheckoutUrl(checkoutUrl: string): string {
 }
 
 export const Route = createFileRoute("/shop/$handle")({
-  loader: async ({ params }) => {
+  loader: async ({ params }): Promise<{ product: ShopifyProduct }> => {
     const data = await storefront<{ productByHandle: ShopifyProduct | null }>(
       PRODUCT_QUERY,
       { handle: params.handle },
