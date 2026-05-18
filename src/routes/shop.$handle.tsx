@@ -225,14 +225,14 @@ function ProductPage() {
 
           <button
             ref={ctaRef}
-            onClick={handleBuyNow}
-            disabled={loading || !selectedVariant?.availableForSale}
+            onClick={handleAddToCart}
+            disabled={isLoading || !selectedVariant?.availableForSale}
             className="mt-8 w-full bg-paper text-ink font-mono text-xs uppercase tracking-[0.25em] py-5 hover:bg-sage transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading
-              ? "Opening checkout…"
+            {isLoading
+              ? "Adding…"
               : selectedVariant?.availableForSale
-              ? `Buy Now — ${price}`
+              ? `Add to Cart — ${price}`
               : "Sold out"}
           </button>
 
