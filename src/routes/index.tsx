@@ -1,8 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
-import heroImage from "@/assets/velonix-hero.png";
-import velonixLogo from "@/assets/velonix-logo.svg";
+import heroImage from "@/assets/velonix-hero.jpeg";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { NewsletterSection } from "@/components/NewsletterSection";
@@ -138,18 +137,7 @@ function Index() {
           <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-mist mb-4">
             Volume 04 — Spring Field Kit
           </div>
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <h1 className="sr-only">Velonix</h1>
-            <img
-              src={velonixLogo}
-              alt="Velonix"
-              className="w-[88vw] md:w-[64vw] max-w-[1100px] h-auto"
-            />
-          </motion.div>
+          <h1 className="sr-only">Velonix</h1>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
