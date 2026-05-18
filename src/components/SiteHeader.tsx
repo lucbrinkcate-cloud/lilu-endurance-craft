@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import velonixLogo from "@/assets/velonix-logo.svg";
+import { CartDrawer } from "@/components/CartDrawer";
 
 const NAV = [
   { to: "/shop", label: "Shop" },
@@ -35,9 +36,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
             </Link>
           ))}
         </nav>
-        <div className="font-mono text-[11px] uppercase tracking-[0.18em] text-paper">
-          Cart [0]
-        </div>
+        <CartDrawer />
       </div>
     </header>
   );

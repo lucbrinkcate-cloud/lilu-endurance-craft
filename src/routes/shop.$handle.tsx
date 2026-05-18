@@ -1,11 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { useEffect, useRef, useState } from "react";
-
-const SHOPIFY_DOMAIN = "velonix-engineered-endurance-9srdf.myshopify.com";
-const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_DOMAIN}/api/2025-07/graphql.json`;
-const SHOPIFY_STOREFRONT_TOKEN = "9c93ed0384d8d6c1d3a765633647f20b";
+import { useRef, useState } from "react";
+import { storefrontApiRequest, formatPrice } from "@/lib/shopify";
+import { useCartStore } from "@/stores/cartStore";
 
 type Variant = {
   id: string;
@@ -55,46 +53,18 @@ const PRODUCT_QUERY = `
   }
 `;
 
-const CART_CREATE = `
-  mutation cartCreate($input: CartInput!) {
-    cartCreate(input: $input) {
-      cart { id checkoutUrl }
-      userErrors { field message }
-    }
-  }
-`;
-
-async function storefront<T = unknown>(query: string, variables: Record<string, unknown> = {}): Promise<T | null> {
-  const res = await fetch(SHOPIFY_STOREFRONT_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Shopify-Storefront-Access-Token": SHOPIFY_STOREFRONT_TOKEN,
-    },
-    body: JSON.stringify({ query, variables }),
-  });
-  if (!res.ok) return null;
-  const data = await res.json();
-  return data.data as T;
+async function fetchProduct(handle: string): Promise<ShopifyProduct | null> {
+  const res = await storefrontApiRequest<{ productByHandle: ShopifyProduct | null }>(
+    PRODUCT_QUERY,
+    { handle },
+  );
+  return res?.data?.productByHandle ?? null;
 }
 
-function formatCheckoutUrl(checkoutUrl: string): string {
-  try {
-    const u = new URL(checkoutUrl);
-    u.searchParams.set("channel", "online_store");
-    return u.toString();
-  } catch {
-    return checkoutUrl;
-  }
-}
 
 export const Route = createFileRoute("/shop/$handle")({
   loader: async ({ params }): Promise<{ product: ShopifyProduct }> => {
-    const data = await storefront<{ productByHandle: ShopifyProduct | null }>(
-      PRODUCT_QUERY,
-      { handle: params.handle },
-    );
-    const product = data?.productByHandle;
+    const product = await fetchProduct(params.handle);
     if (!product) throw notFound();
     return { product };
   },
@@ -136,37 +106,32 @@ function ProductPage() {
   const variants: Variant[] = product.variants.edges.map((e) => e.node);
   const images = product.images.edges.map((e) => e.node);
 
-  // Find first option (usually Size) for selection
   const sizeOption = product.options.find((o) => /size/i.test(o.name)) ?? product.options[0];
   const initialVariant = variants.find((v) => v.availableForSale) ?? variants[0];
   const [selectedVariantId, setSelectedVariantId] = useState<string>(initialVariant?.id ?? "");
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? initialVariant;
   const [activeImage, setActiveImage] = useState(0);
-  const [loading, setLoading] = useState(false);
   const ctaRef = useRef<HTMLButtonElement | null>(null);
 
+  const addItem = useCartStore((s) => s.addItem);
+  const isLoading = useCartStore((s) => s.isLoading);
+
   const price = selectedVariant
-    ? `${selectedVariant.price.currencyCode === "EUR" ? "€" : selectedVariant.price.currencyCode + " "}${parseFloat(selectedVariant.price.amount).toFixed(0)}`
+    ? formatPrice(selectedVariant.price.amount, selectedVariant.price.currencyCode)
     : "—";
 
-  const handleBuyNow = async () => {
+  const handleAddToCart = async () => {
     if (!selectedVariant) return;
-    setLoading(true);
-    try {
-      const data = await storefront<{ cartCreate: { cart: { checkoutUrl: string } | null; userErrors: Array<{ message: string }> } }>(
-        CART_CREATE,
-        { input: { lines: [{ quantity: 1, merchandiseId: selectedVariant.id }] } },
-      );
-      const url = data?.cartCreate?.cart?.checkoutUrl;
-      if (url) {
-        window.open(formatCheckoutUrl(url), "_blank");
-      } else {
-        const msg = data?.cartCreate?.userErrors?.[0]?.message ?? "Could not start checkout.";
-        alert(msg);
-      }
-    } finally {
-      setLoading(false);
-    }
+    await addItem({
+      variantId: selectedVariant.id,
+      productHandle: product.handle,
+      productTitle: product.title,
+      variantTitle: selectedVariant.title,
+      imageUrl: images[0]?.url ?? null,
+      price: selectedVariant.price,
+      quantity: 1,
+      selectedOptions: selectedVariant.selectedOptions,
+    });
   };
 
   return (
@@ -260,14 +225,14 @@ function ProductPage() {
 
           <button
             ref={ctaRef}
-            onClick={handleBuyNow}
-            disabled={loading || !selectedVariant?.availableForSale}
+            onClick={handleAddToCart}
+            disabled={isLoading || !selectedVariant?.availableForSale}
             className="mt-8 w-full bg-paper text-ink font-mono text-xs uppercase tracking-[0.25em] py-5 hover:bg-sage transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading
-              ? "Opening checkout…"
+            {isLoading
+              ? "Adding…"
               : selectedVariant?.availableForSale
-              ? `Buy Now — ${price}`
+              ? `Add to Cart — ${price}`
               : "Sold out"}
           </button>
 
