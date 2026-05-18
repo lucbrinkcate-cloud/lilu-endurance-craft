@@ -64,11 +64,7 @@ async function fetchProduct(handle: string): Promise<ShopifyProduct | null> {
 
 export const Route = createFileRoute("/shop/$handle")({
   loader: async ({ params }): Promise<{ product: ShopifyProduct }> => {
-    const data = await storefront<{ productByHandle: ShopifyProduct | null }>(
-      PRODUCT_QUERY,
-      { handle: params.handle },
-    );
-    const product = data?.productByHandle;
+    const product = await fetchProduct(params.handle);
     if (!product) throw notFound();
     return { product };
   },
@@ -110,37 +106,32 @@ function ProductPage() {
   const variants: Variant[] = product.variants.edges.map((e) => e.node);
   const images = product.images.edges.map((e) => e.node);
 
-  // Find first option (usually Size) for selection
   const sizeOption = product.options.find((o) => /size/i.test(o.name)) ?? product.options[0];
   const initialVariant = variants.find((v) => v.availableForSale) ?? variants[0];
   const [selectedVariantId, setSelectedVariantId] = useState<string>(initialVariant?.id ?? "");
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? initialVariant;
   const [activeImage, setActiveImage] = useState(0);
-  const [loading, setLoading] = useState(false);
   const ctaRef = useRef<HTMLButtonElement | null>(null);
 
+  const addItem = useCartStore((s) => s.addItem);
+  const isLoading = useCartStore((s) => s.isLoading);
+
   const price = selectedVariant
-    ? `${selectedVariant.price.currencyCode === "EUR" ? "€" : selectedVariant.price.currencyCode + " "}${parseFloat(selectedVariant.price.amount).toFixed(0)}`
+    ? formatPrice(selectedVariant.price.amount, selectedVariant.price.currencyCode)
     : "—";
 
-  const handleBuyNow = async () => {
+  const handleAddToCart = async () => {
     if (!selectedVariant) return;
-    setLoading(true);
-    try {
-      const data = await storefront<{ cartCreate: { cart: { checkoutUrl: string } | null; userErrors: Array<{ message: string }> } }>(
-        CART_CREATE,
-        { input: { lines: [{ quantity: 1, merchandiseId: selectedVariant.id }] } },
-      );
-      const url = data?.cartCreate?.cart?.checkoutUrl;
-      if (url) {
-        window.open(formatCheckoutUrl(url), "_blank");
-      } else {
-        const msg = data?.cartCreate?.userErrors?.[0]?.message ?? "Could not start checkout.";
-        alert(msg);
-      }
-    } finally {
-      setLoading(false);
-    }
+    await addItem({
+      variantId: selectedVariant.id,
+      productHandle: product.handle,
+      productTitle: product.title,
+      variantTitle: selectedVariant.title,
+      imageUrl: images[0]?.url ?? null,
+      price: selectedVariant.price,
+      quantity: 1,
+      selectedOptions: selectedVariant.selectedOptions,
+    });
   };
 
   return (
