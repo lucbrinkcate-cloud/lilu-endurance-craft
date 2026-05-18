@@ -1,101 +1,63 @@
+## Goal
 
+Keep customers on the Velonix site while browsing, then send them to Shopify's secure checkout when they're ready to pay. Replace the current one-shot "Buy Now" flow with a real cart that holds multiple items across pages and sessions.
 
-# Homepage Visual Animations — Lab/Engineering Theme
+## What changes for the user
 
-Bring the homepage manifesto to life with text-synced visual animations. Each pillar (Born on the long road, Fabrics that hold the line, Cut for the position you actually ride, Engineered to be mending, Discomfort is a metric) gets its own custom inline SVG animation that fires when scrolled into view.
+- **Shop page** (`/shop`): each product tile gets a quick **Add to Cart** button (size still picked on the detail page when there are variants). Clicking the tile still opens the Velonix product page.
+- **Product page** (`/shop/[handle]`): "Buy Now" becomes **Add to Cart**. After adding, a small cart drawer slides in from the right confirming the item.
+- **Header**: the current "Cart [0]" placeholder becomes a real cart icon with a live item count. Clicking it opens the cart drawer from any page.
+- **Cart drawer**: shows each item (image, title, size, price), lets the customer change quantity or remove items, shows the subtotal, and has one big **Checkout with Shopify** button that opens Shopify's secure checkout in a new tab.
+- **After checkout**: when the customer comes back to the tab, the cart auto-clears if the order completed on Shopify.
 
-## Approach (Best Option)
+## What changes under the hood
 
-**Inline animated SVGs + scroll-triggered reveals** — not Lottie, not video, not stock images.
+1. **Cart state store** (`src/stores/cartStore.ts`, new file using Zustand)
+   - Holds `items`, `cartId`, `checkoutUrl`, plus `isLoading` / `isSyncing` flags.
+   - Persists to `localStorage` so the cart survives refresh.
+   - Talks to Shopify's Storefront API via four mutations: `cartCreate`, `cartLinesAdd`, `cartLinesUpdate`, `cartLinesRemove`. First add creates the cart; later adds/updates/removes hit the existing cart.
+   - Clears itself automatically if Shopify reports "cart not found" (e.g. after checkout completes).
 
-Why this approach:
-- **Zero dependencies, zero asset weight** — SVGs are inline, animated with CSS/SMIL, render instantly with no network requests
-- **On-brand** — matches the existing "technical editorial / lab notebook" aesthetic (mono font, ink/paper palette) better than photography or stock illustrations
-- **Crisp at any size** — vector, retina-perfect, scales with the viewport
-- **Synced to text** — each visual is custom-drawn for its specific line, not generic decoration
-- **Fast** — no JS animation library, just IntersectionObserver + CSS keyframes already in `styles.css`
+2. **Shopify API helper** (`src/lib/shopify.ts`, new file)
+   - Centralises the existing `SHOPIFY_DOMAIN`, `SHOPIFY_STOREFRONT_URL`, `SHOPIFY_STOREFRONT_TOKEN` constants currently duplicated in `shop.tsx` and `shop.$handle.tsx`.
+   - Exports a single `storefrontApiRequest(query, variables)` helper used by the store and the existing fetches.
+   - Always appends `channel=online_store` to the checkout URL so checkout works even on a password-protected dev store.
 
-Alternative considered: Lottie (heavier, requires asset creation pipeline), looping video (heavy, distracting), Framer Motion variants (overkill for this).
+3. **Cart drawer component** (`src/components/CartDrawer.tsx`, new file)
+   - Built with the existing shadcn `Sheet` primitive so the styling matches the site.
+   - Trigger lives in `SiteHeader.tsx` (replaces the static "Cart [0]" text) and shows a live count badge.
+   - Checkout button uses `window.open(checkoutUrl, "_blank")`.
 
-## What Each Pillar Gets
+4. **Cart sync hook** (`src/hooks/useCartSync.ts`, new file)
+   - On page load and on tab `visibilitychange`, calls `syncCart()` to clear the local cart if Shopify says it no longer exists. This handles the "customer just finished checkout in the other tab" case.
+   - Mounted once inside `RootComponent` in `src/routes/__root.tsx`.
 
-```text
-"Born on the long road"
-  → Animated topographic contour lines drawing themselves across a horizon,
-    with a small bike silhouette tracing the longest contour
-    (stroke-dasharray draw-on animation)
+5. **Wire up product pages**
+   - `src/routes/shop.$handle.tsx`: replace `handleBuyNow` and `CART_CREATE` mutation with `useCartStore().addItem(...)`. Keep the size selector and trust badges as-is.
+   - `src/routes/shop.tsx`: keep the tile linking to `/shop/[handle]`; optionally add a small "Add" button on tiles for products that have a single variant.
 
-"Fabrics that hold the line"
-  → Woven fabric grid that builds thread-by-thread (warp lines draw left→right,
-    weft lines draw top→bottom in sequence), then a subtle tension pulse
+6. **Header update**
+   - `src/components/SiteHeader.tsx`: replace the `Cart [0]` `<div>` with `<CartDrawer />` (icon + badge). Same colours/typography as the rest of the header.
 
-"Cut for the position you actually ride"
-  → Technical pattern-piece schematic of a jersey with measurement lines,
-    annotation callouts (e.g. "back drop +3cm", "sleeve +12mm") that type in
-    one by one, like a tailor's draft
+## Files touched
 
-"Engineered to be mending"
-  → A torn fabric edge that stitches itself back together
-    (dashed stitch line draws across the tear, then the two halves nudge
-    closer)
+| File | Change |
+|---|---|
+| `src/lib/shopify.ts` | new — shared Storefront API helper + constants |
+| `src/stores/cartStore.ts` | new — Zustand cart with Shopify sync |
+| `src/components/CartDrawer.tsx` | new — slide-out cart UI |
+| `src/hooks/useCartSync.ts` | new — clear cart after checkout |
+| `src/components/SiteHeader.tsx` | swap placeholder for cart drawer trigger |
+| `src/routes/__root.tsx` | mount `useCartSync` |
+| `src/routes/shop.$handle.tsx` | "Buy Now" → "Add to Cart" via store |
+| `src/routes/shop.tsx` | optional add-to-cart on single-variant tiles, use shared helper |
 
-"Discomfort is a metric"
-  → A live-style data graph (heart rate / power curve) that draws across
-    the panel with a moving readout dot and ticking numeric counter
-    (e.g. watts: 0 → 287)
-```
+## Dependency
 
-## Technical Implementation
+- `zustand` (small state library, ~1 KB) — needs to be installed.
 
-**New component**: `src/components/AnimatedPillar.tsx`
-- Wraps each pillar's text + SVG visual
-- Uses `IntersectionObserver` to add an `.in-view` class when ≥30% visible
-- Animations only play once (no re-triggering on scroll up)
-- Respects `prefers-reduced-motion` — falls back to static final-state SVG
+## Out of scope
 
-**New component**: `src/components/pillar-visuals/` (5 small SVG components)
-- `ContourMap.tsx`, `WovenGrid.tsx`, `JerseySchematic.tsx`, `StitchRepair.tsx`, `PowerGraph.tsx`
-- Each is a self-contained inline SVG with CSS animations targeting `.in-view` parent
-- Drawn in `--paper` / `--mist` strokes on `--ink` background to match existing palette
-
-**CSS additions** in `src/styles.css`:
-- `@keyframes draw-stroke` (stroke-dashoffset 1000 → 0) for line-drawing
-- `@keyframes count-up`, `@keyframes stitch`, `@keyframes weave` for specific effects
-- `.in-view .draw-line { animation: draw-stroke 1.6s ease-out forwards; }` pattern
-- All animations respect `@media (prefers-reduced-motion: reduce)`
-
-**Homepage edit** in `src/routes/index.tsx`:
-- Locate the existing manifesto/pillars section
-- Restructure to a 2-column grid per pillar (text left, SVG visual right; alternating on every other pillar for visual rhythm)
-- Wrap each in `<AnimatedPillar visual={<ContourMap />} />`
-
-**Performance**:
-- All SVGs inline, total added weight ~6-8 KB
-- IntersectionObserver is native, no library
-- Animations are pure CSS (GPU-accelerated transforms/opacity where possible)
-
-## Rollout Plan
-
-**This turn — Homepage only** (the 5 pillars above).
-
-**Next turns — once you approve the homepage feel**, we extend the same pattern to:
-- `/about` — animated timeline of the brand story, lab-notebook style margin sketches
-- `/sustainability` — material-flow diagram, lifecycle loop animation
-- `/shop` — subtle hover micro-interactions on product cards (fabric weave reveal)
-- `/journal` — typewriter-style headline reveal, ink-bleed entry transitions
-- `/custom-kit` — animated logo-to-jersey transformation in the hero
-- `/contact` — paper-airplane send animation on form submit
-
-Each page reuses the same `AnimatedPillar` + IntersectionObserver pattern, so no new infrastructure needed after this turn.
-
-## Files to Create/Edit
-
-- Create `src/components/AnimatedPillar.tsx`
-- Create `src/components/pillar-visuals/ContourMap.tsx`
-- Create `src/components/pillar-visuals/WovenGrid.tsx`
-- Create `src/components/pillar-visuals/JerseySchematic.tsx`
-- Create `src/components/pillar-visuals/StitchRepair.tsx`
-- Create `src/components/pillar-visuals/PowerGraph.tsx`
-- Edit `src/styles.css` (add keyframes + reduced-motion guard)
-- Edit `src/routes/index.tsx` (wire up the 5 pillars with their visuals)
-
+- No design changes to the existing shop/PDP layout.
+- No new Shopify admin work (uses the products already in your store).
+- No payment handling on our side — Shopify owns the checkout, payment, taxes, shipping, and order confirmation emails, same as today.
