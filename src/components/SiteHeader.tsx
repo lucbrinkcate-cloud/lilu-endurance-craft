@@ -15,7 +15,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
     <header
       className={
         overlay
-          ? "fixed top-0 left-0 right-0 z-50 mix-blend-difference"
+          ? "fixed top-10 left-0 right-0 z-50 mix-blend-difference"
           : "sticky top-0 z-50 bg-ink/95 backdrop-blur border-b border-paper/10"
       }
     >
