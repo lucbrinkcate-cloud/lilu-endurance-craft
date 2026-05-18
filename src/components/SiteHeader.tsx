@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import velonixLogo from "@/assets/velonix-logo.svg";
 
 const NAV = [
   { to: "/shop", label: "Shop" },
