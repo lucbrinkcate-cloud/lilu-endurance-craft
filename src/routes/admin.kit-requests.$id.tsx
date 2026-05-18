@@ -11,10 +11,10 @@ import {
 
 export const Route = createFileRoute("/admin/kit-requests/$id")({
   component: AdminDetailPage,
-  head: () => ({ meta: [{ title: "Kit Request — LILU Admin" }] }),
+  head: () => ({ meta: [{ title: "Kit Request — VELONIX Admin" }] }),
 });
 
-const PW_KEY = "lilu-admin-pw";
+const PW_KEY = "velonix-admin-pw";
 
 function AdminDetailPage() {
   const navigate = useNavigate();

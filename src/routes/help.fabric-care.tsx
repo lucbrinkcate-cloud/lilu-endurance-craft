@@ -6,9 +6,9 @@ export const Route = createFileRoute("/help/fabric-care")({
   component: FabricCarePage,
   head: () => ({
     meta: [
-      { title: "Fabric Care — LILU" },
+      { title: "Fabric Care — VELONIX" },
       { name: "description", content: "How to wash, dry, and store technical cycling apparel so it lasts a decade, not a season." },
-      { property: "og:title", content: "Fabric Care — LILU" },
+      { property: "og:title", content: "Fabric Care — VELONIX" },
       { property: "og:description", content: "Wash, dry, and store technical apparel so it lasts." },
     ],
   }),
@@ -56,8 +56,8 @@ function FabricCarePage() {
             Crashed it?
           </div>
           <p className="text-sm leading-relaxed text-mist">
-            Don't bin it. Lifetime crash repair is included on every LILU piece — patch, re-stitch, or panel replace at cost. Email{" "}
-            <a className="text-paper underline" href="mailto:repair@lilucycling.com">repair@lilucycling.com</a>.
+            Don't bin it. Lifetime crash repair is included on every VELONIX piece — patch, re-stitch, or panel replace at cost. Email{" "}
+            <a className="text-paper underline" href="mailto:repair@velonix.cc">repair@velonix.cc</a>.
           </p>
         </div>
       </section>

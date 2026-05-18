@@ -62,7 +62,7 @@ export const Route = createFileRoute("/journal/$slug")({
   ),
   head: ({ params }) => {
     const s = STORIES[params.slug];
-    const title = s ? `${s.title} — LILU Journal` : "LILU Journal";
+    const title = s ? `${s.title} — VELONIX Journal` : "VELONIX Journal";
     return {
       meta: [
         { title },

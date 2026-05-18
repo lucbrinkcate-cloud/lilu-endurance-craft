@@ -6,10 +6,10 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
   head: () => ({
     meta: [
-      { title: "Contact — LILU" },
+      { title: "Contact — VELONIX" },
       { name: "description", content: "Outposts, press, wholesale, community. Get in touch." },
-      { property: "og:title", content: "Contact — LILU" },
-      { property: "og:description", content: "Get in touch with LILU." },
+      { property: "og:title", content: "Contact — VELONIX" },
+      { property: "og:description", content: "Get in touch with VELONIX." },
     ],
   }),
 });
@@ -21,10 +21,10 @@ const OUTPOSTS = [
 ];
 
 const CHANNELS = [
-  { k: "General", v: "hello@lilu.cc" },
-  { k: "Press", v: "press@lilu.cc" },
-  { k: "Wholesale", v: "wholesale@lilu.cc" },
-  { k: "Community", v: "rides@lilu.cc" },
+  { k: "General", v: "hello@velonix.cc" },
+  { k: "Press", v: "press@velonix.cc" },
+  { k: "Wholesale", v: "wholesale@velonix.cc" },
+  { k: "Community", v: "rides@velonix.cc" },
 ];
 
 function ContactPage() {

@@ -6,9 +6,9 @@ export const Route = createFileRoute("/help/shipping-returns")({
   component: ShippingReturnsPage,
   head: () => ({
     meta: [
-      { title: "Shipping & Returns — LILU" },
-      { name: "description", content: "Free EU shipping over €150, worldwide delivery, 60-day returns and lifetime crash repair on every LILU kit." },
-      { property: "og:title", content: "Shipping & Returns — LILU" },
+      { title: "Shipping & Returns — VELONIX" },
+      { name: "description", content: "Free EU shipping over €150, worldwide delivery, 60-day returns and lifetime crash repair on every VELONIX kit." },
+      { property: "og:title", content: "Shipping & Returns — VELONIX" },
       { property: "og:description", content: "Free EU shipping over €150, 60-day returns, lifetime crash repair." },
     ],
   }),
@@ -41,11 +41,11 @@ function ShippingReturnsPage() {
           <p>Free return labels for EU. Outside EU: return shipping at your cost, refund processed within 5 working days of arrival.</p>
         </Block>
         <Block label="03 / Exchanges" title="Sized wrong? On us">
-          <p>Free size exchanges within EU, both ways. Email service@lilucycling.com with your order number and we ship the new size before the old one leaves you.</p>
+          <p>Free size exchanges within EU, both ways. Email service@velonix.cc with your order number and we ship the new size before the old one leaves you.</p>
         </Block>
         <Block label="04 / Lifetime Crash Repair" title="Built to be mended">
           <p>Crashed in your kit? Send it back. We patch, re-stitch, or replace panels at cost — for as long as you ride it.</p>
-          <p>Submit a repair at <a className="text-sage underline" href="mailto:repair@lilucycling.com">repair@lilucycling.com</a>.</p>
+          <p>Submit a repair at <a className="text-sage underline" href="mailto:repair@velonix.cc">repair@velonix.cc</a>.</p>
         </Block>
       </section>
 

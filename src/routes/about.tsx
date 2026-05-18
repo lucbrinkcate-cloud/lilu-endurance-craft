@@ -6,10 +6,10 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
   head: () => ({
     meta: [
-      { title: "About — LILU" },
-      { name: "description", content: "Mission, mandate, and the people who built LILU." },
-      { property: "og:title", content: "About — LILU" },
-      { property: "og:description", content: "The mandate behind LILU." },
+      { title: "About — VELONIX" },
+      { name: "description", content: "Mission, mandate, and the people who built VELONIX." },
+      { property: "og:title", content: "About — VELONIX" },
+      { property: "og:description", content: "The mandate behind VELONIX." },
     ],
   }),
 });
@@ -35,7 +35,7 @@ function AboutPage() {
           <span className="text-sage">a long road.</span>
         </h1>
         <p className="mt-10 max-w-2xl text-lg text-mist leading-relaxed">
-          LILU is a cycling apparel studio founded in 2021. We design, prototype, and ride out of a converted warehouse in Ghent. Everything we make is engineered for continuous endurance — and for the lives of the riders who wear it.
+          VELONIX is a cycling apparel studio founded in 2021. We design, prototype, and ride out of a converted warehouse in Ghent. Everything we make is engineered for continuous endurance — and for the lives of the riders who wear it.
         </p>
       </section>
 

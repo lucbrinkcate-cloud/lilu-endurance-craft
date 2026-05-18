@@ -278,7 +278,7 @@ export const approveKitRequest = createServerFn({ method: "POST" })
     if (!selected) throw new Error("No selected design on request");
 
     // Create Shopify product via Admin API
-    const shop = "lilu-engineered-endurance-9srdf.myshopify.com";
+    const shop = "velonix-engineered-endurance-9srdf.myshopify.com";
     const token = process.env.SHOPIFY_ACCESS_TOKEN;
     if (!token) throw new Error("SHOPIFY_ACCESS_TOKEN not configured");
 
@@ -287,7 +287,7 @@ export const approveKitRequest = createServerFn({ method: "POST" })
       product: {
         title: `Custom Kit — ${req.club_name}`,
         body_html: `<p>One-off custom kit for ${req.club_name}. Approved design.</p>`,
-        vendor: "LILU",
+        vendor: "VELONIX",
         product_type: "Custom Kit",
         tags: "custom-kit, hidden",
         status: "active",

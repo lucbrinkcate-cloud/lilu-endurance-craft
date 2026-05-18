@@ -11,7 +11,7 @@ export const Route = createFileRoute("/custom-kit/status/$requestId")({
   },
   head: () => ({
     meta: [
-      { title: "Kit Request Status — LILU" },
+      { title: "Kit Request Status — VELONIX" },
       { name: "description", content: "Track your custom kit request." },
     ],
   }),
@@ -115,18 +115,18 @@ function StatusPage() {
               rel="noopener noreferrer"
               className="inline-block mt-6 font-mono text-[11px] uppercase tracking-[0.25em] px-6 py-3 bg-sage text-ink hover:bg-mist transition-colors"
             >
-              Order on LILU Shop
+              Order on VELONIX Shop
             </a>
           )}
           {request.status === "pending" && (
             <p className="text-mist">
-              We've received your request. You'll get an email from LILU once we've reviewed your
+              We've received your request. You'll get an email from VELONIX once we've reviewed your
               design.
             </p>
           )}
           {request.status === "rejected" && (
             <p className="text-mist">
-              This request wasn't approved. Reach out to atelier@lilu.cc for next steps.
+              This request wasn't approved. Reach out to atelier@velonix.cc for next steps.
             </p>
           )}
         </div>

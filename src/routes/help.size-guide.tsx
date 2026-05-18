@@ -6,9 +6,9 @@ export const Route = createFileRoute("/help/size-guide")({
   component: SizeGuidePage,
   head: () => ({
     meta: [
-      { title: "Size Guide — LILU" },
+      { title: "Size Guide — VELONIX" },
       { name: "description", content: "Race-cut sizing for jerseys, bibs, and outerwear. Measurements in cm, with rider-tested fit notes." },
-      { property: "og:title", content: "Size Guide — LILU" },
+      { property: "og:title", content: "Size Guide — VELONIX" },
       { property: "og:description", content: "Race-cut sizing for jerseys, bibs, and outerwear." },
     ],
   }),
@@ -44,7 +44,7 @@ function SizeGuidePage() {
           Size Guide.
         </h1>
         <p className="mt-6 max-w-xl text-mist font-mono text-sm leading-relaxed">
-          LILU is cut race. Measure on bare skin, exhale, do not pull tight. Between sizes? Size down for race feel, up for endurance.
+          VELONIX is cut race. Measure on bare skin, exhale, do not pull tight. Between sizes? Size down for race feel, up for endurance.
         </p>
       </section>
 
@@ -69,7 +69,7 @@ function SizeGuidePage() {
         </div>
 
         <p className="mt-16 font-mono text-xs uppercase tracking-[0.25em] text-mist">
-          Still unsure? Email <a className="text-sage underline" href="mailto:fit@lilucycling.com">fit@lilucycling.com</a> with your measurements — we reply within 24h.
+          Still unsure? Email <a className="text-sage underline" href="mailto:fit@velonix.cc">fit@velonix.cc</a> with your measurements — we reply within 24h.
         </p>
       </section>
 

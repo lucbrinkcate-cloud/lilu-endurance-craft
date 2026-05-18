@@ -7,23 +7,23 @@ export const Route = createFileRoute("/help/faq")({
   component: FaqPage,
   head: () => ({
     meta: [
-      { title: "FAQ — LILU" },
+      { title: "FAQ — VELONIX" },
       { name: "description", content: "Answers on sizing, fabrics, shipping, returns, custom kits and lifetime crash repair." },
-      { property: "og:title", content: "FAQ — LILU" },
+      { property: "og:title", content: "FAQ — VELONIX" },
       { property: "og:description", content: "Answers on sizing, fabrics, shipping, returns, custom kits and lifetime crash repair." },
     ],
   }),
 });
 
 const FAQS: { cat: string; q: string; a: string }[] = [
-  { cat: "Fit", q: "How does LILU sizing run?", a: "Race cut. Sized for hour-five geometry, not the café. Between sizes? Size up for endurance, down for race. See the full size guide for cm tables." },
-  { cat: "Fit", q: "Can I exchange for a different size?", a: "Yes. Free size exchanges within EU, both ways. Email service@lilucycling.com — we ship the new size before the old one leaves you." },
+  { cat: "Fit", q: "How does VELONIX sizing run?", a: "Race cut. Sized for hour-five geometry, not the café. Between sizes? Size up for endurance, down for race. See the full size guide for cm tables." },
+  { cat: "Fit", q: "Can I exchange for a different size?", a: "Yes. Free size exchanges within EU, both ways. Email service@velonix.cc — we ship the new size before the old one leaves you." },
   { cat: "Material", q: "What fabrics do you use?", a: "Recycled Italian knits, PFC-free DWR finishes, merino blends spun for thermal honesty. Every spec is on the product page." },
-  { cat: "Material", q: "Are LILU pieces vegan?", a: "Outerwear, jerseys and bibs — yes. Merino base layers contain ethically sourced wool (mulesing-free, ZQ-certified)." },
+  { cat: "Material", q: "Are VELONIX pieces vegan?", a: "Outerwear, jerseys and bibs — yes. Merino base layers contain ethically sourced wool (mulesing-free, ZQ-certified)." },
   { cat: "Care", q: "Can I tumble dry?", a: "Never. Tumble drying destroys elastic memory and PFC-free DWR. Always air-dry flat." },
   { cat: "Shipping", q: "Do you ship worldwide?", a: "Yes — DHL Express, 3–7 working days. Duties prepaid for US, UK, CH, NO, AU, CA. Free EU shipping over €150." },
   { cat: "Returns", q: "How long is the return window?", a: "60 days. Riding it once on the road is fine — we trust you. Free EU returns; outside EU, return shipping at your cost." },
-  { cat: "Repair", q: "What is lifetime crash repair?", a: "Crashed in your kit? Send it back. We patch, re-stitch, or panel-replace at cost — for as long as you ride it. Email repair@lilucycling.com." },
+  { cat: "Repair", q: "What is lifetime crash repair?", a: "Crashed in your kit? Send it back. We patch, re-stitch, or panel-replace at cost — for as long as you ride it. Email repair@velonix.cc." },
   { cat: "Custom", q: "Can I order custom team kit?", a: "Yes. Use the Design Your Kit tool to brief a custom kit — minimum order 6 pieces, 4-week production, full crash repair included." },
 ];
 
@@ -45,7 +45,7 @@ function FaqPage() {
         </h1>
         <p className="mt-6 max-w-xl text-mist font-mono text-sm leading-relaxed">
           The questions we get most. Can't find yours? Email{" "}
-          <a className="text-sage underline" href="mailto:service@lilucycling.com">service@lilucycling.com</a>.
+          <a className="text-sage underline" href="mailto:service@velonix.cc">service@velonix.cc</a>.
         </p>
       </section>
 

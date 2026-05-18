@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const SHOPIFY_DOMAIN = "lilu-engineered-endurance-9srdf.myshopify.com";
+const SHOPIFY_DOMAIN = "velonix-engineered-endurance-9srdf.myshopify.com";
 const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_DOMAIN}/api/2025-07/graphql.json`;
 const SHOPIFY_STOREFRONT_TOKEN = "9c93ed0384d8d6c1d3a765633647f20b";
 
@@ -20,7 +20,7 @@ type ShopifyProduct = {
 
 const PRODUCTS_QUERY = `
   query {
-    products(first: 50, query: "vendor:LILU") {
+    products(first: 50, query: "vendor:VELONIX") {
       edges {
         node {
           id
@@ -54,9 +54,9 @@ export const Route = createFileRoute("/shop")({
   component: ShopPage,
   head: () => ({
     meta: [
-      { title: "Shop — LILU" },
+      { title: "Shop — VELONIX" },
       { name: "description", content: "Cycling apparel engineered for continuous endurance." },
-      { property: "og:title", content: "Shop — LILU" },
+      { property: "og:title", content: "Shop — VELONIX" },
       { property: "og:description", content: "Cycling apparel engineered for continuous endurance." },
     ],
   }),
@@ -148,7 +148,7 @@ function ProductTile({ product, index }: { product: ShopifyProduct; index: numbe
         )}
 
         <div className="absolute top-4 left-4 right-4 flex items-start justify-between font-mono text-[10px] uppercase tracking-[0.25em] text-paper mix-blend-difference">
-          <span>{product.productType || "LILU"}</span>
+          <span>{product.productType || "VELONIX"}</span>
           <span>{currency}{price}</span>
         </div>
       </div>
