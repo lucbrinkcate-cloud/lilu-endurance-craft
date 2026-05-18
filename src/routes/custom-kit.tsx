@@ -11,16 +11,16 @@ export const Route = createFileRoute("/custom-kit")({
   component: CustomKitPage,
   head: () => ({
     meta: [
-      { title: "Design Your Club Kit — LILU" },
+      { title: "Design Your Club Kit — VELONIX" },
       {
         name: "description",
         content:
-          "Upload your club logo and let LILU's design tool generate custom cycling kit mockups. No minimums.",
+          "Upload your club logo and let VELONIX's design tool generate custom cycling kit mockups. No minimums.",
       },
-      { property: "og:title", content: "Design Your Club Kit — LILU" },
+      { property: "og:title", content: "Design Your Club Kit — VELONIX" },
       {
         property: "og:description",
-        content: "Upload your logo, generate custom kit designs, order through LILU.",
+        content: "Upload your logo, generate custom kit designs, order through VELONIX.",
       },
     ],
   }),

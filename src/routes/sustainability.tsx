@@ -7,9 +7,9 @@ export const Route = createFileRoute("/sustainability")({
   component: SustainabilityPage,
   head: () => ({
     meta: [
-      { title: "Sustainability — LILU" },
+      { title: "Sustainability — VELONIX" },
       { name: "description", content: "Repair protocol, recycled materials, renewable energy, carbon-neutral roadmap." },
-      { property: "og:title", content: "Sustainability — LILU" },
+      { property: "og:title", content: "Sustainability — VELONIX" },
       { property: "og:description", content: "The operational mandate." },
     ],
   }),
@@ -23,7 +23,7 @@ const PILLARS = [
 ];
 
 const TIMELINE = [
-  { y: "2021", t: "LILU founded. First recycled-knit jersey." },
+  { y: "2021", t: "VELONIX founded. First recycled-knit jersey." },
   { y: "2023", t: "Crash repair programme launched." },
   { y: "2024", t: "100% renewable energy across operations." },
   { y: "2025", t: "92% recycled fibre threshold reached." },

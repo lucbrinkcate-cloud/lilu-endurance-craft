@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { useEffect, useRef, useState } from "react";
 
-const SHOPIFY_DOMAIN = "lilu-engineered-endurance-9srdf.myshopify.com";
+const SHOPIFY_DOMAIN = "velonix-engineered-endurance-9srdf.myshopify.com";
 const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_DOMAIN}/api/2025-07/graphql.json`;
 const SHOPIFY_STOREFRONT_TOKEN = "9c93ed0384d8d6c1d3a765633647f20b";
 
@@ -119,11 +119,11 @@ export const Route = createFileRoute("/shop/$handle")({
   ),
   head: ({ loaderData }) => {
     const p = loaderData?.product;
-    const title = p ? `${p.title} — LILU` : "LILU Shop";
+    const title = p ? `${p.title} — VELONIX` : "VELONIX Shop";
     return {
       meta: [
         { title },
-        { name: "description", content: p?.description ?? "LILU cycling apparel." },
+        { name: "description", content: p?.description ?? "VELONIX cycling apparel." },
         { property: "og:title", content: title },
         { property: "og:description", content: p?.description ?? "" },
       ],
@@ -213,7 +213,7 @@ function ProductPage() {
         {/* Info */}
         <div className="px-6 md:px-12 py-16 lg:sticky lg:top-20 lg:h-fit">
           <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-sage mb-4">
-            {product.productType || "LILU"}
+            {product.productType || "VELONIX"}
           </div>
           <h1 className="font-display text-5xl md:text-7xl leading-[0.9] tracking-tighter">
             {product.title}

@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
-import heroImage from "@/assets/lilu-hero.png";
+import heroImage from "@/assets/velonix-hero.png";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { NewsletterSection } from "@/components/NewsletterSection";
@@ -16,13 +16,13 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "LILU — Engineered for Continuous Endurance" },
+      { title: "VELONIX — Engineered for Continuous Endurance" },
       {
         name: "description",
         content:
-          "LILU. Cycling apparel engineered for continuous endurance. Editorial cuts, technical fabrics, built for the long road.",
+          "VELONIX. Cycling apparel engineered for continuous endurance. Editorial cuts, technical fabrics, built for the long road.",
       },
-      { property: "og:title", content: "LILU — Engineered for Continuous Endurance" },
+      { property: "og:title", content: "VELONIX — Engineered for Continuous Endurance" },
       {
         property: "og:description",
         content: "Cycling apparel engineered for the long road. Editorial cuts, technical fabrics.",
@@ -57,7 +57,7 @@ const CHAPTERS: Array<{
     kicker: "Origin",
     title: "Born on the long road.",
     body:
-      "LILU was forged in the slow grind of pre-dawn climbs and the silence between watts. Every seam is a notebook entry from a ride that hurt.",
+      "VELONIX was forged in the slow grind of pre-dawn climbs and the silence between watts. Every seam is a notebook entry from a ride that hurt.",
     media: { type: "video", src: bornVideo },
   },
   {
@@ -124,7 +124,7 @@ function Index() {
         >
           <img
             src={heroImage}
-            alt="LILU cycling lineup at the edge of a forest road"
+            alt="VELONIX cycling lineup at the edge of a forest road"
             className="h-full w-full object-cover animate-ken-burns"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/10 to-ink" />
@@ -143,7 +143,7 @@ function Index() {
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
             className="font-display text-[22vw] md:text-[16vw] leading-[0.85] tracking-tighter text-paper"
           >
-            LILU
+            VELONIX
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -238,7 +238,7 @@ function Index() {
 
         <div className="px-6 md:px-10 pt-24 pb-12 max-w-6xl">
           <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-sage mb-6">
-            Chapters / The LILU Index
+            Chapters / The VELONIX Index
           </div>
           <h2 className="font-display text-5xl md:text-8xl leading-[0.9] tracking-tighter">
             Four notes from

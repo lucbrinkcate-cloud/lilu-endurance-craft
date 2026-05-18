@@ -6,10 +6,10 @@ import { listKitRequests, verifyAdminPassword } from "@/server/kit-requests.func
 
 export const Route = createFileRoute("/admin/kit-requests")({
   component: AdminListPage,
-  head: () => ({ meta: [{ title: "Admin · Kit Requests — LILU" }] }),
+  head: () => ({ meta: [{ title: "Admin · Kit Requests — VELONIX" }] }),
 });
 
-const PW_KEY = "lilu-admin-pw";
+const PW_KEY = "velonix-admin-pw";
 const STATUSES = ["all", "pending", "approved", "rejected", "ordered"] as const;
 
 function AdminListPage() {

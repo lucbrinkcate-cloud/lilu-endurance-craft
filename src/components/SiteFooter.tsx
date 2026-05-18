@@ -28,7 +28,7 @@ export function SiteFooter() {
       <div className="px-6 md:px-10 py-16">
         <div className="grid md:grid-cols-5 gap-10 max-w-7xl">
           <div className="md:col-span-2">
-            <div className="font-display text-5xl text-paper">LILU</div>
+            <div className="font-display text-5xl text-paper">VELONIX</div>
             <div className="font-mono text-[11px] uppercase tracking-[0.25em] mt-3">
               Engineered for continuous endurance
             </div>
@@ -84,10 +84,10 @@ export function SiteFooter() {
               <li><Link to="/help/size-guide" className="hover:text-paper">Size Guide</Link></li>
               <li><Link to="/help/fabric-care" className="hover:text-paper">Fabric Care</Link></li>
               <li><Link to="/help/faq" className="hover:text-paper">FAQ</Link></li>
-              <li><a href="mailto:repair@lilucycling.com" className="hover:text-paper">Lifetime Repair</a></li>
+              <li><a href="mailto:repair@velonix.cc" className="hover:text-paper">Lifetime Repair</a></li>
               <li>
-                <a href="mailto:service@lilucycling.com" className="hover:text-paper">
-                  service@lilucycling.com
+                <a href="mailto:service@velonix.cc" className="hover:text-paper">
+                  service@velonix.cc
                 </a>
               </li>
             </ul>
@@ -117,7 +117,7 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-paper/10 flex flex-col md:flex-row justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-mist/60">
-          <span>© {new Date().getFullYear()} LILU Cycling Co. · Ghent, BE · BTW BE0XXX.XXX.XXX</span>
+          <span>© {new Date().getFullYear()} VELONIX Cycling Co. · Ghent, BE · BTW BE0XXX.XXX.XXX</span>
           <span>92% recycled · Carbon-neutral by 2027</span>
         </div>
       </div>

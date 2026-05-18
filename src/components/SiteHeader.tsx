@@ -20,7 +20,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
     >
       <div className="flex items-center justify-between px-6 md:px-10 py-5">
         <Link to="/" className="font-display text-lg tracking-tight text-paper">
-          LILU
+          VELONIX
         </Link>
         <nav className="hidden md:flex items-center gap-8 font-mono text-[11px] uppercase tracking-[0.18em] text-paper">
           {NAV.map((n) => (
