@@ -3,10 +3,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-
-const SHOPIFY_DOMAIN = "velonix-engineered-endurance-9srdf.myshopify.com";
-const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_DOMAIN}/api/2025-07/graphql.json`;
-const SHOPIFY_STOREFRONT_TOKEN = "9c93ed0384d8d6c1d3a765633647f20b";
+import { storefrontApiRequest } from "@/lib/shopify";
 
 type ShopifyProduct = {
   id: string;
@@ -37,18 +34,12 @@ const PRODUCTS_QUERY = `
 `;
 
 async function fetchProducts(): Promise<ShopifyProduct[]> {
-  const res = await fetch(SHOPIFY_STOREFRONT_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Shopify-Storefront-Access-Token": SHOPIFY_STOREFRONT_TOKEN,
-    },
-    body: JSON.stringify({ query: PRODUCTS_QUERY }),
-  });
-  if (!res.ok) return [];
-  const data = await res.json();
-  return (data?.data?.products?.edges ?? []).map((e: { node: ShopifyProduct }) => e.node);
+  const res = await storefrontApiRequest<{
+    products: { edges: Array<{ node: ShopifyProduct }> };
+  }>(PRODUCTS_QUERY);
+  return (res?.data?.products?.edges ?? []).map((e) => e.node);
 }
+
 
 export const Route = createFileRoute("/shop")({
   component: ShopPage,
