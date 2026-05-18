@@ -1,11 +1,9 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { useEffect, useRef, useState } from "react";
-
-const SHOPIFY_DOMAIN = "velonix-engineered-endurance-9srdf.myshopify.com";
-const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_DOMAIN}/api/2025-07/graphql.json`;
-const SHOPIFY_STOREFRONT_TOKEN = "9c93ed0384d8d6c1d3a765633647f20b";
+import { useRef, useState } from "react";
+import { storefrontApiRequest, formatPrice } from "@/lib/shopify";
+import { useCartStore } from "@/stores/cartStore";
 
 type Variant = {
   id: string;
@@ -55,38 +53,14 @@ const PRODUCT_QUERY = `
   }
 `;
 
-const CART_CREATE = `
-  mutation cartCreate($input: CartInput!) {
-    cartCreate(input: $input) {
-      cart { id checkoutUrl }
-      userErrors { field message }
-    }
-  }
-`;
-
-async function storefront<T = unknown>(query: string, variables: Record<string, unknown> = {}): Promise<T | null> {
-  const res = await fetch(SHOPIFY_STOREFRONT_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Shopify-Storefront-Access-Token": SHOPIFY_STOREFRONT_TOKEN,
-    },
-    body: JSON.stringify({ query, variables }),
-  });
-  if (!res.ok) return null;
-  const data = await res.json();
-  return data.data as T;
+async function fetchProduct(handle: string): Promise<ShopifyProduct | null> {
+  const res = await storefrontApiRequest<{ productByHandle: ShopifyProduct | null }>(
+    PRODUCT_QUERY,
+    { handle },
+  );
+  return res?.data?.productByHandle ?? null;
 }
 
-function formatCheckoutUrl(checkoutUrl: string): string {
-  try {
-    const u = new URL(checkoutUrl);
-    u.searchParams.set("channel", "online_store");
-    return u.toString();
-  } catch {
-    return checkoutUrl;
-  }
-}
 
 export const Route = createFileRoute("/shop/$handle")({
   loader: async ({ params }): Promise<{ product: ShopifyProduct }> => {
