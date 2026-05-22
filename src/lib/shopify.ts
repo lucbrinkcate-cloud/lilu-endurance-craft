@@ -1,4 +1,4 @@
-export const SHOPIFY_DOMAIN = "velonix-engineered-endurance-9srdf.myshopify.com";
+export const SHOPIFY_DOMAIN = "lilu-engineered-endurance-9srdf.myshopify.com";
 export const SHOPIFY_API_VERSION = "2025-07";
 export const SHOPIFY_STOREFRONT_URL = `https://${SHOPIFY_DOMAIN}/api/${SHOPIFY_API_VERSION}/graphql.json`;
 export const SHOPIFY_STOREFRONT_TOKEN = "9c93ed0384d8d6c1d3a765633647f20b";
