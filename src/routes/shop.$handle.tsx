@@ -253,7 +253,154 @@ function ProductPage() {
         </div>
       </div>
 
+      <ProductDetailSections product={product} />
+
       <SiteFooter />
+    </div>
+  );
+}
+
+const SIZE_CHART: Array<{ size: string; chest: string; waist: string; height: string }> = [
+  { size: "XS", chest: "84–88", waist: "70–74", height: "165–170" },
+  { size: "S", chest: "89–93", waist: "75–79", height: "170–175" },
+  { size: "M", chest: "94–98", waist: "80–84", height: "175–180" },
+  { size: "L", chest: "99–103", waist: "85–89", height: "180–185" },
+  { size: "XL", chest: "104–108", waist: "90–94", height: "185–190" },
+  { size: "XXL", chest: "109–114", waist: "95–100", height: "190–195" },
+];
+
+function inferMaterials(product: ShopifyProduct): Array<{ label: string; value: string }> {
+  const type = (product.productType || "").toLowerCase();
+  if (type.includes("bib") || type.includes("short")) {
+    return [
+      { label: "Main Fabric", value: "78% Recycled Polyamide · 22% Elastane" },
+      { label: "Chamois", value: "Italian high-density foam · 8h endurance pad" },
+      { label: "Bib Straps", value: "Laser-cut mesh, raw-edge finish" },
+      { label: "Weight", value: "182 g (size M)" },
+    ];
+  }
+  if (type.includes("jacket") || type.includes("shell") || type.includes("gilet")) {
+    return [
+      { label: "Outer Shell", value: "3-layer recycled ripstop · 10K/10K membrane" },
+      { label: "Lining", value: "Brushed merino blend · 140 gsm" },
+      { label: "Sealing", value: "Taped seams · YKK Aquaguard zips" },
+      { label: "Weight", value: "248 g (size M)" },
+    ];
+  }
+  // Jersey / default
+  return [
+    { label: "Main Fabric", value: "82% Recycled Polyester · 18% Elastane" },
+    { label: "Side Panels", value: "Engineered mesh · ventilated weave" },
+    { label: "Trims", value: "Silicone gripper hem · YKK® camlock zipper" },
+    { label: "Weight", value: "138 g (size M)" },
+  ];
+}
+
+function ProductDetailSections({ product }: { product: ShopifyProduct }) {
+  const materials = inferMaterials(product);
+
+  return (
+    <div className="border-t border-paper/10">
+      {/* Sizing */}
+      <section className="px-6 md:px-12 py-20 border-b border-paper/10">
+        <div className="grid lg:grid-cols-[1fr_2fr] gap-12">
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-sage mb-4">
+              01 / Sizing
+            </div>
+            <h2 className="font-display text-4xl md:text-5xl leading-[0.95] tracking-tighter">
+              Cut for the long ride.
+            </h2>
+            <p className="mt-6 text-mist text-sm leading-relaxed max-w-sm">
+              Race-fit through the torso, easy at the shoulder. Measurements are body
+              dimensions in centimetres — not garment. Between sizes, size down for race,
+              up for endurance.
+            </p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full font-mono text-[11px] uppercase tracking-[0.15em]">
+              <thead>
+                <tr className="border-b border-paper/20 text-sage">
+                  <th className="text-left py-3 pr-4 font-normal">Size</th>
+                  <th className="text-left py-3 pr-4 font-normal">Chest (cm)</th>
+                  <th className="text-left py-3 pr-4 font-normal">Waist (cm)</th>
+                  <th className="text-left py-3 font-normal">Height (cm)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {SIZE_CHART.map((row) => (
+                  <tr key={row.size} className="border-b border-paper/10 text-mist">
+                    <td className="py-3 pr-4 text-paper">{row.size}</td>
+                    <td className="py-3 pr-4">{row.chest}</td>
+                    <td className="py-3 pr-4">{row.waist}</td>
+                    <td className="py-3">{row.height}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Materials */}
+      <section className="px-6 md:px-12 py-20 border-b border-paper/10">
+        <div className="grid lg:grid-cols-[1fr_2fr] gap-12">
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-sage mb-4">
+              02 / Materials & Construction
+            </div>
+            <h2 className="font-display text-4xl md:text-5xl leading-[0.95] tracking-tighter">
+              Engineered, not assembled.
+            </h2>
+            <p className="mt-6 text-mist text-sm leading-relaxed max-w-sm">
+              Every panel is mapped to the body's heat zones. Recycled fibres from
+              certified European mills, bonded seams where chafe lives, and trims
+              spec'd to outlast the garment.
+            </p>
+          </div>
+          <dl className="grid sm:grid-cols-2 gap-px bg-paper/10">
+            {materials.map((m) => (
+              <div key={m.label} className="bg-ink p-6">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.25em] text-sage mb-2">
+                  {m.label}
+                </dt>
+                <dd className="font-display text-xl leading-tight text-paper">{m.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      {/* Brand story */}
+      <section className="px-6 md:px-12 py-24 bg-gradient-to-b from-forest/10 to-transparent">
+        <div className="max-w-3xl">
+          <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-sage mb-4">
+            03 / The VELONIX Story
+          </div>
+          <h2 className="font-display text-5xl md:text-6xl leading-[0.95] tracking-tighter">
+            Built in the Ardennes. Ridden everywhere.
+          </h2>
+          <div className="mt-8 space-y-5 text-mist leading-relaxed max-w-2xl">
+            <p>
+              VELONIX began on a wet October climb above Stavelot — three riders, two
+              broken zippers, and one shared refusal to keep buying disposable kit. We
+              set out to build cycling apparel that survives a decade of weather and a
+              decade of washing, then comes back for more.
+            </p>
+            <p>
+              Every garment is engineered with European mills we visit in person,
+              cut in small batches, and backed by lifetime free crash repair. No
+              seasonal drops. No marketing math. Just kit that earns the next ride.
+            </p>
+          </div>
+          <div className="mt-10 flex flex-wrap gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-mist/80">
+            <span className="border border-paper/20 px-3 py-2">Made in EU</span>
+            <span className="border border-paper/20 px-3 py-2">Lifetime Repair</span>
+            <span className="border border-paper/20 px-3 py-2">Small-batch</span>
+            <span className="border border-paper/20 px-3 py-2">Recycled Fibres</span>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
