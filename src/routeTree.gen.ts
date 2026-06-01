@@ -9,8 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SustainabilityRouteImport } from './routes/sustainability'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as CustomKitRouteImport } from './routes/custom-kit'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -26,6 +28,11 @@ import { Route as AdminKitRequestsRouteImport } from './routes/admin.kit-request
 import { Route as CustomKitStatusRequestIdRouteImport } from './routes/custom-kit.status.$requestId'
 import { Route as AdminKitRequestsIdRouteImport } from './routes/admin.kit-requests.$id'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SustainabilityRoute = SustainabilityRouteImport.update({
   id: '/sustainability',
   path: '/sustainability',
@@ -34,6 +41,11 @@ const SustainabilityRoute = SustainabilityRouteImport.update({
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JournalRoute = JournalRouteImport.update({
@@ -114,8 +126,10 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/custom-kit': typeof CustomKitRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
+  '/privacy': typeof PrivacyRoute
   '/shop': typeof ShopRouteWithChildren
   '/sustainability': typeof SustainabilityRoute
+  '/terms': typeof TermsRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
   '/help/fabric-care': typeof HelpFabricCareRoute
   '/help/faq': typeof HelpFaqRoute
@@ -132,8 +146,10 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/custom-kit': typeof CustomKitRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
+  '/privacy': typeof PrivacyRoute
   '/shop': typeof ShopRouteWithChildren
   '/sustainability': typeof SustainabilityRoute
+  '/terms': typeof TermsRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
   '/help/fabric-care': typeof HelpFabricCareRoute
   '/help/faq': typeof HelpFaqRoute
@@ -151,8 +167,10 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/custom-kit': typeof CustomKitRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
+  '/privacy': typeof PrivacyRoute
   '/shop': typeof ShopRouteWithChildren
   '/sustainability': typeof SustainabilityRoute
+  '/terms': typeof TermsRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
   '/help/fabric-care': typeof HelpFabricCareRoute
   '/help/faq': typeof HelpFaqRoute
@@ -171,8 +189,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/custom-kit'
     | '/journal'
+    | '/privacy'
     | '/shop'
     | '/sustainability'
+    | '/terms'
     | '/admin/kit-requests'
     | '/help/fabric-care'
     | '/help/faq'
@@ -189,8 +209,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/custom-kit'
     | '/journal'
+    | '/privacy'
     | '/shop'
     | '/sustainability'
+    | '/terms'
     | '/admin/kit-requests'
     | '/help/fabric-care'
     | '/help/faq'
@@ -207,8 +229,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/custom-kit'
     | '/journal'
+    | '/privacy'
     | '/shop'
     | '/sustainability'
+    | '/terms'
     | '/admin/kit-requests'
     | '/help/fabric-care'
     | '/help/faq'
@@ -226,8 +250,10 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   CustomKitRoute: typeof CustomKitRouteWithChildren
   JournalRoute: typeof JournalRouteWithChildren
+  PrivacyRoute: typeof PrivacyRoute
   ShopRoute: typeof ShopRouteWithChildren
   SustainabilityRoute: typeof SustainabilityRoute
+  TermsRoute: typeof TermsRoute
   AdminKitRequestsRoute: typeof AdminKitRequestsRouteWithChildren
   HelpFabricCareRoute: typeof HelpFabricCareRoute
   HelpFaqRoute: typeof HelpFaqRoute
@@ -237,6 +263,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sustainability': {
       id: '/sustainability'
       path: '/sustainability'
@@ -249,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/shop'
       fullPath: '/shop'
       preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journal': {
@@ -402,8 +442,10 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   CustomKitRoute: CustomKitRouteWithChildren,
   JournalRoute: JournalRouteWithChildren,
+  PrivacyRoute: PrivacyRoute,
   ShopRoute: ShopRouteWithChildren,
   SustainabilityRoute: SustainabilityRoute,
+  TermsRoute: TermsRoute,
   AdminKitRequestsRoute: AdminKitRequestsRouteWithChildren,
   HelpFabricCareRoute: HelpFabricCareRoute,
   HelpFaqRoute: HelpFaqRoute,
