@@ -1,6 +1,7 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { useCartSync } from "@/hooks/useCartSync";
+import { CookieBanner } from "@/components/CookieBanner";
 
 import appCss from "../styles.css?url";
 
@@ -77,8 +78,17 @@ function RootComponent() {
   useCartSync();
   return (
     <>
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-paper focus:text-ink focus:px-3 focus:py-2 focus:font-mono focus:text-xs focus:uppercase focus:tracking-[0.25em]"
+      >
+        Skip to content
+      </a>
       <AnnouncementBar />
-      <Outlet />
+      <main id="main">
+        <Outlet />
+      </main>
+      <CookieBanner />
     </>
   );
 }

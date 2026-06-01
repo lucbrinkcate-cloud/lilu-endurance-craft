@@ -1,6 +1,8 @@
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 import velonixLogo from "@/assets/velonix-logo.svg";
 import { CartDrawer } from "@/components/CartDrawer";
+import { SearchDialog } from "@/components/SearchDialog";
 
 const NAV = [
   { to: "/shop", label: "Shop" },
@@ -12,6 +14,7 @@ const NAV = [
 ] as const;
 
 export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
+  const [searchOpen, setSearchOpen] = useState(false);
   return (
     <header
       className={
@@ -29,15 +32,29 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
             <Link
               key={n.to}
               to={n.to}
-              className="hover:text-sage transition-colors"
+              className="hover:text-sage transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-sage focus-visible:outline-offset-4"
               activeProps={{ className: "text-sage" }}
             >
               {n.label}
             </Link>
           ))}
         </nav>
-        <CartDrawer />
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setSearchOpen(true)}
+            aria-label="Search products"
+            className="min-h-11 min-w-11 inline-flex items-center justify-center text-paper hover:text-sage transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-sage"
+          >
+            <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
+            </svg>
+          </button>
+          <CartDrawer />
+        </div>
       </div>
+      <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }

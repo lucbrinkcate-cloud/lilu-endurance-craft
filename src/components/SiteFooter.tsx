@@ -118,7 +118,12 @@ export function SiteFooter() {
 
         <div className="mt-12 pt-6 border-t border-paper/10 flex flex-col md:flex-row justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-mist/60">
           <span>© {new Date().getFullYear()} VELONIX Cycling Co. · Ghent, BE · BTW BE0XXX.XXX.XXX</span>
-          <span>92% recycled · Carbon-neutral by 2027</span>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <Link to="/privacy" className="hover:text-paper">Privacy & Cookies</Link>
+            <Link to="/terms" className="hover:text-paper">Terms</Link>
+            <Link to="/help/shipping-returns" className="hover:text-paper">Returns</Link>
+            <span>92% recycled · Carbon-neutral by 2027</span>
+          </div>
         </div>
       </div>
     </footer>
