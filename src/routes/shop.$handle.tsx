@@ -183,8 +183,20 @@ function ProductPage() {
           <h1 className="font-display text-5xl md:text-7xl leading-[0.9] tracking-tighter">
             {product.title}
           </h1>
-          <div className="mt-4 font-mono text-2xl text-mist">{price}</div>
-          {product.description && (
+          <div className="mt-4 flex items-baseline gap-4">
+            <div className="font-mono text-2xl text-mist">{price}</div>
+            <span
+              className={`font-mono text-[10px] uppercase tracking-[0.25em] flex items-center gap-1.5 ${
+                selectedVariant?.availableForSale ? "text-sage" : "text-mist/60"
+              }`}
+            >
+              <span aria-hidden="true">{selectedVariant?.availableForSale ? "●" : "○"}</span>
+              {selectedVariant?.availableForSale ? "In stock · ships in 24h" : "Sold out"}
+            </span>
+          </div>
+          <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.25em] text-mist/70">
+            EU delivery 3–5 days · Worldwide 5–10 days
+          </div>
             <p className="mt-8 max-w-md text-mist leading-relaxed whitespace-pre-line">
               {product.description}
             </p>
