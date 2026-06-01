@@ -401,7 +401,7 @@ function Index() {
       <NewsletterSection source="homepage" />
 
       <SiteFooter />
-    </main>
+    </div>
   );
 }
 
