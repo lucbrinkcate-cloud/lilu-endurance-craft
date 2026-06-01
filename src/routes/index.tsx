@@ -113,7 +113,7 @@ function Index() {
   const progressBar = useSpring(storyProgress, { stiffness: 80, damping: 20 });
 
   return (
-    <main className="bg-ink text-paper overflow-x-hidden">
+    <div className="bg-ink text-paper overflow-x-hidden">
       <SiteHeader overlay />
 
       {/* HERO */}
