@@ -197,6 +197,7 @@ function ProductPage() {
           <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.25em] text-mist/70">
             EU delivery 3–5 days · Worldwide 5–10 days
           </div>
+          {product.description && (
             <p className="mt-8 max-w-md text-mist leading-relaxed whitespace-pre-line">
               {product.description}
             </p>
