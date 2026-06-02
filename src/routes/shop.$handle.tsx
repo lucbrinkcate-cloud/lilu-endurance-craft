@@ -203,29 +203,44 @@ function ProductPage() {
             </p>
           )}
 
-          {sizeOption && sizeOption.values.length > 1 && (
+          {sizeOption && sizeOption.values.length > 0 && (
             <div className="mt-10">
-              <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-sage mb-3">
-                {sizeOption.name}
+              <div className="flex items-baseline justify-between mb-3">
+                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-sage">
+                  {sizeOption.name}
+                </div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-mist">
+                  {selectedVariant?.selectedOptions.find((o) => o.name === sizeOption.name)?.value ?? "—"}
+                </div>
               </div>
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-2 flex-wrap" role="radiogroup" aria-label={sizeOption.name}>
                 {sizeOption.values.map((val) => {
-                  const variant = variants.find((v) =>
-                    v.selectedOptions.some((o) => o.name === sizeOption.name && o.value === val),
-                  );
-                  if (!variant) return null;
-                  const isSelected = selectedVariant?.id === variant.id;
+                  // Find a variant matching this size value (works for single- and multi-option products)
+                  const variant =
+                    variants.find((v) =>
+                      v.selectedOptions.some(
+                        (o) => o.name === sizeOption.name && o.value === val,
+                      ),
+                    ) ?? null;
+                  const currentVal = selectedVariant?.selectedOptions.find(
+                    (o) => o.name === sizeOption.name,
+                  )?.value;
+                  const isSelected = currentVal === val;
+                  const available = variant?.availableForSale ?? false;
                   return (
                     <button
                       key={val}
-                      onClick={() => setSelectedVariantId(variant.id)}
-                      disabled={!variant.availableForSale}
+                      type="button"
+                      role="radio"
+                      aria-checked={isSelected}
+                      onClick={() => variant && setSelectedVariantId(variant.id)}
+                      disabled={!variant || !available}
                       className={`font-mono text-xs uppercase tracking-[0.2em] min-w-12 h-12 px-3 border transition-colors ${
                         isSelected
                           ? "border-sage bg-sage text-ink"
-                          : variant.availableForSale
-                          ? "border-paper/20 hover:border-paper/60"
-                          : "border-paper/10 text-mist/30 line-through cursor-not-allowed"
+                          : available
+                            ? "border-paper/20 hover:border-paper/60 text-paper"
+                            : "border-paper/10 text-mist/30 line-through cursor-not-allowed"
                       }`}
                     >
                       {val}
@@ -233,6 +248,12 @@ function ProductPage() {
                   );
                 })}
               </div>
+              <a
+                href="/help/size-guide"
+                className="mt-3 inline-block font-mono text-[10px] uppercase tracking-[0.25em] text-mist hover:text-sage"
+              >
+                Size guide →
+              </a>
             </div>
           )}
 
