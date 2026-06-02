@@ -74,9 +74,9 @@ const ShopIndexRoute = ShopIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShopHandleRoute = ShopHandleRouteImport.update({
-  id: '/$handle',
-  path: '/$handle',
-  getParentRoute: () => ShopRoute,
+  id: '/shop/$handle',
+  path: '/shop/$handle',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const JournalSlugRoute = JournalSlugRouteImport.update({
   id: '/$slug',
@@ -258,6 +258,7 @@ export interface RootRouteChildren {
   HelpFaqRoute: typeof HelpFaqRoute
   HelpShippingReturnsRoute: typeof HelpShippingReturnsRoute
   HelpSizeGuideRoute: typeof HelpSizeGuideRoute
+  ShopHandleRoute: typeof ShopHandleRoute
   ShopIndexRoute: typeof ShopIndexRoute
 }
 
@@ -328,10 +329,10 @@ declare module '@tanstack/react-router' {
     }
     '/shop/$handle': {
       id: '/shop/$handle'
-      path: '/$handle'
+      path: '/shop/$handle'
       fullPath: '/shop/$handle'
       preLoaderRoute: typeof ShopHandleRouteImport
-      parentRoute: typeof ShopRoute
+      parentRoute: typeof rootRouteImport
     }
     '/journal/$slug': {
       id: '/journal/$slug'
@@ -440,6 +441,7 @@ const rootRouteChildren: RootRouteChildren = {
   HelpFaqRoute: HelpFaqRoute,
   HelpShippingReturnsRoute: HelpShippingReturnsRoute,
   HelpSizeGuideRoute: HelpSizeGuideRoute,
+  ShopHandleRoute: ShopHandleRoute,
   ShopIndexRoute: ShopIndexRoute,
 }
 export const routeTree = rootRouteImport
