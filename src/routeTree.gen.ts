@@ -11,13 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SustainabilityRouteImport } from './routes/sustainability'
-import { Route as ShopRouteImport } from './routes/shop'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as CustomKitRouteImport } from './routes/custom-kit'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShopIndexRouteImport } from './routes/shop.index'
 import { Route as ShopHandleRouteImport } from './routes/shop.$handle'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as HelpSizeGuideRouteImport } from './routes/help.size-guide'
@@ -36,11 +36,6 @@ const TermsRoute = TermsRouteImport.update({
 const SustainabilityRoute = SustainabilityRouteImport.update({
   id: '/sustainability',
   path: '/sustainability',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ShopRoute = ShopRouteImport.update({
-  id: '/shop',
-  path: '/shop',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -73,10 +68,15 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShopIndexRoute = ShopIndexRouteImport.update({
+  id: '/shop/',
+  path: '/shop/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShopHandleRoute = ShopHandleRouteImport.update({
-  id: '/$handle',
-  path: '/$handle',
-  getParentRoute: () => ShopRoute,
+  id: '/shop/$handle',
+  path: '/shop/$handle',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const JournalSlugRoute = JournalSlugRouteImport.update({
   id: '/$slug',
@@ -127,7 +127,6 @@ export interface FileRoutesByFullPath {
   '/custom-kit': typeof CustomKitRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/privacy': typeof PrivacyRoute
-  '/shop': typeof ShopRouteWithChildren
   '/sustainability': typeof SustainabilityRoute
   '/terms': typeof TermsRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
@@ -137,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/help/size-guide': typeof HelpSizeGuideRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/shop/$handle': typeof ShopHandleRoute
+  '/shop/': typeof ShopIndexRoute
   '/admin/kit-requests/$id': typeof AdminKitRequestsIdRoute
   '/custom-kit/status/$requestId': typeof CustomKitStatusRequestIdRoute
 }
@@ -147,7 +147,6 @@ export interface FileRoutesByTo {
   '/custom-kit': typeof CustomKitRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/privacy': typeof PrivacyRoute
-  '/shop': typeof ShopRouteWithChildren
   '/sustainability': typeof SustainabilityRoute
   '/terms': typeof TermsRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
@@ -157,6 +156,7 @@ export interface FileRoutesByTo {
   '/help/size-guide': typeof HelpSizeGuideRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/shop/$handle': typeof ShopHandleRoute
+  '/shop': typeof ShopIndexRoute
   '/admin/kit-requests/$id': typeof AdminKitRequestsIdRoute
   '/custom-kit/status/$requestId': typeof CustomKitStatusRequestIdRoute
 }
@@ -168,7 +168,6 @@ export interface FileRoutesById {
   '/custom-kit': typeof CustomKitRouteWithChildren
   '/journal': typeof JournalRouteWithChildren
   '/privacy': typeof PrivacyRoute
-  '/shop': typeof ShopRouteWithChildren
   '/sustainability': typeof SustainabilityRoute
   '/terms': typeof TermsRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
@@ -178,6 +177,7 @@ export interface FileRoutesById {
   '/help/size-guide': typeof HelpSizeGuideRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/shop/$handle': typeof ShopHandleRoute
+  '/shop/': typeof ShopIndexRoute
   '/admin/kit-requests/$id': typeof AdminKitRequestsIdRoute
   '/custom-kit/status/$requestId': typeof CustomKitStatusRequestIdRoute
 }
@@ -190,7 +190,6 @@ export interface FileRouteTypes {
     | '/custom-kit'
     | '/journal'
     | '/privacy'
-    | '/shop'
     | '/sustainability'
     | '/terms'
     | '/admin/kit-requests'
@@ -200,6 +199,7 @@ export interface FileRouteTypes {
     | '/help/size-guide'
     | '/journal/$slug'
     | '/shop/$handle'
+    | '/shop/'
     | '/admin/kit-requests/$id'
     | '/custom-kit/status/$requestId'
   fileRoutesByTo: FileRoutesByTo
@@ -210,7 +210,6 @@ export interface FileRouteTypes {
     | '/custom-kit'
     | '/journal'
     | '/privacy'
-    | '/shop'
     | '/sustainability'
     | '/terms'
     | '/admin/kit-requests'
@@ -220,6 +219,7 @@ export interface FileRouteTypes {
     | '/help/size-guide'
     | '/journal/$slug'
     | '/shop/$handle'
+    | '/shop'
     | '/admin/kit-requests/$id'
     | '/custom-kit/status/$requestId'
   id:
@@ -230,7 +230,6 @@ export interface FileRouteTypes {
     | '/custom-kit'
     | '/journal'
     | '/privacy'
-    | '/shop'
     | '/sustainability'
     | '/terms'
     | '/admin/kit-requests'
@@ -240,6 +239,7 @@ export interface FileRouteTypes {
     | '/help/size-guide'
     | '/journal/$slug'
     | '/shop/$handle'
+    | '/shop/'
     | '/admin/kit-requests/$id'
     | '/custom-kit/status/$requestId'
   fileRoutesById: FileRoutesById
@@ -251,7 +251,6 @@ export interface RootRouteChildren {
   CustomKitRoute: typeof CustomKitRouteWithChildren
   JournalRoute: typeof JournalRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
-  ShopRoute: typeof ShopRouteWithChildren
   SustainabilityRoute: typeof SustainabilityRoute
   TermsRoute: typeof TermsRoute
   AdminKitRequestsRoute: typeof AdminKitRequestsRouteWithChildren
@@ -259,6 +258,8 @@ export interface RootRouteChildren {
   HelpFaqRoute: typeof HelpFaqRoute
   HelpShippingReturnsRoute: typeof HelpShippingReturnsRoute
   HelpSizeGuideRoute: typeof HelpSizeGuideRoute
+  ShopHandleRoute: typeof ShopHandleRoute
+  ShopIndexRoute: typeof ShopIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -275,13 +276,6 @@ declare module '@tanstack/react-router' {
       path: '/sustainability'
       fullPath: '/sustainability'
       preLoaderRoute: typeof SustainabilityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/shop': {
-      id: '/shop'
-      path: '/shop'
-      fullPath: '/shop'
-      preLoaderRoute: typeof ShopRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -326,12 +320,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/shop/': {
+      id: '/shop/'
+      path: '/shop'
+      fullPath: '/shop/'
+      preLoaderRoute: typeof ShopIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/shop/$handle': {
       id: '/shop/$handle'
-      path: '/$handle'
+      path: '/shop/$handle'
       fullPath: '/shop/$handle'
       preLoaderRoute: typeof ShopHandleRouteImport
-      parentRoute: typeof ShopRoute
+      parentRoute: typeof rootRouteImport
     }
     '/journal/$slug': {
       id: '/journal/$slug'
@@ -415,16 +416,6 @@ const JournalRouteChildren: JournalRouteChildren = {
 const JournalRouteWithChildren =
   JournalRoute._addFileChildren(JournalRouteChildren)
 
-interface ShopRouteChildren {
-  ShopHandleRoute: typeof ShopHandleRoute
-}
-
-const ShopRouteChildren: ShopRouteChildren = {
-  ShopHandleRoute: ShopHandleRoute,
-}
-
-const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)
-
 interface AdminKitRequestsRouteChildren {
   AdminKitRequestsIdRoute: typeof AdminKitRequestsIdRoute
 }
@@ -443,7 +434,6 @@ const rootRouteChildren: RootRouteChildren = {
   CustomKitRoute: CustomKitRouteWithChildren,
   JournalRoute: JournalRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
-  ShopRoute: ShopRouteWithChildren,
   SustainabilityRoute: SustainabilityRoute,
   TermsRoute: TermsRoute,
   AdminKitRequestsRoute: AdminKitRequestsRouteWithChildren,
@@ -451,7 +441,18 @@ const rootRouteChildren: RootRouteChildren = {
   HelpFaqRoute: HelpFaqRoute,
   HelpShippingReturnsRoute: HelpShippingReturnsRoute,
   HelpSizeGuideRoute: HelpSizeGuideRoute,
+  ShopHandleRoute: ShopHandleRoute,
+  ShopIndexRoute: ShopIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}

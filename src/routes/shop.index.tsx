@@ -44,7 +44,7 @@ async function fetchProducts(): Promise<ShopifyProduct[]> {
 
 type ShopSearch = { q?: string; type?: string };
 
-export const Route = createFileRoute("/shop")({
+export const Route = createFileRoute("/shop/")({
   component: ShopPage,
   validateSearch: (s: Record<string, unknown>): ShopSearch => ({
     q: typeof s.q === "string" ? s.q : undefined,
