@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { supabase } from "@/integrations/supabase/client";
+import { subscribeNewsletter } from "@/lib/newsletter.functions";
 
 export function NewsletterSection({ source = "homepage" }: { source?: string }) {
   const [email, setEmail] = useState("");
@@ -11,22 +11,21 @@ export function NewsletterSection({ source = "homepage" }: { source?: string }) 
     e.preventDefault();
     if (!email) return;
     setStatus("loading");
-    const { error } = await supabase
-      .from("newsletter_subscribers")
-      .insert({ email: email.trim().toLowerCase(), source });
-    if (error) {
-      if (error.code === "23505") {
-        setStatus("ok");
-        setMessage("You're already on the list. Welcome back.");
-      } else {
-        setStatus("error");
-        setMessage("Something broke. Try again in a moment.");
-      }
-      return;
+    try {
+      const res = await subscribeNewsletter({
+        data: { email: email.trim().toLowerCase(), source },
+      });
+      setStatus("ok");
+      setMessage(
+        res.duplicate
+          ? "You're already on the list. Welcome back."
+          : "On the list. First field notes drop in your inbox shortly.",
+      );
+      if (!res.duplicate) setEmail("");
+    } catch {
+      setStatus("error");
+      setMessage("Something broke. Try again in a moment.");
     }
-    setStatus("ok");
-    setMessage("On the list. First field notes drop in your inbox shortly.");
-    setEmail("");
   }
 
   return (
