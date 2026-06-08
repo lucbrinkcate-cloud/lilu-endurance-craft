@@ -4,7 +4,7 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { uploadClubLogo } from "@/lib/upload-logo";
 import { useServerFn } from "@tanstack/react-start";
-import { generateKitDesigns, submitKitRequest } from "@/server/kit-requests.functions";
+import { generateKitDesigns, submitKitRequest } from "@/lib/kit-requests.functions";
 import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/custom-kit")({
