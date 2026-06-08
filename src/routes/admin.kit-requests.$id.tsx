@@ -7,7 +7,7 @@ import {
   approveKitRequest,
   rejectKitRequest,
   verifyAdminPassword,
-} from "@/server/kit-requests.functions";
+} from "@/lib/kit-requests.functions";
 
 export const Route = createFileRoute("/admin/kit-requests/$id")({
   component: AdminDetailPage,

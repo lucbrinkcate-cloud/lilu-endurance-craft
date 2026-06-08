@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { useServerFn } from "@tanstack/react-start";
-import { listKitRequests, verifyAdminPassword } from "@/server/kit-requests.functions";
+import { listKitRequests, verifyAdminPassword } from "@/lib/kit-requests.functions";
 
 export const Route = createFileRoute("/admin/kit-requests")({
   component: AdminListPage,

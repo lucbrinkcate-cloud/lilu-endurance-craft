@@ -1,7 +1,7 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
-import { getKitRequest } from "@/server/kit-requests.functions";
+import { getKitRequest } from "@/lib/kit-requests.functions";
 
 export const Route = createFileRoute("/custom-kit/status/$requestId")({
   component: StatusPage,
