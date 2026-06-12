@@ -17,6 +17,7 @@ const NAV = [
 
 export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
   const [searchOpen, setSearchOpen] = useState(false);
+  const wishlistCount = useWishlistStore((s) => s.items.length);
   return (
     <header
       className={
