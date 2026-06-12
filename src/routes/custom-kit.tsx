@@ -37,8 +37,14 @@ type Style = (typeof STYLES)[number];
 
 function CustomKitPage() {
   const navigate = useNavigate();
+  const search = Route.useSearch();
   const generate = useServerFn(generateKitDesigns);
   const submit = useServerFn(submitKitRequest);
+
+  const wishlistItems = useWishlistStore((s) => s.items);
+  const wishlistAdd = useWishlistStore((s) => s.add);
+  const wishlistRemove = useWishlistStore((s) => s.remove);
+  const wishlistGet = useWishlistStore((s) => s.get);
 
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [logoUploading, setLogoUploading] = useState(false);
@@ -57,6 +63,71 @@ function CustomKitPage() {
   const [qty, setQty] = useState(10);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Hydrate from wishlist when navigated with ?fromWishlist=
+  useEffect(() => {
+    if (!search.fromWishlist) return;
+    const item = wishlistGet(search.fromWishlist);
+    if (!item) return;
+    setLogoUrl(item.logoUrl);
+    if ((STYLES as readonly string[]).includes(item.baseStyle)) {
+      setStyle(item.baseStyle as Style);
+    }
+    setPrimary(item.primary);
+    setSecondary(item.secondary);
+    setAccent(item.accent);
+    setDesigns([{ url: item.imageUrl, prompt: item.prompt }]);
+    setSelected(0);
+    // Scroll to submit
+    setTimeout(() => {
+      document.getElementById("kit-submit")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+    // Clear the query param so refresh doesn't re-trigger
+    navigate({ to: "/custom-kit", search: {}, replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search.fromWishlist]);
+
+  const loadFromWishlist = (id: string) => {
+    const item = wishlistGet(id);
+    if (!item) return;
+    setLogoUrl(item.logoUrl);
+    if ((STYLES as readonly string[]).includes(item.baseStyle)) {
+      setStyle(item.baseStyle as Style);
+    }
+    setPrimary(item.primary);
+    setSecondary(item.secondary);
+    setAccent(item.accent);
+    setDesigns([{ url: item.imageUrl, prompt: item.prompt }]);
+    setSelected(0);
+    setTimeout(() => {
+      document.getElementById("kit-submit")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  };
+
+  const toggleSaveDesign = (d: { url: string; prompt: string }) => {
+    if (!logoUrl) return;
+    const id = makeWishlistId({
+      imageUrl: d.url,
+      baseStyle: style,
+      primary,
+      secondary,
+      accent,
+    });
+    if (wishlistItems.some((i) => i.id === id)) {
+      wishlistRemove(id);
+    } else {
+      wishlistAdd({
+        id,
+        imageUrl: d.url,
+        prompt: d.prompt,
+        baseStyle: style,
+        primary,
+        secondary,
+        accent,
+        logoUrl,
+      });
+    }
+  };
 
   const onLogoFile = async (file: File) => {
     setError(null);
