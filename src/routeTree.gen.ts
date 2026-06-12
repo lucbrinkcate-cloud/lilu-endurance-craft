@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WishlistRouteImport } from './routes/wishlist'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SustainabilityRouteImport } from './routes/sustainability'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -28,6 +29,11 @@ import { Route as AdminKitRequestsRouteImport } from './routes/admin.kit-request
 import { Route as CustomKitStatusRequestIdRouteImport } from './routes/custom-kit.status.$requestId'
 import { Route as AdminKitRequestsIdRouteImport } from './routes/admin.kit-requests.$id'
 
+const WishlistRoute = WishlistRouteImport.update({
+  id: '/wishlist',
+  path: '/wishlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
   path: '/terms',
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/sustainability': typeof SustainabilityRoute
   '/terms': typeof TermsRoute
+  '/wishlist': typeof WishlistRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
   '/help/fabric-care': typeof HelpFabricCareRoute
   '/help/faq': typeof HelpFaqRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/sustainability': typeof SustainabilityRoute
   '/terms': typeof TermsRoute
+  '/wishlist': typeof WishlistRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
   '/help/fabric-care': typeof HelpFabricCareRoute
   '/help/faq': typeof HelpFaqRoute
@@ -170,6 +178,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/sustainability': typeof SustainabilityRoute
   '/terms': typeof TermsRoute
+  '/wishlist': typeof WishlistRoute
   '/admin/kit-requests': typeof AdminKitRequestsRouteWithChildren
   '/help/fabric-care': typeof HelpFabricCareRoute
   '/help/faq': typeof HelpFaqRoute
@@ -192,6 +201,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/sustainability'
     | '/terms'
+    | '/wishlist'
     | '/admin/kit-requests'
     | '/help/fabric-care'
     | '/help/faq'
@@ -212,6 +222,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/sustainability'
     | '/terms'
+    | '/wishlist'
     | '/admin/kit-requests'
     | '/help/fabric-care'
     | '/help/faq'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/sustainability'
     | '/terms'
+    | '/wishlist'
     | '/admin/kit-requests'
     | '/help/fabric-care'
     | '/help/faq'
@@ -253,6 +265,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   SustainabilityRoute: typeof SustainabilityRoute
   TermsRoute: typeof TermsRoute
+  WishlistRoute: typeof WishlistRoute
   AdminKitRequestsRoute: typeof AdminKitRequestsRouteWithChildren
   HelpFabricCareRoute: typeof HelpFabricCareRoute
   HelpFaqRoute: typeof HelpFaqRoute
@@ -264,6 +277,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wishlist': {
+      id: '/wishlist'
+      path: '/wishlist'
+      fullPath: '/wishlist'
+      preLoaderRoute: typeof WishlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/terms': {
       id: '/terms'
       path: '/terms'
@@ -436,6 +456,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   SustainabilityRoute: SustainabilityRoute,
   TermsRoute: TermsRoute,
+  WishlistRoute: WishlistRoute,
   AdminKitRequestsRoute: AdminKitRequestsRouteWithChildren,
   HelpFabricCareRoute: HelpFabricCareRoute,
   HelpFaqRoute: HelpFaqRoute,
