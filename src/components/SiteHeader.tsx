@@ -3,10 +3,12 @@ import { useState } from "react";
 import velonixLogo from "@/assets/velonix-logo.svg";
 import { CartDrawer } from "@/components/CartDrawer";
 import { SearchDialog } from "@/components/SearchDialog";
+import { useWishlistStore } from "@/stores/wishlistStore";
 
 const NAV = [
   { to: "/shop", label: "Shop" },
   { to: "/custom-kit", label: "Design Your Kit" },
+  { to: "/wishlist", label: "Wishlist" },
   { to: "/journal", label: "Journal" },
   { to: "/sustainability", label: "Sustainability" },
   { to: "/about", label: "About" },
