@@ -173,6 +173,7 @@ function ShopPage() {
       )}
 
       <SiteFooter />
+      <DesignKitNudge />
     </div>
   );
 }
