@@ -290,29 +290,124 @@ function CustomKitPage() {
 
         {designs.length > 0 && (
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {designs.map((d, i) => (
-              <motion.button
-                key={i}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.06 }}
-                onClick={() => setSelected(i)}
-                className={`relative border-2 transition-colors text-left ${
-                  selected === i ? "border-sage" : "border-paper/15 hover:border-paper/40"
-                }`}
-              >
-                <img src={d.url} alt={`Design ${i + 1}`} className="w-full aspect-square object-cover" />
-                <div className="absolute top-2 left-2 font-mono text-[10px] uppercase tracking-[0.25em] bg-ink/80 px-2 py-1">
-                  {selected === i ? "Selected" : `Option ${String(i + 1).padStart(2, "0")}`}
-                </div>
-              </motion.button>
-            ))}
+            {designs.map((d, i) => {
+              const id = makeWishlistId({
+                imageUrl: d.url,
+                baseStyle: style,
+                primary,
+                secondary,
+                accent,
+              });
+              const saved = wishlistItems.some((w) => w.id === id);
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.06 }}
+                  className={`relative border-2 transition-colors ${
+                    selected === i ? "border-sage" : "border-paper/15 hover:border-paper/40"
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setSelected(i)}
+                    className="block w-full text-left"
+                  >
+                    <img
+                      src={d.url}
+                      alt={`Design ${i + 1}`}
+                      className="w-full aspect-square object-cover"
+                    />
+                    <div className="absolute top-2 left-2 font-mono text-[10px] uppercase tracking-[0.25em] bg-ink/80 px-2 py-1">
+                      {selected === i ? "Selected" : `Option ${String(i + 1).padStart(2, "0")}`}
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleSaveDesign(d);
+                    }}
+                    aria-pressed={saved}
+                    aria-label={saved ? "Remove from wishlist" : "Save to wishlist"}
+                    className={`absolute top-2 right-2 min-h-9 min-w-9 inline-flex items-center justify-center bg-ink/80 hover:bg-ink border transition-colors ${
+                      saved ? "border-sage text-sage" : "border-paper/30 text-paper hover:text-sage"
+                    }`}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-4 h-4"
+                      fill={saved ? "currentColor" : "none"}
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9z" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                </motion.div>
+              );
+            })}
           </div>
         )}
       </section>
 
+      {/* Saved designs strip */}
+      {wishlistItems.length > 0 && (
+        <section className="px-6 md:px-10 py-12 border-b border-paper/10">
+          <div className="flex items-baseline justify-between gap-4 flex-wrap">
+            <StepHeader n="★" title="Your saved designs" />
+            <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-mist">
+              {wishlistItems.length} saved · stored on this device
+            </div>
+          </div>
+          <div className="mt-6 flex gap-4 overflow-x-auto pb-2">
+            {wishlistItems.map((item) => (
+              <div
+                key={item.id}
+                className="flex-shrink-0 w-48 border border-paper/15 bg-ink"
+              >
+                <img
+                  src={item.imageUrl}
+                  alt={`Saved ${item.baseStyle} design`}
+                  className="w-full aspect-square object-cover"
+                />
+                <div className="p-3">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-sage mb-2">
+                    {item.baseStyle}
+                  </div>
+                  <div className="flex gap-1 mb-3">
+                    <span className="w-4 h-4 border border-paper/20" style={{ background: item.primary }} />
+                    <span className="w-4 h-4 border border-paper/20" style={{ background: item.secondary }} />
+                    <span className="w-4 h-4 border border-paper/20" style={{ background: item.accent }} />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => loadFromWishlist(item.id)}
+                      className="flex-1 font-mono text-[10px] uppercase tracking-[0.2em] px-2 py-1.5 bg-sage text-ink hover:bg-mist transition-colors"
+                    >
+                      Use
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => wishlistRemove(item.id)}
+                      aria-label="Remove from wishlist"
+                      className="font-mono text-[10px] uppercase tracking-[0.2em] px-2 py-1.5 border border-paper/20 text-mist hover:text-paper hover:border-paper/60 transition-colors"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Step 4: Submit */}
-      <section className="px-6 md:px-10 py-12 border-b border-paper/10">
+      <section id="kit-submit" className="px-6 md:px-10 py-12 border-b border-paper/10">
         <StepHeader n="04" title="Submit for review" />
         <form onSubmit={onSubmit} className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">
           <Field label="Club name" value={clubName} onChange={setClubName} required />
