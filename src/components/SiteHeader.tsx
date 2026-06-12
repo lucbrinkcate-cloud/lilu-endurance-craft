@@ -39,6 +39,11 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
               activeProps={{ className: "text-sage" }}
             >
               {n.label}
+              {n.to === "/wishlist" && wishlistCount > 0 && (
+                <span className="ml-1.5 inline-flex items-center justify-center min-w-4 h-4 px-1 bg-sage text-ink text-[9px] rounded-full align-middle">
+                  {wishlistCount}
+                </span>
+              )}
             </Link>
           ))}
         </nav>
