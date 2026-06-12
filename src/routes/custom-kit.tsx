@@ -1,14 +1,20 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 import { uploadClubLogo } from "@/lib/upload-logo";
 import { useServerFn } from "@tanstack/react-start";
 import { generateKitDesigns, submitKitRequest } from "@/lib/kit-requests.functions";
 import { motion } from "framer-motion";
+import { useWishlistStore, makeWishlistId } from "@/stores/wishlistStore";
+
+type CustomKitSearch = { fromWishlist?: string };
 
 export const Route = createFileRoute("/custom-kit")({
   component: CustomKitPage,
+  validateSearch: (s: Record<string, unknown>): CustomKitSearch => ({
+    fromWishlist: typeof s.fromWishlist === "string" ? s.fromWishlist : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Design Your Club Kit — VELONIX" },
