@@ -1,45 +1,43 @@
-# Shopify Academy Logbook — Plan
+## What we'll build
 
-I'll produce a single PDF (`/mnt/documents/velonix-shopify-logbook.pdf`, max 8 pages) covering the 7 weekly courses. The content is reconstructed from our actual chat history (Apr 20 – Jun 8), so each "Application" entry maps to real changes we shipped in this project (originally "LILU", later rebranded to "VELONIX").
+### 1. "Design your own kit" scroll popup on `/shop`
+- New component `src/components/DesignKitNudge.tsx`: dismissible card that slides in from the bottom-right of the viewport.
+- Trigger: appears once the user has scrolled past ~60% of the product grid (roughly 3–4 product rows). Uses a scroll listener with a threshold.
+- Once-per-session: dismissal stored in `sessionStorage` under `velonix:designKitNudge:dismissed` so it doesn't re-open after closing.
+- Visual: matches site language — ink background, sage accent border, mono uppercase eyebrow, display headline ("Have you ever thought about designing your own kit?"), short subtext, and a primary CTA link (TanStack `<Link to="/custom-kit">`) plus a small close (×) button.
+- Mounted from `src/routes/shop.index.tsx` only (not the product detail page).
 
-I do **not** need you to paste course text. The official Shopify Academy course outlines are publicly documented and I'll align each "Key Learnings" section to the standard syllabus of that course. If a course concept is Shopify-admin-specific and couldn't be applied because we built a custom TanStack/Storefront-API frontend, I'll explicitly call that out under "Application" with the workaround we used.
+### 2. Wishlist for generated kit designs (browser-local)
+- New store `src/stores/wishlistStore.ts` (Zustand, mirrors the pattern of `cartStore`) persisted to `localStorage` under `velonix:kit-wishlist`.
+  - Shape per item: `{ id, savedAt, imageUrl, prompt, baseStyle, primary, secondary, accent, logoUrl, clubName? }`.
+  - Actions: `add`, `remove`, `has(id)`, `clear`.
+  - `id` derived deterministically from image URL + design params so the same generated design can be toggled off.
+- Update `src/routes/custom-kit.tsx`:
+  - On each generated design card in Step 03, add a small heart/save button in the corner. Clicking toggles wishlist membership without selecting the design (stop propagation).
+  - Add a new "Saved designs" section above Step 03 (only shown when wishlist has items): horizontal scrollable strip of saved thumbnails with: image, mini color swatches, style label, "Use this design" button (loads it into the current flow as the selected design, pre-fills colors + style), and a remove (×) button.
+  - "Use this design" path: sets `designs` state to `[savedItem]` (or appends) and `selected = 0`, then scrolls to Step 04 so the user can submit.
+- New route `src/routes/wishlist.tsx` (`/wishlist`): standalone page listing all saved designs in a grid, each with "Use in custom kit" (navigates to `/custom-kit` with a query param that the page picks up and loads into state) and "Remove". Includes proper `head()` meta. Linked from the header.
+- Add "Wishlist" link to `src/components/SiteHeader.tsx` nav with a small count badge when items > 0.
 
-## Week-by-week mapping (drafted from chat history)
+### 3. Cross-page wiring
+- `/custom-kit` reads `?fromWishlist=<id>` on mount; if present and the id matches a wishlist item, it hydrates `logoUrl`, colors, style, `designs`, and `selected` so the user lands ready to submit.
 
-1. **Week 1 — Introduction to Shopify**
-   Application: created the Shopify dev store, defined the LILU/VELONIX brand brief (cycling apparel, sustainability, storytelling), decided scope (Home, Shop, Product, About, Contact, Sustainability, Journal).
+## Technical notes
+- No backend / DB changes — wishlist is fully client-side via Zustand `persist` middleware (already in deps via cartStore pattern).
+- No Shopify API calls needed.
+- The popup never appears on `/shop/$handle` (PDP), only `/shop` index. It also won't appear on mobile if the viewport is below the threshold where 3 rows haven't rendered yet (the scroll-percent threshold handles this naturally).
+- Accessibility: popup has `role="dialog"`, focusable close button, ESC closes it. Wishlist toggle buttons have `aria-pressed` and `aria-label`.
 
-2. **Week 2 — Navigate Administrator**
-   Application: seeded products via Shopify Admin (jerseys/bibs as `vendor:VELONIX`), connected the store via OAuth, wired the Storefront API token. Shopify-specific gap: theme editor not used because we built a headless TanStack frontend — instead built our own admin route (`/admin/kit-requests`) for custom-kit moderation.
+## Out of scope
+- No account-based sync (per your choice — local only).
+- No changes to the generation logic itself; existing designs are simply saveable.
 
-3. **Week 3 — Branding, Positioning & Online Presence**
-   Application: Forest & Moss palette, Archivo Black + Hind typography, manifesto-style announcement ticker, slogan hero, Journal storytelling pages, sustainability page.
-
-4. **Week 4 — Customizing Themes**
-   Application: Because we don't use a Liquid theme, we replicated theme-customization principles in code — semantic design tokens in `src/styles.css`, reusable section components (Hero, AnimatedPillar, NewsletterSection, SiteHeader/Footer), and configurable announcement bar.
-
-5. **Week 5 — Horizon Theme Development**
-   Application: Horizon's section/block model can't be used on a headless build. Instead we mirrored its architecture: modular route-level "sections," scroll-driven Framer Motion blocks, accessible color tokens, and a content-first PDP layout matching Horizon defaults (gallery, sticky add-to-cart, sizing, materials, brand story).
-
-6. **Week 6 — Digital Marketing Essentials**
-   Application: SEO `<head>` per route (titles, descriptions, OG/Twitter, canonical), newsletter capture with Supabase-backed list, announcement bar promo, cookie banner for compliance, share-ready OG images.
-
-7. **Week 7 — Converting Site Visitors into First-Time Buyers**
-   Application: trust infrastructure (shipping/returns, size guide, fabric care, FAQ), social proof blocks, 4-frame PDP gallery, sticky add-to-cart, real Shopify checkout via Storefront API `checkoutUrl`, cart drawer, custom-kit upsell funnel.
-
-## Format
-
-- A4, max 8 pages, ~1 page per course
-- Clean editorial layout matching the VELONIX aesthetic (Archivo Black headers, Hind body, Forest/Moss accents)
-- Each course page: course title + week, "Key Learnings" (4–6 bullets), "Application to VELONIX store" (concrete changes, file/feature names from our build), and a small "Shopify-specific gap → what we did instead" note where relevant
-- Cover page with project name, student-style metadata placeholder, and course list
-
-## Technical approach
-
-- Generate with Python + ReportLab (Platypus) into `/mnt/documents/velonix-shopify-logbook.pdf`
-- QA: render to JPGs with `pdftoppm` and visually inspect every page before delivering
-- Output a `<presentation-artifact>` link for download
-
-## One confirmation before I build
-
-The cover currently has no student name / class / date — do you want me to put a placeholder ("Student name: ____"), or do you want to give me your name + class/section now so it's filled in?
+```text
+Files touched
+  NEW  src/components/DesignKitNudge.tsx
+  NEW  src/stores/wishlistStore.ts
+  NEW  src/routes/wishlist.tsx
+  EDIT src/routes/shop.index.tsx        (mount nudge)
+  EDIT src/routes/custom-kit.tsx        (save buttons, saved strip, query hydration)
+  EDIT src/components/SiteHeader.tsx    (Wishlist nav link + count)
+```

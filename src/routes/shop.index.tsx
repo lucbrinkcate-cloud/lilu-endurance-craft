@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { DesignKitNudge } from "@/components/DesignKitNudge";
 import { motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { storefrontApiRequest } from "@/lib/shopify";
@@ -172,6 +173,7 @@ function ShopPage() {
       )}
 
       <SiteFooter />
+      <DesignKitNudge />
     </div>
   );
 }
