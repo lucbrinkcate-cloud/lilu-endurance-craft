@@ -42,8 +42,8 @@ function TermsPage() {
             <p>60-day free returns on unworn items with tags. Refunds are issued within 10 working days of receipt. See the <a className="text-sage underline" href="/help/shipping-returns">Shipping & Returns</a> page for the full process.</p>
           </section>
           <section>
-            <h2 className="font-display text-2xl text-paper mb-3">Lifetime repair</h2>
-            <p>Every VELONIX garment carries a lifetime free crash-repair guarantee. Email <a className="text-sage underline" href="mailto:repair@velonix.cc">repair@velonix.cc</a> with photos and order number.</p>
+            <h2 className="font-display text-2xl text-paper mb-3">Crash Repair Commitment</h2>
+            <p>Every Velonix kit comes with our Crash Repair Commitment: we repair crash damage for free on your first claim, and at cost for every repair after that. Manufacturing defects? Fixed free, forever — no time limit. Email <a className="text-sage underline" href="mailto:repair@velonix.cc">repair@velonix.cc</a> with photos and order number.</p>
           </section>
           <section>
             <h2 className="font-display text-2xl text-paper mb-3">Liability & law</h2>

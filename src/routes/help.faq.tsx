@@ -8,9 +8,9 @@ export const Route = createFileRoute("/help/faq")({
   head: () => ({
     meta: [
       { title: "FAQ — VELONIX" },
-      { name: "description", content: "Answers on sizing, fabrics, shipping, returns, custom kits and lifetime crash repair." },
+      { name: "description", content: "Answers on sizing, fabrics, shipping, returns, custom kits and our Crash Repair Commitment." },
       { property: "og:title", content: "FAQ — VELONIX" },
-      { property: "og:description", content: "Answers on sizing, fabrics, shipping, returns, custom kits and lifetime crash repair." },
+      { property: "og:description", content: "Answers on sizing, fabrics, shipping, returns, custom kits and our Crash Repair Commitment." },
     ],
   }),
 });
@@ -23,8 +23,8 @@ const FAQS: { cat: string; q: string; a: string }[] = [
   { cat: "Care", q: "Can I tumble dry?", a: "Never. Tumble drying destroys elastic memory and PFC-free DWR. Always air-dry flat." },
   { cat: "Shipping", q: "Do you ship worldwide?", a: "Yes — DHL Express, 3–7 working days. Duties prepaid for US, UK, CH, NO, AU, CA. Free EU shipping over €150." },
   { cat: "Returns", q: "How long is the return window?", a: "60 days. Riding it once on the road is fine — we trust you. Free EU returns; outside EU, return shipping at your cost." },
-  { cat: "Repair", q: "What is lifetime crash repair?", a: "Crashed in your kit? Send it back. We patch, re-stitch, or panel-replace at cost — for as long as you ride it. Email repair@velonix.cc." },
-  { cat: "Custom", q: "Can I order custom team kit?", a: "Yes. Use the Design Your Kit tool to brief a custom kit — minimum order 6 pieces, 4-week production, full crash repair included." },
+  { cat: "Repair", q: "What is the Crash Repair Commitment?", a: "Crashed in your kit? We repair crash damage free on your first claim, and at cost for every repair after that. Manufacturing defects are fixed free, forever — no time limit. Email repair@velonix.cc." },
+  { cat: "Custom", q: "Can I order custom team kit?", a: "Yes. Use the Design Your Kit tool to brief a custom kit — minimum order 6 pieces, 4-week production, Crash Repair Commitment included." },
 ];
 
 function FaqPage() {

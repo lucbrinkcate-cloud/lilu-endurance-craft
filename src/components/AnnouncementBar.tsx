@@ -1,6 +1,6 @@
 const MESSAGES = [
   "Free EU shipping over €150 · Worldwide delivery",
-  "60-day returns · Lifetime crash repair on every kit",
+  "60-day returns · Crash Repair Commitment on every kit",
   "Field notes from the road, dropped weekly",
 ];
 

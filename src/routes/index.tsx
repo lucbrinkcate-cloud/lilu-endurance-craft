@@ -81,7 +81,7 @@ const CHAPTERS: Array<{
     kicker: "Repair",
     title: "Engineered to be mended.",
     body:
-      "Free crash repair on every garment, for life. The most sustainable jersey is the one you keep wearing.",
+      "Crash Repair Commitment: first crash repair free, then at cost. Manufacturing defects fixed free, forever. The most sustainable jersey is the one you keep wearing.",
     media: { type: "video", src: mendedVideo },
   },
 ];
@@ -90,7 +90,7 @@ const STATS = [
   { value: "92%", label: "Recycled or renewable fibres" },
   { value: "100%", label: "Renewable-energy production" },
   { value: "0", label: "PFC chemicals across the line" },
-  { value: "∞", label: "Lifetime crash repair" },
+  { value: "∞", label: "Crash Repair Commitment" },
 ];
 
 function Index() {
@@ -205,7 +205,7 @@ function Index() {
           {[
             { icon: "◇", title: "Free EU shipping", sub: "Over €150 · 3–5 days" },
             { icon: "↺", title: "60-day returns", sub: "Unworn, no questions" },
-            { icon: "∞", title: "Lifetime crash repair", sub: "Free, on every garment" },
+            { icon: "∞", title: "Crash Repair Commitment", sub: "First claim free, then at cost" },
             { icon: "✓", title: "Made in Italy & PT", sub: "Recycled · PFC-free" },
           ].map((t) => (
             <div key={t.title} className="bg-ink p-5 md:p-6">
