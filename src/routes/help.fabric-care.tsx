@@ -56,7 +56,7 @@ function FabricCarePage() {
             Crashed it?
           </div>
           <p className="text-sm leading-relaxed text-mist">
-            Don't bin it. Lifetime crash repair is included on every VELONIX piece — patch, re-stitch, or panel replace at cost. Email{" "}
+            Don't bin it. Our Crash Repair Commitment covers every VELONIX piece: first crash repair free, then at cost. Manufacturing defects? Fixed free, forever. Email{" "}
             <a className="text-paper underline" href="mailto:repair@velonix.cc">repair@velonix.cc</a>.
           </p>
         </div>

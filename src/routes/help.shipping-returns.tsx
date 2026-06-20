@@ -7,9 +7,9 @@ export const Route = createFileRoute("/help/shipping-returns")({
   head: () => ({
     meta: [
       { title: "Shipping & Returns — VELONIX" },
-      { name: "description", content: "Free EU shipping over €150, worldwide delivery, 60-day returns and lifetime crash repair on every VELONIX kit." },
+      { name: "description", content: "Free EU shipping over €150, worldwide delivery, 60-day returns and our Crash Repair Commitment on every VELONIX kit." },
       { property: "og:title", content: "Shipping & Returns — VELONIX" },
-      { property: "og:description", content: "Free EU shipping over €150, 60-day returns, lifetime crash repair." },
+      { property: "og:description", content: "Free EU shipping over €150, 60-day returns, Crash Repair Commitment." },
     ],
   }),
 });
@@ -43,8 +43,8 @@ function ShippingReturnsPage() {
         <Block label="03 / Exchanges" title="Sized wrong? On us">
           <p>Free size exchanges within EU, both ways. Email service@velonix.cc with your order number and we ship the new size before the old one leaves you.</p>
         </Block>
-        <Block label="04 / Lifetime Crash Repair" title="Built to be mended">
-          <p>Crashed in your kit? Send it back. We patch, re-stitch, or replace panels at cost — for as long as you ride it.</p>
+        <Block label="04 / Crash Repair Commitment" title="Built to be mended">
+          <p>Crashed in your kit? We repair crash damage free on your first claim, and at cost for every repair after that. Manufacturing defects? Fixed free, forever.</p>
           <p>Submit a repair at <a className="text-sage underline" href="mailto:repair@velonix.cc">repair@velonix.cc</a>.</p>
         </Block>
       </section>

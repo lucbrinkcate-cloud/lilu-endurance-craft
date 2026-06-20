@@ -16,7 +16,7 @@ export const Route = createFileRoute("/sustainability")({
 });
 
 const PILLARS = [
-  { n: "01", title: "Repair", body: "Lifetime crash repair on every garment we make. Free. Forever." },
+  { n: "01", title: "Repair", body: "Crash Repair Commitment: first crash repair free, then at cost. Manufacturing defects fixed free, forever." },
   { n: "02", title: "Materials", body: "92% recycled or renewable fibres across the line. PFC-free. Bluesign-approved." },
   { n: "03", title: "Energy", body: "100% renewable energy across our offices, warehouses and partner mills." },
   { n: "04", title: "Carbon", body: "Net-zero by 2027. Audited annually. Published openly." },
@@ -24,7 +24,7 @@ const PILLARS = [
 
 const TIMELINE = [
   { y: "2021", t: "VELONIX founded. First recycled-knit jersey." },
-  { y: "2023", t: "Crash repair programme launched." },
+  { y: "2023", t: "Crash Repair Commitment launched." },
   { y: "2024", t: "100% renewable energy across operations." },
   { y: "2025", t: "92% recycled fibre threshold reached." },
   { y: "2027", t: "Carbon-neutral target. Independently audited." },

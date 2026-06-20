@@ -281,7 +281,7 @@ function ProductPage() {
             </li>
             <li className="flex items-center gap-3 border border-paper/10 bg-paper/[0.02] px-3 py-2.5">
               <span className="text-sage">∞</span>
-              Lifetime free crash repair on every garment
+              Crash Repair Commitment: first repair free, then at cost
             </li>
           </ul>
         </div>
@@ -423,13 +423,13 @@ function ProductDetailSections({ product }: { product: ShopifyProduct }) {
             </p>
             <p>
               Every garment is engineered with European mills we visit in person,
-              cut in small batches, and backed by lifetime free crash repair. No
+              cut in small batches, and backed by our Crash Repair Commitment. No
               seasonal drops. No marketing math. Just kit that earns the next ride.
             </p>
           </div>
           <div className="mt-10 flex flex-wrap gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-mist/80">
             <span className="border border-paper/20 px-3 py-2">Made in EU</span>
-            <span className="border border-paper/20 px-3 py-2">Lifetime Repair</span>
+            <span className="border border-paper/20 px-3 py-2">Crash Repair</span>
             <span className="border border-paper/20 px-3 py-2">Small-batch</span>
             <span className="border border-paper/20 px-3 py-2">Recycled Fibres</span>
           </div>

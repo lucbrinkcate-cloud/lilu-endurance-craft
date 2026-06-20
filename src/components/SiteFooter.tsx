@@ -84,7 +84,7 @@ export function SiteFooter() {
               <li><Link to="/help/size-guide" className="hover:text-paper">Size Guide</Link></li>
               <li><Link to="/help/fabric-care" className="hover:text-paper">Fabric Care</Link></li>
               <li><Link to="/help/faq" className="hover:text-paper">FAQ</Link></li>
-              <li><a href="mailto:repair@velonix.cc" className="hover:text-paper">Lifetime Repair</a></li>
+              <li><a href="mailto:repair@velonix.cc" className="hover:text-paper">Crash Repair</a></li>
               <li>
                 <a href="mailto:service@velonix.cc" className="hover:text-paper">
                   service@velonix.cc
