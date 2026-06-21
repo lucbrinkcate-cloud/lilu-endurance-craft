@@ -22,7 +22,7 @@ export function SiteHeader({ overlay = false }: { overlay?: boolean }) {
     <header
       className={
         overlay
-          ? "fixed top-10 left-0 right-0 z-50 mix-blend-difference"
+          ? "fixed top-10 left-0 right-0 z-50 bg-gradient-to-b from-ink/80 via-ink/40 to-transparent pb-8 [&_*]:[text-shadow:0_1px_2px_rgba(0,0,0,0.55)]"
           : "sticky top-0 z-50 bg-ink/95 backdrop-blur border-b border-paper/10"
       }
     >
